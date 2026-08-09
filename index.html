@@ -1,0 +1,277 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Miguel Romero — Computer Science, Penn State</title>
+<meta name="description" content="Miguel Romero builds systems that watch state and decide: plant-floor automation, LLM-backed coaching software, and multi-agent UAV path planning.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:ital,wdth,wght@0,62..125,100..900;1,62..125,100..900&family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/css/site.css">
+</head>
+<body>
+
+<header class="topbar">
+  <div class="topbar-in">
+    <a class="mark" href="index.html">MR</a>
+    <nav>
+      <a href="work.html">Work</a>
+      <a href="#capabilities">Capabilities</a>
+      <a href="#record">Record</a>
+      <a href="assets/miguel-romero-resume.pdf" target="_blank" rel="noopener">Résumé ↗</a>
+    </nav>
+  </div>
+</header>
+
+<main>
+
+  <!-- ============ HERO ============ -->
+  <section class="hero">
+    <div class="wrap">
+      <h1 class="display hero-name">Miguel <span>Romero</span></h1>
+    </div>
+    <div class="wrap hero-grid">
+      <div>
+        <div class="hero-rule">
+          <span class="bar"></span>
+          <span class="plate">B.S. Computer Science · Penn State · May 2026</span>
+        </div>
+
+        <p class="hero-say">I build systems that watch state and decide what to do about it.</p>
+
+        <p class="hero-body">
+          A factory schedule, a chess position, a swarm of drones in a corridor — the shape is the
+          same every time. Read the state, work out what it means, and hand a person something they
+          can act on. Three builds below, each one running live in the browser.
+        </p>
+
+        <div class="hero-cta">
+          <a class="btn solid" href="work.html">See the work</a>
+          <a class="btn" href="assets/miguel-romero-resume.pdf" target="_blank" rel="noopener">Résumé (PDF)</a>
+        </div>
+      </div>
+
+      <figure class="mugshot rig">
+        <div class="frame">
+          <img src="assets/img/miguel.jpg" alt="Miguel Romero in cap and gown outside Beaver Stadium at Penn State">
+        </div>
+        <figcaption class="cap">
+          <span>University Park, PA</span>
+          <span>Class of 2026</span>
+        </figcaption>
+      </figure>
+    </div>
+  </section>
+
+  <!-- ============ SYSTEMS ============ -->
+  <section class="band" id="systems">
+    <div class="wrap">
+      <div class="band-head">
+        <span class="plate">Three systems</span>
+        <span class="rule"></span>
+        <h2>What I&nbsp;built</h2>
+      </div>
+
+      <div class="systems">
+        <a class="sys rig" href="work.html#automation">
+          <div class="screen"><canvas data-mini="flow"></canvas></div>
+          <div class="sys-meta">
+            <span class="id">n8n · SQLite · Power BI</span>
+            <h3>Plant floor<br>automation</h3>
+            <p>An operations layer for a 24/7 plastic-film factory. One database, four kinds of
+               trigger: a shift briefing at clock-in, a material forecast, a calendar event, and an
+               approval chain that waits on people.</p>
+            <span class="go">Open case →</span>
+          </div>
+        </a>
+
+        <a class="sys rig" href="work.html#coach">
+          <div class="screen"><canvas data-mini="board"></canvas></div>
+          <div class="sys-meta">
+            <span class="id">FastAPI · Stockfish · local LLM</span>
+            <h3>An LLM that<br>reads the engine</h3>
+            <p>Chess Coach AI pulls your game history, runs every move through Stockfish, finds the
+               mistake you keep repeating, and says it in words instead of centipawns.</p>
+            <span class="go">Open case →</span>
+          </div>
+        </a>
+
+        <a class="sys rig" href="work.html#swarm">
+          <div class="screen"><canvas data-mini="swarm"></canvas></div>
+          <div class="sys-meta">
+            <span class="id">Isaac Sim · MAPPO · Verilog</span>
+            <h3>Drone swarm<br>path planning</h3>
+            <p>Multi-agent UAVs negotiating a corridor with A* and reciprocal velocity obstacles —
+               and the collision check pushed onto an FPGA so the speedup is measured, not claimed.</p>
+            <span class="go">Open case →</span>
+          </div>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ CAPABILITIES ============ -->
+  <section class="band" id="capabilities">
+    <div class="wrap">
+      <div class="band-head">
+        <span class="plate">Spec sheet</span>
+        <span class="rule"></span>
+        <h2>Capabilities</h2>
+      </div>
+
+      <dl class="spec">
+        <div class="spec-row">
+          <dt>Languages</dt>
+          <dd class="chips">
+            <span class="chip hot">Python</span><span class="chip hot">C</span><span class="chip">C++</span>
+            <span class="chip">Java</span><span class="chip hot">SQL</span><span class="chip">Verilog</span>
+            <span class="chip">JavaScript</span>
+          </dd>
+        </div>
+        <div class="spec-row">
+          <dt>AI &amp; machine learning</dt>
+          <dd class="chips">
+            <span class="chip hot">PyTorch</span><span class="chip hot">Multi-agent RL (MAPPO)</span>
+            <span class="chip">Centralized-critic training</span><span class="chip hot">LLM tool calling</span>
+            <span class="chip">Structured / schema-forced output</span><span class="chip">Ollama</span>
+            <span class="chip">Stockfish integration</span>
+          </dd>
+        </div>
+        <div class="spec-row">
+          <dt>Backend &amp; data</dt>
+          <dd class="chips">
+            <span class="chip hot">FastAPI</span><span class="chip">SQLAlchemy</span><span class="chip">SQLite</span>
+            <span class="chip">Background job queues</span><span class="chip hot">n8n</span>
+            <span class="chip">Webhooks &amp; state machines</span><span class="chip">Power BI</span>
+          </dd>
+        </div>
+        <div class="spec-row">
+          <dt>Robotics &amp; hardware</dt>
+          <dd class="chips">
+            <span class="chip hot">NVIDIA Isaac Sim</span><span class="chip">PhysX</span>
+            <span class="chip">RVO / ORCA avoidance</span><span class="chip">Grid A*</span>
+            <span class="chip hot">Verilog RTL</span><span class="chip">Vivado</span>
+            <span class="chip">UART protocol design</span><span class="chip">Q16.16 fixed point</span>
+          </dd>
+        </div>
+        <div class="spec-row">
+          <dt>Frontend</dt>
+          <dd class="chips">
+            <span class="chip">React</span><span class="chip">Vite</span><span class="chip">Canvas / SVG</span>
+            <span class="chip">Vanilla JS</span>
+          </dd>
+        </div>
+        <div class="spec-row">
+          <dt>Core CS</dt>
+          <dd class="chips">
+            <span class="chip">Data structures</span><span class="chip">Algorithms</span>
+            <span class="chip">Operating systems</span><span class="chip">Computer organization</span>
+            <span class="chip">Databases</span><span class="chip">Digital logic</span>
+            <span class="chip">Assembly</span>
+          </dd>
+        </div>
+        <div class="spec-row">
+          <dt>Coursework</dt>
+          <dd class="chips">
+            <span class="chip">Machine Learning &amp; Algorithmic AI</span>
+            <span class="chip">Artificial Intelligence</span>
+            <span class="chip">Exploratory Data Mining</span>
+            <span class="chip">Cryptography</span>
+            <span class="chip">Database Management Systems</span>
+          </dd>
+        </div>
+        <div class="spec-row">
+          <dt>Tools</dt>
+          <dd class="chips">
+            <span class="chip">Git</span><span class="chip">Linux</span><span class="chip">VS Code</span>
+            <span class="chip">PyCharm</span><span class="chip">IntelliJ</span><span class="chip">Visual Studio</span>
+          </dd>
+        </div>
+      </dl>
+    </div>
+  </section>
+
+  <!-- ============ RECORD ============ -->
+  <section class="band" id="record">
+    <div class="wrap">
+      <div class="band-head">
+        <span class="plate">Education &amp; work</span>
+        <span class="rule"></span>
+        <h2>Record</h2>
+      </div>
+
+      <div class="record">
+        <article class="entry">
+          <span class="when">Aug 2022 — May 2026</span>
+          <h3>Pennsylvania State University</h3>
+          <p class="where">B.S. Computer Science · University Park, PA</p>
+          <ul>
+            <li>Concentration in machine learning, AI, and data mining.</li>
+            <li>Coursework carried straight into the projects: search and planning into the UAV stack, digital logic into the FPGA accelerator, databases into the factory schema.</li>
+          </ul>
+        </article>
+
+        <article class="entry">
+          <span class="when">Aug 2023 — May 2024</span>
+          <h3>Resident Assistant</h3>
+          <p class="where">Penn State · Hazleton, PA</p>
+          <ul>
+            <li>Supported 40+ first-year residents through conflict resolution, mentorship, and community events.</li>
+            <li>Worked with housing staff on policy enforcement and connecting students to campus resources.</li>
+          </ul>
+        </article>
+
+        <article class="entry">
+          <span class="when">Sep 2024 — May 2025</span>
+          <h3>Student Food Service Worker</h3>
+          <p class="where">Penn State · State College, PA</p>
+          <ul>
+            <li>Prep, service, and clean-up on high-volume shifts in campus dining.</li>
+            <li>Held food safety and service standards under real throughput pressure.</li>
+          </ul>
+        </article>
+
+        <article class="entry">
+          <span class="when">Next</span>
+          <h3>What I&rsquo;m after</h3>
+          <p class="where">Open to new-grad roles, 2026</p>
+          <ul>
+            <li>Backend, automation, or applied ML — anywhere the job is turning messy state into a decision someone can act on.</li>
+            <li>Happy to relocate. Reachable at the address below.</li>
+          </ul>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ CONTACT ============ -->
+  <section class="band" id="contact">
+    <div class="wrap contact-in">
+      <div>
+        <span class="plate">Get in touch</span>
+        <h2 class="display" style="margin-top:14px">Let&rsquo;s talk</h2>
+      </div>
+      <div class="contact-links">
+        <a href="mailto:mar7106@psu.edu"><span>Email</span><span>mar7106@psu.edu</span></a>
+        <a href="tel:+15707909041"><span>Phone</span><span>570·790·9041</span></a>
+        <a href="https://www.linkedin.com/in/miguelangelpsuhn" target="_blank" rel="noopener"><span>LinkedIn</span><span>miguelangelpsuhn ↗</span></a>
+        <a href="assets/miguel-romero-resume.pdf" target="_blank" rel="noopener"><span>Résumé</span><span>PDF ↗</span></a>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<footer class="foot">
+  <div class="wrap foot-in">
+    <span>Miguel Romero · University Park, PA</span>
+    <span id="year">2026</span>
+  </div>
+</footer>
+
+<script src="assets/js/swarm.js"></script>
+<script src="assets/js/mini.js"></script>
+<script src="assets/js/site.js"></script>
+</body>
+</html>

@@ -1,0 +1,498 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Work — Miguel Romero</title>
+<meta name="description" content="Three systems by Miguel Romero, running live: factory automation pipelines, an LLM chess coach built on Stockfish, and multi-agent UAV path planning with an FPGA collision accelerator.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:ital,wdth,wght@0,62..125,100..900;1,62..125,100..900&family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/css/site.css">
+</head>
+<body>
+
+<header class="topbar">
+  <div class="topbar-in">
+    <a class="mark" href="index.html">MR</a>
+    <nav>
+      <a href="work.html" aria-current="page">Work</a>
+      <a href="index.html#capabilities">Capabilities</a>
+      <a href="index.html#record">Record</a>
+      <a href="assets/miguel-romero-resume.pdf" target="_blank" rel="noopener">Résumé ↗</a>
+    </nav>
+  </div>
+</header>
+
+<div class="subnav">
+  <div class="subnav-in">
+    <a href="#automation" class="on">Factory automation</a>
+    <a href="#coach">LLM in the product</a>
+    <a href="#swarm">Swarm autonomy</a>
+    <a href="#fpga">FPGA accelerator</a>
+    <a href="#contact">Contact</a>
+  </div>
+</div>
+
+<main>
+
+  <section class="wrap intro">
+    <span class="plate">Selected work</span>
+    <p>
+      Four builds, three of them still moving. Every demo on this page is running in your browser —
+      the swarm is really planning, the pipeline is really stepping through its graph, and the chess
+      position is the one that actually keeps costing games.
+    </p>
+  </section>
+
+
+  <!-- ================= 01 · AUTOMATION ================= -->
+  <section class="case" id="automation">
+    <div class="wrap">
+
+      <div class="case-head">
+        <div class="tags">
+          <span class="lamp build">In build</span>
+          <span class="plate">n8n · SQLite · Python · Power BI</span>
+        </div>
+        <h2>Plant operations,<br>automated</h2>
+        <p>
+          A 24/7 plastic-film plant runs five lines, four crews on a twelve-hour rotation, and six
+          weeks of stacked orders. The information that keeps it moving lives in people's heads at
+          shift change. This is an automation layer that reads the same database from four different
+          angles — <strong>a scheduled briefing, a threshold forecast, a calendar event, and an
+          approval chain that pauses on humans</strong> — and hands each role the one thing it needs.
+          Pick a trigger and watch the run.
+        </p>
+      </div>
+
+      <div class="demo rig">
+        <div class="demo-grid">
+          <div class="screen scrollable"><canvas id="pipe-canvas"></canvas></div>
+          <div class="readout">
+            <div class="grow" style="flex:1;min-height:0">
+              <h4 id="pipe-mode">Run log</h4>
+              <div id="pipe-log" style="margin-top:10px;line-height:1.55;color:#A9B5B0"></div>
+            </div>
+            <div class="gauge">
+              <h4>Dataset</h4>
+              <div class="gauge-line"><span>Tables</span><b>16</b></div>
+              <div class="gauge-line"><span>Orders</span><b>293</b></div>
+              <div class="gauge-line"><span>Rolls logged</span><b>809</b></div>
+              <div class="gauge-line"><span>Ledger rows</span><b>1,800</b></div>
+              <div class="gauge-line"><span>Horizon</span><b>6 wks</b></div>
+            </div>
+          </div>
+        </div>
+
+        <p class="swipe-hint">Swipe the schematic sideways to follow the whole run</p>
+
+        <div class="controls">
+          <span class="ctl-label">Trigger</span>
+          <button class="ctl on" data-mode="scheduled" type="button">Scheduled</button>
+          <button class="ctl" data-mode="threshold" type="button">Threshold</button>
+          <button class="ctl" data-mode="event" type="button">Event</button>
+          <button class="ctl" data-mode="human" type="button">Human gate</button>
+          <span class="ctl-sep"></span>
+          <button class="ctl" id="pipe-replay" type="button">Replay</button>
+        </div>
+      </div>
+
+      <p class="cap-note">
+        <b>Reading the diagram.</b> Orange dots are the payload moving between nodes. A yellow ring
+        means the workflow has parked and is waiting on a person — the approval chain spends most of
+        its life there. Dashed red is the rejection branch: an invalid calendar move bounces back with
+        the reason attached instead of silently corrupting the schedule.
+      </p>
+
+      <div class="notes">
+        <div class="note">
+          <span class="k">Principle</span>
+          <h4>Rules reason,<br>the model explains</h4>
+          <p>Every decision is deterministic and constraint-checked, because it has to be auditable.
+             The LLM only turns the finished decision into a sentence a manager can read at 6am. It
+             never writes to the schedule.</p>
+        </div>
+        <div class="note">
+          <span class="k">Design</span>
+          <h4>Four triggers,<br>one schema</h4>
+          <p>Cron, threshold, webhook, and human gate all sit on the same sixteen-table SQLite
+             database. Separate pipelines, shared data model — they meet at one seam, where an
+             approved order enters the production queue.</p>
+        </div>
+        <div class="note">
+          <span class="k">Scope</span>
+          <h4>Not an optimizer,<br>on purpose</h4>
+          <p>Job-shop scheduling is NP-hard, so rescheduling is a transparent greedy heuristic with a
+             human approval gate rather than a black box. A manager can read why an order moved and
+             say no.</p>
+        </div>
+        <div class="note">
+          <span class="k">Data</span>
+          <h4>Edge cases,<br>baked in</h4>
+          <p>The dataset ships with the failures on purpose: a line running behind its own clock, a
+             PET shortfall against a 14-day lead time, an order stuck at chemical, and a cancellation
+             that leaves a reclaimable gap.</p>
+        </div>
+      </div>
+
+      <div class="stackline">
+        <span class="plate">Stack</span>
+        <span class="chip">n8n</span><span class="chip">SQLite</span><span class="chip">Python</span>
+        <span class="chip">SQL</span><span class="chip">Outlook Calendar</span><span class="chip">Power BI</span>
+        <span class="chip">Webhooks</span><span class="chip">LLM narration</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= 02 · CHESS COACH ================= -->
+  <section class="case" id="coach">
+    <div class="wrap">
+
+      <div class="case-head">
+        <div class="tags">
+          <span class="lamp">Working build</span>
+          <span class="plate">FastAPI · Stockfish · Ollama · React</span>
+        </div>
+        <h2>The engine finds it.<br>The model explains it.</h2>
+        <p>
+          Stockfish will tell you a move cost you 1.7 pawns. That is useless if you don't know why.
+          Chess Coach AI imports a player's history from chess.com, runs every move through the
+          engine, aggregates the losses into patterns, and then hands the <strong>structured</strong>
+          result to a local model with one instruction: explain this in chess, not in centipawns, and
+          invent nothing. Step through a real loss below.
+        </p>
+      </div>
+
+      <div class="demo rig">
+        <div class="chess-wrap">
+          <div class="board-stage" style="background:#0C0E0D;border:1px solid #050706">
+            <div class="evalbar"><div class="white" id="eval-white"></div></div>
+            <canvas id="board"></canvas>
+          </div>
+
+          <div class="coach">
+            <div class="coach-head">
+              <span class="who">Coach · grounded in engine output</span>
+              <span class="mv"><span id="move-label">START</span> <span id="move-tag" style="font-size:10px;letter-spacing:.14em"></span></span>
+            </div>
+            <div class="coach-body" id="coach-text"></div>
+            <div>
+              <div class="gauge-line" style="margin-bottom:9px">
+                <span>Engine evaluation</span><b id="eval-score">+0.20</b>
+              </div>
+              <div class="toolchips" id="tool-chips">
+                <span class="toolchip" data-tool="show_position">show_position</span>
+                <span class="toolchip" data-tool="worst_mistakes">worst_mistakes</span>
+                <span class="toolchip" data-tool="top_engine_moves">top_engine_moves</span>
+                <span class="toolchip" data-tool="try_move">try_move</span>
+                <span class="toolchip" data-tool="try_line">try_line</span>
+              </div>
+            </div>
+            <div class="movestrip" id="move-strip"></div>
+          </div>
+        </div>
+
+        <div class="controls">
+          <button class="ctl" id="c-prev" type="button">← Back</button>
+          <button class="ctl" id="c-next" type="button">Forward →</button>
+          <button class="ctl" id="c-play" type="button">Play through</button>
+          <span class="ctl-sep"></span>
+          <button class="ctl" id="c-blunder" type="button">Jump to the mistake</button>
+          <button class="ctl" id="c-reset" type="button">Reset</button>
+        </div>
+      </div>
+
+      <p class="cap-note">
+        <b>What you are looking at.</b> The board is shown from Black's side, because Black is the
+        student. The bar on the left is the engine's evaluation — Black's share shrinks as the
+        position collapses. The chips underneath light up when the coach calls that tool: the model
+        can replay a line in a sandbox before it commits to an explanation, so it isn't guessing at
+        what a move does.
+      </p>
+
+      <div class="notes">
+        <div class="note">
+          <span class="k">Pipeline</span>
+          <h4>Ingest ·<br>analyze · aggregate</h4>
+          <p>Games come in from the chess.com API, get parsed from PGN, and every ply is scored by
+             Stockfish. Centipawn loss is classified by phase, and the per-game noise rolls up into
+             the openings and mistake patterns that repeat.</p>
+        </div>
+        <div class="note">
+          <span class="k">Grounding</span>
+          <h4>Schema-forced<br>output</h4>
+          <p>The report is a Pydantic model the LLM has to fill: headline, strengths, weaknesses,
+             opening insights, recurring patterns, focus areas. Constraining the shape is what keeps
+             the advice tied to the data instead of drifting into generic chess wisdom.</p>
+        </div>
+        <div class="note">
+          <span class="k">Tooling</span>
+          <h4>A sandbox<br>it can poke</h4>
+          <p>The chat runs against a live board sandbox: show a position, list the worst mistakes,
+             ask the engine for its top moves, try a candidate move, walk a whole line. The model
+             checks before it explains.</p>
+        </div>
+        <div class="note">
+          <span class="k">Deployment</span>
+          <h4>Runs on<br>your machine</h4>
+          <p>Local model through Ollama and a bundled Stockfish binary, so a full review costs
+             nothing per game and no game history leaves the box. FastAPI serves it; a React front end
+             does the board review.</p>
+        </div>
+      </div>
+
+      <div class="stackline">
+        <span class="plate">Stack</span>
+        <span class="chip">Python</span><span class="chip">FastAPI</span><span class="chip">SQLAlchemy</span>
+        <span class="chip">Stockfish</span><span class="chip">python-chess</span><span class="chip">Ollama</span>
+        <span class="chip">Pydantic</span><span class="chip">React</span><span class="chip">Vite</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= 03 · SWARM ================= -->
+  <section class="case" id="swarm">
+    <div class="wrap">
+
+      <div class="case-head">
+        <div class="tags">
+          <span class="lamp build">In build</span>
+          <span class="plate">Isaac Sim · PyTorch · MAPPO · NumPy</span>
+        </div>
+        <h2>Eight drones,<br>one corridor</h2>
+        <p>
+          Put two groups of UAVs on opposite sides of a wall with three gaps and tell them to swap.
+          Global A* gets each one a route; local reciprocal velocity obstacle avoidance keeps them
+          from meeting in the doorway. A separate collision checker audits every frame and never
+          steers — <strong>it is the referee, not the controller</strong>, so a violation is a real
+          failure rather than something the planner can paper over. This is the planning stack from
+          the Isaac Sim project, running here in 2D.
+        </p>
+      </div>
+
+      <div class="demo rig">
+        <div class="demo-grid">
+          <div class="screen"><canvas id="swarm-canvas"></canvas></div>
+          <div class="readout">
+            <div class="gauge">
+              <h4>Telemetry</h4>
+              <div class="gauge-line"><span>Agents</span><b id="s-agents">8</b></div>
+              <div class="gauge-line"><span>At goal</span><b id="s-settled" class="ok">0</b></div>
+              <div class="gauge-line"><span>Collisions</span><b id="s-coll" class="ok">0</b></div>
+              <div class="gauge-line"><span>Min separation</span><b id="s-sep">—</b></div>
+              <div class="gauge-line"><span>Checks / sec</span><b id="s-rate">—</b></div>
+            </div>
+            <div class="gauge">
+              <h4>Goals reached</h4>
+              <div class="bar-track"><div class="bar-fill" id="s-bar"></div></div>
+            </div>
+            <div>
+              <h4 style="margin-bottom:9px">Legend</h4>
+              <div class="legend">
+                <div><i style="background:#74C9EE;border-radius:50%"></i>Eastbound group</div>
+                <div><i style="background:#EF5A16;border-radius:50%"></i>Westbound group</div>
+                <div><i style="background:#3FCB92;border-radius:50%"></i>Arrived at goal</div>
+                <div><i style="border-top:1px dashed #EF5A16;height:1px"></i>Checker: near miss</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="controls">
+          <span class="ctl-label">Scenario</span>
+          <button class="ctl on" data-scen="corridor" type="button">Corridor swap</button>
+          <button class="ctl" data-scen="antipodal" type="button">Antipodal circle</button>
+          <button class="ctl" data-scen="warehouse" type="button">Warehouse</button>
+          <span class="ctl-sep"></span>
+          <span class="ctl-label">Agents</span>
+          <button class="ctl" data-n="6" type="button">6</button>
+          <button class="ctl on" data-n="8" type="button">8</button>
+          <button class="ctl" data-n="12" type="button">12</button>
+          <span class="ctl-sep"></span>
+          <button class="ctl" id="s-pause" type="button">Pause</button>
+        </div>
+      </div>
+
+      <p class="cap-note">
+        <b>Try the antipodal circle.</b> Every agent's straight-line path runs through the same point
+        at the centre. Without reciprocal avoidance the whole group piles up at the origin; with it,
+        they rotate around each other and clear. That failure mode is exactly why the local planner
+        exists, and it is the reason a global planner alone is not enough.
+      </p>
+
+      <div class="notes">
+        <div class="note">
+          <span class="k">Learning</span>
+          <h4>MAPPO with a<br>central critic</h4>
+          <p>The learned policy is a parameter-shared Gaussian actor over local observations, trained
+             against a critic that sees every agent. Centralized training, decentralized execution —
+             the critic is thrown away at deployment, so each drone flies on its own view with no
+             comms.</p>
+        </div>
+        <div class="note">
+          <span class="k">Architecture</span>
+          <h4>Backends<br>swap cleanly</h4>
+          <p>The planner is pure NumPy and knows nothing about its host. Isaac Sim and a headless
+             runner sit behind one bridge; the CPU checker and the FPGA client sit behind another.
+             Same sim, different backend, comparable numbers.</p>
+        </div>
+        <div class="note">
+          <span class="k">Scenarios</span>
+          <h4>Built to<br>force conflict</h4>
+          <p>Corridor swap creates guaranteed contention at three choke points. Antipodal circle is
+             the classic RVO stress test. Warehouse is randomised shelving. Each one breaks a
+             different assumption.</p>
+        </div>
+        <div class="note">
+          <span class="k">Metrics</span>
+          <h4>Zero is the<br>only passing score</h4>
+          <p>Every run logs collisions, minimum pairwise separation, makespan, and check throughput.
+             A demo-quality run has zero collisions; anything else is a bug, not a tuning problem.</p>
+        </div>
+      </div>
+
+      <div class="stackline">
+        <span class="plate">Stack</span>
+        <span class="chip">NVIDIA Isaac Sim</span><span class="chip">PhysX</span><span class="chip">Python</span>
+        <span class="chip">NumPy</span><span class="chip">PyTorch</span><span class="chip">MAPPO</span>
+        <span class="chip">Grid A*</span><span class="chip">RVO</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= 04 · FPGA ================= -->
+  <section class="case" id="fpga">
+    <div class="wrap">
+
+      <div class="case-head">
+        <div class="tags">
+          <span class="lamp build">In build</span>
+          <span class="plate">Verilog · Artix-7 · Vivado · UART</span>
+        </div>
+        <h2>Collision checking,<br>pushed to hardware</h2>
+        <p>
+          Collision checking is the part of multi-agent planning that grows fastest: pairwise tests
+          scale with the square of the fleet. So it comes off the host. Agent states stream to an
+          FPGA over UART, a five-stage fixed-point datapath retires <strong>one pair per clock</strong>,
+          and a collision bitmap comes back for the planner to gate its trajectory candidates against.
+        </p>
+      </div>
+
+      <div class="fpga rig" style="padding:0">
+        <div>
+          <span class="plate">Datapath</span>
+          <h4>Five stages, Q16.16, no square roots</h4>
+          <p>Coordinates are signed 32-bit fixed point — ±32,768 m at ~15 µm resolution, far more than
+             a warehouse or a canyon needs. The sphere test never takes a root: it compares
+             dx² + dy² + dz² against (rᵢ + rⱼ)², which keeps the whole thing to adds and multiplies
+             and lets the pipeline stay full.</p>
+
+          <div class="stages" id="fpga-stages">
+            <div class="stage">Fetch pair</div>
+            <div class="stage">Δ subtract</div>
+            <div class="stage">Square</div>
+            <div class="stage">Sum 66-bit</div>
+            <div class="stage">Compare</div>
+          </div>
+          <p class="foot-line" style="margin:0;font-family:var(--f-mono);font-size:11px;color:var(--ink-3);letter-spacing:.06em">
+            5 PAIRS IN FLIGHT · 1 RESULT PER CYCLE · UART 921600 8N1
+          </p>
+        </div>
+
+        <div>
+          <span class="plate">Why offload</span>
+          <h4 style="margin-bottom:16px">Checks per frame</h4>
+          <div class="throughput" id="fpga-load">
+            <div class="tp-row">
+              <div class="lbl"><span>8 agents</span><b>156</b></div>
+              <div class="tp-track"><div class="tp-fill" data-w="16"></div></div>
+            </div>
+            <div class="tp-row">
+              <div class="lbl"><span>16 agents</span><b>376</b></div>
+              <div class="tp-track"><div class="tp-fill" data-w="37"></div></div>
+            </div>
+            <div class="tp-row accel">
+              <div class="lbl"><span>32 agents</span><b>1,008</b></div>
+              <div class="tp-track"><div class="tp-fill" data-w="100"></div></div>
+            </div>
+          </div>
+          <p class="foot-line" style="margin:0;font-size:13.5px;color:var(--ink-2)">
+            Pairwise plus obstacle tests, at 60 Hz. The host benchmark runs the identical simulation
+            against both backends and reports checks per second for each, so the comparison is real
+            rather than asserted.
+          </p>
+        </div>
+      </div>
+
+      <div class="notes">
+        <div class="note">
+          <span class="k">Protocol</span>
+          <h4>A parser<br>on the wire</h4>
+          <p>A command FSM behind the UART receiver decodes agent-state and obstacle writes into a
+             16-entry register file and an AABB memory, then kicks the pair scheduler. Framing and
+             back-pressure are part of the design, not an afterthought.</p>
+        </div>
+        <div class="note">
+          <span class="k">Co-design</span>
+          <h4>One interface,<br>two implementations</h4>
+          <p>The FPGA client and the NumPy checker expose the same function to the planner. That is
+             the whole reason the benchmark means anything — the simulation cannot tell which one it
+             is talking to.</p>
+        </div>
+        <div class="note">
+          <span class="k">Verification</span>
+          <h4>Testbenches<br>before boards</h4>
+          <p>RTL modules are exercised in simulation against the NumPy reference before anything is
+             synthesised, so a mismatch shows up as a failing vector rather than a drone flying
+             through a shelf.</p>
+        </div>
+        <div class="note">
+          <span class="k">Boundary</span>
+          <h4>Fixed point is<br>a design decision</h4>
+          <p>Floating point would cost area and add latency for range nobody needs. Choosing Q16.16
+             and proving the 66-bit intermediate width is the interesting part of the problem.</p>
+        </div>
+      </div>
+
+      <div class="stackline">
+        <span class="plate">Stack</span>
+        <span class="chip">Verilog</span><span class="chip">Vivado</span><span class="chip">Artix-7</span>
+        <span class="chip">UART</span><span class="chip">Fixed-point arithmetic</span>
+        <span class="chip">Testbench verification</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= CONTACT ================= -->
+  <section class="case" id="contact" style="border-top:1px solid var(--hair)">
+    <div class="wrap contact-in">
+      <div>
+        <span class="plate">Get in touch</span>
+        <h2 class="display" style="margin-top:14px">Let&rsquo;s talk</h2>
+      </div>
+      <div class="contact-links">
+        <a href="mailto:mar7106@psu.edu"><span>Email</span><span>mar7106@psu.edu</span></a>
+        <a href="tel:+15707909041"><span>Phone</span><span>570·790·9041</span></a>
+        <a href="https://www.linkedin.com/in/miguelangelpsuhn" target="_blank" rel="noopener"><span>LinkedIn</span><span>miguelangelpsuhn ↗</span></a>
+        <a href="assets/miguel-romero-resume.pdf" target="_blank" rel="noopener"><span>Résumé</span><span>PDF ↗</span></a>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<footer class="foot">
+  <div class="wrap foot-in">
+    <span>Miguel Romero · University Park, PA</span>
+    <span id="year">2026</span>
+  </div>
+</footer>
+
+<script src="assets/js/swarm.js"></script>
+<script src="assets/js/pipeline.js"></script>
+<script src="assets/js/coach.js"></script>
+<script src="assets/js/work.js"></script>
+<script src="assets/js/site.js"></script>
+</body>
+</html>
