@@ -903,3 +903,110 @@ footer.foot {
 @media print {
   .topbar, .subnav, .controls, .screen { display: none; }
 }
+
+/* ---------- screenshots: real captures, mounted like the demos ---------- */
+
+.shots {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+  gap: 14px;
+  margin-top: 14px;
+  /* captures differ in aspect ratio; let each panel hug its own content
+     instead of stretching to the tallest in the row */
+  align-items: start;
+}
+.shot { padding: 10px; margin: 0; }
+.shot .screen { display: block; }
+.shot a { display: block; text-decoration: none; }
+.shot img {
+  width: 100%;
+  height: auto;
+  display: block;
+  transition: opacity .18s ease;
+}
+.shot a:hover img { opacity: .82; }
+.shot figcaption {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 14px;
+  padding: 11px 3px 2px;
+  font-family: var(--f-mono);
+  font-size: 11px;
+  line-height: 1.5;
+  color: var(--ink-2);
+}
+.shot figcaption b { color: var(--ink); font-weight: 600; }
+.shot figcaption .zoom {
+  flex: none;
+  font-size: 10px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--ink-3);
+}
+.shot a:hover + figcaption .zoom,
+.shot:hover figcaption .zoom { color: var(--hazard); }
+
+/* the wide architecture capture gets the full row */
+.shots.single { grid-template-columns: minmax(0, 1fr); }
+
+.shots-label { margin: 26px 0 0; }
+.screen video { display: block; width: 100%; height: auto; background: var(--screen); }
+.shot--video .screen { line-height: 0; }
+
+/* On a phone a 1,600 px capture scaled to 350 px is a postage stamp. Let the
+   stills scroll at a legible size, the same way the schematic does. Video is
+   exempt — it has its own controls and fullscreen. */
+@media (max-width: 860px) {
+  .shot .screen { overflow-x: auto; overflow-y: hidden; }
+  .shot img { width: 780px; max-width: none; }
+  .shot figcaption { flex-direction: column; align-items: flex-start; gap: 7px; }
+  .shot figcaption::before {
+    content: "Swipe the capture · tap it for full size";
+    font-family: var(--f-mono);
+    font-size: 10px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--ink-3);
+  }
+  .shot figcaption .zoom { display: none; }
+
+  .shot--video .screen { overflow: hidden; }
+  .shot--video video { width: 100%; }
+  .shot--video figcaption::before { content: none; }
+  .shot--video figcaption .zoom { display: block; }
+}
+
+.shot figcaption code {
+  font-family: var(--f-mono);
+  font-size: 0.94em;
+  padding: 1px 4px;
+  background: var(--ground-d);
+  border: 1px solid var(--hair);
+}
+.shot figcaption em { font-style: italic; color: var(--ink); }
+
+/* an inactive stack item — the skill is real, the access isn't */
+.chip.off {
+  border-style: dashed;
+  color: var(--ink-3);
+  background: transparent;
+}
+
+/* a stated limitation, held at the same weight as the rest of the page */
+.caveat {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 8px 14px;
+  margin: 18px 0 0;
+  padding: 13px 16px;
+  border: 1px dashed var(--hair);
+  background: transparent;
+  font-family: var(--f-mono);
+  font-size: 11.5px;
+  line-height: 1.65;
+  color: var(--ink-2);
+  max-width: 96ch;
+}
+.caveat .lamp { flex: none; }
