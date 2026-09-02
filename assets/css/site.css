@@ -908,12 +908,18 @@ footer.foot {
 
 .shots {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+  /* One capture per row. Side by side, a 2:1 workflow screenshot lands around
+     590px and turns into an unreadable strip — these are dense diagrams, they
+     need the full width. */
+  grid-template-columns: minmax(0, 1fr);
   gap: 14px;
   margin-top: 14px;
-  /* captures differ in aspect ratio; let each panel hug its own content
-     instead of stretching to the tallest in the row */
   align-items: start;
+  /* and they break out past the text column, which is sized for prose */
+  width: min(1560px, 94vw);
+  position: relative;
+  left: 50%;
+  transform: translateX(-50%);
 }
 .shot { padding: 10px; margin: 0; }
 .shot .screen { display: block; }
@@ -947,8 +953,9 @@ footer.foot {
 .shot a:hover + figcaption .zoom,
 .shot:hover figcaption .zoom { color: var(--hazard); }
 
-/* the wide architecture capture gets the full row */
-.shots.single { grid-template-columns: minmax(0, 1fr); }
+/* a portrait-ish capture is bounded by height instead, so it doesn't
+   swallow the page when the row is 1,560px wide */
+.shot--tall img { max-height: 820px; width: auto; margin-inline: auto; }
 
 .shots-label { margin: 26px 0 0; }
 .screen video { display: block; width: 100%; height: auto; background: var(--screen); }
