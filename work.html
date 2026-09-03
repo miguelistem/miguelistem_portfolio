@@ -111,14 +111,18 @@
         <figure class="shot rig">
           <a href="assets/img/n8n-calendar-sync.png" target="_blank" rel="noopener">
             <span class="screen"><img src="assets/img/n8n-calendar-sync.png"
-              alt="n8n workflow: six parallel Outlook calendar reads merged, change detection, then a switch routing accepted changes to a calendar sync and confirmation email, rejected ones to a bounce"
-              loading="lazy" width="1753" height="871"></span>
+              alt="n8n workflow: five Outlook line calendars and a SQL pull merged, change detection against the database, a rules switch sending accepted changes to create, update or delete plus a confirmation email, and a reject branch running an AI agent that explains the bounce before deleting the event"
+              loading="lazy" width="2148" height="1080"></span>
           </a>
           <figcaption>
-            <span><b>The built workflow.</b> All five line calendars plus the planned schedule are
-              pulled in parallel and merged, changes are detected against the database, and the
-              switch routes an accepted move to a calendar sync and confirmation email — or bounces
-              the event back with the reason. This is what the diagram above is animating.</span>
+            <span><b>The built workflow.</b> Five line calendars and a SQL pull of the planned
+              schedule are merged, then change detection compares the two and a rules switch splits
+              the result. Accepted changes create, update or delete the event, sync the calendar and
+              mail the manager. Rejected ones go to an AI agent that works out <em>why</em> the
+              change was refused and names the missing or invalid constraint before the event is
+              bounced. The bug note on that branch is mine: the hosted model doesn't get enough
+              context, so it's moving to a local one — the same fix the inbox project already
+              uses.</span>
             <span class="zoom">Open full size ↗</span>
           </figcaption>
         </figure>
@@ -140,9 +144,48 @@
               five line calendars are pulled and merged, the affected events are corrected in
               Outlook, and the manager gets a mail that names every change — action, order, line,
               why, new start and end — closing with <em>“database is the source of truth; the
-              calendar was corrected to match.”</em> The reject branch is unlinked in this run; this
-              is the successful merge only.</span>
+              calendar was corrected to match.”</em> The reject branch was left unlinked for this
+              recording, so this is the accept path end to end.</span>
             <span class="zoom">1440 × 726 · silent</span>
+          </figcaption>
+        </figure>
+      </div>
+
+      <p class="plate shots-label">The reporting path</p>
+
+      <div class="shots">
+        <figure class="shot rig">
+          <a href="assets/img/n8n-csv-preseed.png" target="_blank" rel="noopener">
+            <span class="screen"><img src="assets/img/n8n-csv-preseed.png"
+              alt="n8n workflow: Outlook trigger, filter for the correct CSV, extract from file, clean the data in JavaScript, insert rows into a Postgres container, then send a confirmation email"
+              loading="lazy" width="1341" height="461"></span>
+          </a>
+          <figcaption>
+            <span><b>Preseeding the warehouse.</b> An emailed CSV arrives, the filter keeps the one
+              that matters, the rows are extracted and cleaned in JavaScript, inserted into a
+              Postgres container behind pgweb, and a confirmation goes back to the sender only after
+              the load succeeds. This is the path that puts factory data somewhere a BI tool can
+              read it. The two nodes flagged in red are the ones that hold credentials.</span>
+            <span class="zoom">Open full size ↗</span>
+          </figcaption>
+        </figure>
+
+        <figure class="shot rig">
+          <a href="assets/img/powerbi-material-shortage.png" target="_blank" rel="noopener">
+            <span class="screen"><img src="assets/img/powerbi-material-shortage.png"
+              alt="Power BI report titled Material Shortage Command Center with four KPI tiles all reading Blank and two visuals showing a capacity or licence error"
+              loading="lazy" width="2046" height="1170"></span>
+          </a>
+          <figcaption>
+            <span><b>The dashboard, as a shell.</b> <em>Material Shortage Command Center</em> — every
+              material the open schedule touches, ranked by how soon it runs out. Four tiles
+              (materials critical, total shortfall in pounds, days to first depletion, orders overdue
+              or due now), days of cover ordered lowest-first, shortfall by material against the
+              scheduled run. Every figure reads <b>(Blank)</b> and two visuals return a capacity or
+              licence error: <b>the enterprise licence went with the school account at
+              graduation.</b> What is left is the design — the measures, the ranking, the layout —
+              not a live report.</span>
+            <span class="zoom">Open full size ↗</span>
           </figcaption>
         </figure>
       </div>
@@ -181,15 +224,28 @@
       <div class="stackline">
         <span class="plate">Stack</span>
         <span class="chip">n8n</span><span class="chip">SQLite</span><span class="chip">Python</span>
-        <span class="chip">SQL</span><span class="chip">Outlook Calendar</span><span class="chip off">Power BI †</span>
+        <span class="chip">SQL</span><span class="chip">PostgreSQL</span><span class="chip">Docker</span>
+        <span class="chip">Outlook Calendar</span><span class="chip off">Power BI †</span>
         <span class="chip">Webhooks</span><span class="chip">LLM narration</span>
       </div>
 
       <p class="caveat">
         <span class="lamp idle">† Power BI · offline</span>
-        The reporting layer ran on a university licence tied to my student account, which lapsed
-        when I graduated. The workflows and the database are unaffected — the dashboards are the one
-        piece I can't currently demo, and they go back up as soon as I'm on a licence again.
+        The report above is the real thing, unlicensed. It ran on an enterprise licence tied to my
+        student account, which lapsed at graduation, so the visuals return a capacity error and every
+        measure resolves to blank. The workflows, the Postgres load and the database are unaffected —
+        the reporting layer is a shell until I'm on a licence again, at which point it repopulates
+        without being rebuilt.
+      </p>
+
+      <p class="caveat">
+        <span class="lamp idle">‡ Shift briefing · on hold</span>
+        The scheduled handoff summary is blocked upstream of itself: reading Power BI needs an Azure
+        app registration, and that needs the Pro or Premium licence that lapsed with the same
+        account. The shape is settled — it mirrors the LLM branch of the calendar sync above, but
+        takes its inputs from a Power BI GET, hands the agent a Power BI tool and a calculator, and
+        ends by composing the briefing and mailing it to Outlook. The animation at the top of this
+        case is that design, not a job currently on a timer.
       </p>
     </div>
   </section>
