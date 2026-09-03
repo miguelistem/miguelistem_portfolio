@@ -48,13 +48,27 @@
 
   /* ---------- flow: an order moving through gates ---------- */
 
-  function flow(canvas) {
-    const NODES = [
-      [0.10, 0.50], [0.36, 0.24], [0.36, 0.76],
-      [0.62, 0.50], [0.88, 0.50]
-    ];
-    const EDGES = [[0, 1], [0, 2], [1, 3], [2, 3], [3, 4]];
-    const STAGE = [[0, 1], [2, 3], [4]]; // which edges fire together
+  const GRAPHS = {
+    // an order moving through gates: fan out, join, emit
+    flow: {
+      nodes: [[0.10, 0.50], [0.36, 0.24], [0.36, 0.76], [0.62, 0.50], [0.88, 0.50]],
+      edges: [[0, 1], [0, 2], [1, 3], [2, 3], [3, 4]],
+      stages: [[0, 1], [2, 3], [4]],
+      outs: [4], trigger: 0
+    },
+    // one inbox, an orchestrator, two specialists that never rejoin —
+    // each agent has its own destination, which is the point
+    agents: {
+      nodes: [[0.09, 0.50], [0.37, 0.50], [0.66, 0.26], [0.66, 0.74], [0.92, 0.26], [0.92, 0.74]],
+      edges: [[0, 1], [1, 2], [1, 3], [2, 4], [3, 5]],
+      stages: [[0], [1, 2], [3, 4]],
+      outs: [4, 5], trigger: 0
+    }
+  };
+
+  function flow(canvas, key) {
+    const G = GRAPHS[key] || GRAPHS.flow;
+    const NODES = G.nodes, EDGES = G.edges, STAGE = G.stages;
 
     loop(canvas, (c, w, h, t) => {
       c.fillStyle = '#0C0E0D';
@@ -105,14 +119,15 @@
 
       NODES.forEach((n, i) => {
         const x = n[0] * w, y = n[1] * h;
-        const reached = stageF > (i === 0 ? 0 : i === 4 ? 3 : i === 3 ? 2 : 1);
+        const reached = stageF > (i === G.trigger ? 0 : G.outs.indexOf(i) !== -1 ? STAGE.length - 1 : 1);
         const bw = 30, bh = 16;
         c.fillStyle = reached ? '#151C1A' : '#101413';
         c.fillRect(x - bw / 2, y - bh / 2, bw, bh);
-        c.strokeStyle = reached ? (i === 4 ? '#3FCB92' : i === 0 ? '#EF5A16' : '#74C9EE') : '#2C3532';
+        const tone = G.outs.indexOf(i) !== -1 ? '#3FCB92' : i === G.trigger ? '#EF5A16' : '#74C9EE';
+        c.strokeStyle = reached ? tone : '#2C3532';
         c.lineWidth = 1;
         c.strokeRect(x - bw / 2 + 0.5, y - bh / 2 + 0.5, bw - 1, bh - 1);
-        c.fillStyle = reached ? (i === 4 ? '#3FCB92' : i === 0 ? '#EF5A16' : '#74C9EE') : '#2C3532';
+        c.fillStyle = reached ? tone : '#2C3532';
         c.fillRect(x - bw / 2, y - bh / 2, 2, bh);
       });
     });
@@ -193,10 +208,61 @@
     });
   }
 
+  /* ---------- stages: a pipeline retiring one pair per clock ---------- */
+
+  function stages(canvas) {
+    const N = 5;
+    loop(canvas, (c, w, h, t) => {
+      c.fillStyle = '#0C0E0D';
+      c.fillRect(0, 0, w, h);
+
+      c.strokeStyle = '#182120';
+      c.lineWidth = 1;
+      c.beginPath();
+      for (let x = 0; x < w; x += 22) { c.moveTo(x, 0); c.lineTo(x, h); }
+      for (let y = 0; y < h; y += 22) { c.moveTo(0, y); c.lineTo(w, y); }
+      c.stroke();
+
+      const clock = Math.floor(t * 2.4);
+      const padX = Math.min(22, w * 0.07);
+      const bw = (w - padX * 2) / N - 6;
+      const bh = Math.min(46, h * 0.30);
+      const y0 = (h - bh) / 2;
+
+      for (let i = 0; i < N; i++) {
+        const x = padX + i * (bw + 6);
+        // several pairs are in flight at once — that is the whole point
+        const lit = ((clock - i) % N + N) % N === 0 && clock >= i;
+        c.fillStyle = lit ? '#EF5A16' : '#121816';
+        c.fillRect(x, y0, bw, bh);
+        c.strokeStyle = lit ? '#EF5A16' : '#2C3532';
+        c.lineWidth = 1;
+        c.strokeRect(x + 0.5, y0 + 0.5, bw - 1, bh - 1);
+        if (i < N - 1) {
+          c.strokeStyle = '#26302D';
+          c.beginPath();
+          c.moveTo(x + bw, y0 + bh / 2);
+          c.lineTo(x + bw + 6, y0 + bh / 2);
+          c.stroke();
+        }
+      }
+
+      c.font = '600 9px "IBM Plex Mono", monospace';
+      c.fillStyle = '#5D6B66';
+      c.textAlign = 'left';
+      c.fillText('1 PAIR / CLOCK', padX, y0 + bh + 20);
+      c.textAlign = 'right';
+      c.fillStyle = '#3FCB92';
+      c.fillText('Q16.16', w - padX, y0 + bh + 20);
+      c.textAlign = 'left';
+    });
+  }
+
   function init() {
     document.querySelectorAll('canvas[data-mini]').forEach((cv) => {
       const kind = cv.dataset.mini;
-      if (kind === 'flow') flow(cv);
+      if (kind === 'flow' || kind === 'agents') flow(cv, kind);
+      else if (kind === 'stages') stages(cv);
       else if (kind === 'board') board(cv);
       else if (kind === 'swarm' && global.Swarm) {
         global.Swarm.mount({ canvas: cv, scenario: 'corridor', n: 8, mini: true });

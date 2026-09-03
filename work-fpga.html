@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Collision checking, pushed to hardware — Miguel Romero</title>
+<meta name="description" content="An FPGA collision-detection accelerator in Verilog: a five-stage Q16.16 pipeline retiring one agent pair per clock over UART, benchmarked against a NumPy reference.">
+<link rel="canonical" href="https://miguelistem.github.io/miguelistem_portfolio/work-fpga.html">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Miguel Romero">
+<meta property="og:url" content="https://miguelistem.github.io/miguelistem_portfolio/work-fpga.html">
+<meta property="og:title" content="Collision checking, pushed to hardware — Miguel Romero">
+<meta property="og:description" content="An FPGA collision-detection accelerator in Verilog: a five-stage Q16.16 pipeline retiring one agent pair per clock over UART, benchmarked against a NumPy reference.">
+<meta property="og:image" content="https://miguelistem.github.io/miguelistem_portfolio/assets/img/og-card.jpg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="Miguel Romero — I build systems that watch state and decide what to do about it.">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Collision checking, pushed to hardware — Miguel Romero">
+<meta name="twitter:description" content="An FPGA collision-detection accelerator in Verilog: a five-stage Q16.16 pipeline retiring one agent pair per clock over UART, benchmarked against a NumPy reference.">
+<meta name="twitter:image" content="https://miguelistem.github.io/miguelistem_portfolio/assets/img/og-card.jpg">
+<meta name="theme-color" content="#D8D9D4">
+<link rel="icon" type="image/png" sizes="64x64" href="assets/img/favicon-64.png">
+<link rel="apple-touch-icon" href="assets/img/apple-touch-icon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:ital,wdth,wght@0,62..125,100..900;1,62..125,100..900&family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/css/site.css">
+</head>
+<body>
+
+<header class="topbar">
+  <div class="topbar-in">
+    <a class="mark" href="index.html">MR</a>
+    <nav>
+      <a href="work.html">Work</a>
+      <a href="index.html#capabilities">Capabilities</a>
+      <a href="index.html#record">Record</a>
+      <a href="assets/miguel-romero-resume.pdf" target="_blank" rel="noopener">Résumé ↗</a>
+    </nav>
+  </div>
+</header>
+
+<div class="subnav">
+  <div class="subnav-in">
+    <a href="work.html">← All work</a>
+    <a href="work-automation.html">Plant automation</a>
+    <a href="work-inbox.html">Inbox orchestration</a>
+    <a href="work-coach.html">Chess coach</a>
+    <a href="work-swarm.html">Swarm autonomy</a>
+    <a href="work-fpga.html" class="on">FPGA accelerator</a>
+  </div>
+</div>
+
+<main>
+
+  <section class="case" id="fpga">
+    <div class="wrap">
+
+      <div class="case-head">
+        <div class="tags">
+          <span class="lamp build">In build</span>
+          <span class="plate">Verilog · Artix-7 · Vivado · UART</span>
+        </div>
+        <h2>Collision checking,<br>pushed to hardware</h2>
+        <p>
+          Collision checking is the part of multi-agent planning that grows fastest: pairwise tests
+          scale with the square of the fleet. So it comes off the host. Agent states stream to an
+          FPGA over UART, a five-stage fixed-point datapath retires <strong>one pair per clock</strong>,
+          and a collision bitmap comes back for the planner to gate its trajectory candidates against.
+        </p>
+      </div>
+
+      <div class="fpga rig" style="padding:0">
+        <div>
+          <span class="plate">Datapath</span>
+          <h4>Five stages, Q16.16, no square roots</h4>
+          <p>Coordinates are signed 32-bit fixed point — ±32,768 m at ~15 µm resolution, far more than
+             a warehouse or a canyon needs. The sphere test never takes a root: it compares
+             dx² + dy² + dz² against (rᵢ + rⱼ)², which keeps the whole thing to adds and multiplies
+             and lets the pipeline stay full.</p>
+
+          <div class="stages" id="fpga-stages">
+            <div class="stage">Fetch pair</div>
+            <div class="stage">Δ subtract</div>
+            <div class="stage">Square</div>
+            <div class="stage">Sum 66-bit</div>
+            <div class="stage">Compare</div>
+          </div>
+          <p class="foot-line" style="margin:0;font-family:var(--f-mono);font-size:11px;color:var(--ink-3);letter-spacing:.06em">
+            5 PAIRS IN FLIGHT · 1 RESULT PER CYCLE · UART 921600 8N1
+          </p>
+        </div>
+
+        <div>
+          <span class="plate">Why offload</span>
+          <h4 style="margin-bottom:16px">Checks per frame</h4>
+          <div class="throughput" id="fpga-load">
+            <div class="tp-row">
+              <div class="lbl"><span>8 agents</span><b>156</b></div>
+              <div class="tp-track"><div class="tp-fill" data-w="16"></div></div>
+            </div>
+            <div class="tp-row">
+              <div class="lbl"><span>16 agents</span><b>376</b></div>
+              <div class="tp-track"><div class="tp-fill" data-w="37"></div></div>
+            </div>
+            <div class="tp-row accel">
+              <div class="lbl"><span>32 agents</span><b>1,008</b></div>
+              <div class="tp-track"><div class="tp-fill" data-w="100"></div></div>
+            </div>
+          </div>
+          <p class="foot-line" style="margin:0;font-size:13.5px;color:var(--ink-2)">
+            Pairwise plus obstacle tests, at 60 Hz. The host benchmark runs the identical simulation
+            against both backends and reports checks per second for each, so the comparison is real
+            rather than asserted.
+          </p>
+        </div>
+      </div>
+
+      <div class="notes">
+        <div class="note">
+          <span class="k">Protocol</span>
+          <h4>A parser<br>on the wire</h4>
+          <p>A command FSM behind the UART receiver decodes agent-state and obstacle writes into a
+             16-entry register file and an AABB memory, then kicks the pair scheduler. Framing and
+             back-pressure are part of the design, not an afterthought.</p>
+        </div>
+        <div class="note">
+          <span class="k">Co-design</span>
+          <h4>One interface,<br>two implementations</h4>
+          <p>The FPGA client and the NumPy checker expose the same function to the planner. That is
+             the whole reason the benchmark means anything — the simulation cannot tell which one it
+             is talking to.</p>
+        </div>
+        <div class="note">
+          <span class="k">Verification</span>
+          <h4>Testbenches<br>before boards</h4>
+          <p>RTL modules are exercised in simulation against the NumPy reference before anything is
+             synthesised, so a mismatch shows up as a failing vector rather than a drone flying
+             through a shelf.</p>
+        </div>
+        <div class="note">
+          <span class="k">Boundary</span>
+          <h4>Fixed point is<br>a design decision</h4>
+          <p>Floating point would cost area and add latency for range nobody needs. Choosing Q16.16
+             and proving the 66-bit intermediate width is the interesting part of the problem.</p>
+        </div>
+      </div>
+
+      <div class="stackline">
+        <span class="plate">Stack</span>
+        <span class="chip">Verilog</span><span class="chip">Vivado</span><span class="chip">Artix-7</span>
+        <span class="chip">UART</span><span class="chip">Fixed-point arithmetic</span>
+        <span class="chip">Testbench verification</span>
+      </div>
+    </div>
+  </section>
+
+  <section class="case" id="contact" style="border-top:1px solid var(--hair)">
+    <div class="wrap contact-in">
+      <div>
+        <span class="plate">Get in touch</span>
+        <h2 class="display" style="margin-top:14px">Let&rsquo;s talk</h2>
+      </div>
+      <div class="contact-links">
+        <a href="mailto:miguelisstem@outlook.com"><span>Email</span><span>miguelisstem@outlook.com</span></a>
+        <a href="tel:+15707909041"><span>Phone</span><span>570·790·9041</span></a>
+        <a href="https://www.linkedin.com/in/miguelangelpsuhn" target="_blank" rel="noopener"><span>LinkedIn</span><span>miguelangelpsuhn ↗</span></a>
+        <a href="assets/miguel-romero-resume.pdf" target="_blank" rel="noopener"><span>Résumé</span><span>PDF ↗</span></a>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer class="foot">
+  <div class="wrap foot-in">
+    <span>Miguel Romero · University Park, PA</span>
+    <span id="year">2026</span>
+  </div>
+</footer>
+
+<script src="assets/js/work.js"></script>
+<script src="assets/js/site.js"></script>
+</body>
+</html>

@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Three agents, one real inbox — Miguel Romero</title>
+<meta name="description" content="A multi-agent LLM inbox orchestrator in n8n: a local Qwen2.5-7B classifies mail and routes it to a reply agent gated on human approval and a job-application tracker writing to Excel.">
+<link rel="canonical" href="https://miguelistem.github.io/miguelistem_portfolio/work-inbox.html">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Miguel Romero">
+<meta property="og:url" content="https://miguelistem.github.io/miguelistem_portfolio/work-inbox.html">
+<meta property="og:title" content="Three agents, one real inbox — Miguel Romero">
+<meta property="og:description" content="A multi-agent LLM inbox orchestrator in n8n: a local Qwen2.5-7B classifies mail and routes it to a reply agent gated on human approval and a job-application tracker writing to Excel.">
+<meta property="og:image" content="https://miguelistem.github.io/miguelistem_portfolio/assets/img/og-card.jpg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="Miguel Romero — I build systems that watch state and decide what to do about it.">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Three agents, one real inbox — Miguel Romero">
+<meta name="twitter:description" content="A multi-agent LLM inbox orchestrator in n8n: a local Qwen2.5-7B classifies mail and routes it to a reply agent gated on human approval and a job-application tracker writing to Excel.">
+<meta name="twitter:image" content="https://miguelistem.github.io/miguelistem_portfolio/assets/img/og-card.jpg">
+<meta name="theme-color" content="#D8D9D4">
+<link rel="icon" type="image/png" sizes="64x64" href="assets/img/favicon-64.png">
+<link rel="apple-touch-icon" href="assets/img/apple-touch-icon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:ital,wdth,wght@0,62..125,100..900;1,62..125,100..900&family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/css/site.css">
+</head>
+<body>
+
+<header class="topbar">
+  <div class="topbar-in">
+    <a class="mark" href="index.html">MR</a>
+    <nav>
+      <a href="work.html">Work</a>
+      <a href="index.html#capabilities">Capabilities</a>
+      <a href="index.html#record">Record</a>
+      <a href="assets/miguel-romero-resume.pdf" target="_blank" rel="noopener">Résumé ↗</a>
+    </nav>
+  </div>
+</header>
+
+<div class="subnav">
+  <div class="subnav-in">
+    <a href="work.html">← All work</a>
+    <a href="work-automation.html">Plant automation</a>
+    <a href="work-inbox.html" class="on">Inbox orchestration</a>
+    <a href="work-coach.html">Chess coach</a>
+    <a href="work-swarm.html">Swarm autonomy</a>
+    <a href="work-fpga.html">FPGA accelerator</a>
+  </div>
+</div>
+
+<main>
+
+  <section class="case" id="inbox">
+    <div class="wrap">
+
+      <div class="case-head">
+        <div class="tags">
+          <span class="lamp">Working build</span>
+          <span class="plate">n8n · Outlook · LM Studio · Qwen2.5-7B · Excel</span>
+        </div>
+        <h2>Three agents,<br>one real inbox</h2>
+        <p>
+          Every message that lands in my Outlook goes to an orchestrator running on a 7B model on my
+          own machine. It classifies first and acts second: marketing and noise are dropped, and what
+          survives is handed to a specialist. One drafts a reply and parks it in Discord until I
+          approve it. The other pulls company, role, status and date out of job mail and appends a row
+          to a tracking sheet. <strong>Nothing sends and nothing is written without passing a
+          gate.</strong> This one runs against my actual job search.
+        </p>
+      </div>
+
+      <div class="shots single">
+        <figure class="shot rig">
+          <a href="assets/img/n8n-email-architecture.webp" target="_blank" rel="noopener">
+            <span class="screen"><img src="assets/img/n8n-email-architecture.webp"
+              alt="n8n workflow: an Outlook trigger feeding an AI Orchestrator backed by a local model and simple memory, which routes to an Email-Response Agent with a Discord approval tool and a Job Application Tracker agent that appends to Excel"
+              loading="lazy" width="1667" height="986"></span>
+          </a>
+          <figcaption>
+            <span><b>The routing layer.</b> Outlook trigger → orchestrator → two specialist agents,
+              each with its own chat model and tools. The Email-Response Agent's only output path
+              runs through Discord, so a draft cannot reach a recipient until I press approve.</span>
+            <span class="zoom">Open full size ↗</span>
+          </figcaption>
+        </figure>
+      </div>
+
+      <p class="plate shots-label">Watch it run</p>
+
+      <div class="shots">
+        <figure class="shot shot--video rig">
+          <div class="screen">
+            <video controls preload="none" playsinline
+                   poster="assets/video/inbox-run-poster.jpg" width="1440" height="890">
+              <source src="assets/video/inbox-run.mp4" type="video/mp4">
+              <a href="assets/video/inbox-run.mp4">Download the clip</a>.
+            </video>
+          </div>
+          <figcaption>
+            <span><b>The full pass · 1 m 45 s.</b> The orchestrator working down the inbox — the
+              classification prompt, messages being skipped as "not a job email", Qwen2.5-7B serving
+              locally out of LM Studio, and the tracking sheet filling in behind it.</span>
+            <span class="zoom">1440 × 890 · silent</span>
+          </figcaption>
+        </figure>
+
+        <figure class="shot shot--video rig">
+          <div class="screen">
+            <video controls preload="none" playsinline
+                   poster="assets/video/inbox-trace-poster.jpg" width="1440" height="878">
+              <source src="assets/video/inbox-trace.mp4" type="video/mp4">
+              <a href="assets/video/inbox-trace.mp4">Download the clip</a>.
+            </video>
+          </div>
+          <figcaption>
+            <span><b>One email, end to end · 47 s.</b> A single application confirmation goes in;
+              company, role, status and date come out as structured fields, the Excel tool is called
+              with them, and the row lands in the sheet.</span>
+            <span class="zoom">1440 × 878 · silent</span>
+          </figcaption>
+        </figure>
+      </div>
+
+      <p class="plate shots-label">Evidence from the runs</p>
+
+      <div class="shots">
+        <figure class="shot shot--tall rig">
+          <a href="assets/img/n8n-email-execution.webp" target="_blank" rel="noopener">
+            <span class="screen"><img src="assets/img/n8n-email-execution.webp"
+              alt="n8n execution view showing 1000 messages processed over 1 hour 40 minutes, 851 Excel appends, and a Discord node in an error state"
+              loading="lazy" width="1592" height="1303"></span>
+          </a>
+          <figcaption>
+            <span><b>A real run, including the part that broke.</b> 1,000 messages, 1 h 40 m,
+              2.83 M tokens, 851 rows appended — and the Discord node failing at 15.6 s on a
+              message the orchestrator had already correctly skipped.</span>
+            <span class="zoom">Open full size ↗</span>
+          </figcaption>
+        </figure>
+
+        <figure class="shot rig">
+          <a href="assets/img/n8n-email-bugs.webp" target="_blank" rel="noopener">
+            <span class="screen"><img src="assets/img/n8n-email-bugs.webp"
+              alt="n8n workflow with a red sticky note listing three known bugs: repeated rows in Excel, hallucination when information is missing, and unnecessary Excel tool calls"
+              loading="lazy" width="1590" height="782"></span>
+          </a>
+          <figcaption>
+            <span><b>The defect list, kept in the canvas.</b> Duplicate rows, hallucinated fields
+              when the source email is missing them, and the agent reaching for the Excel tool when
+              it has nothing to write. Named, so they can be fixed.</span>
+            <span class="zoom">Open full size ↗</span>
+          </figcaption>
+        </figure>
+      </div>
+
+      <p class="cap-note">
+        <b>Why the failure list is on the page.</b> A screenshot of a workflow that works proves very
+        little. The interesting artefacts are the thousand-item execution and the three failure modes
+        written next to it — a 7B model asked to extract structured fields will invent them when the
+        source is silent, and the fix is tighter schema constraints and a null path, not a better
+        prompt.
+      </p>
+
+      <div class="notes">
+        <div class="note">
+          <span class="k">Routing</span>
+          <h4>Classify first,<br>act second</h4>
+          <p>The orchestrator's only job is deciding what a message is. Spam, marketing and anything
+             unrelated get dropped before a specialist agent is ever invoked, which keeps tool calls
+             and tokens off the majority of the inbox.</p>
+        </div>
+        <div class="note">
+          <span class="k">Control</span>
+          <h4>Nothing sends<br>itself</h4>
+          <p>The reply agent drafts, then stops. The draft goes to Discord and waits for a human
+             approve before it reaches anyone. Same principle as the plant-floor approval chain: the
+             model proposes, a person commits.</p>
+        </div>
+        <div class="note">
+          <span class="k">Local</span>
+          <h4>Runs on my<br>own hardware</h4>
+          <p>Qwen2.5-7B served by LM Studio on an OpenAI-compatible endpoint at localhost. No
+             per-token bill on a thousand-message run, and a personal inbox never leaves the
+             machine.</p>
+        </div>
+        <div class="note">
+          <span class="k">Extraction</span>
+          <h4>Free text into<br>a schema</h4>
+          <p>Company, role, status, date applied, recruiter, next steps, requisition number — pulled
+             from prose written by a hundred different sender templates, normalised against a fixed
+             status lifecycle, and appended as a row.</p>
+        </div>
+      </div>
+
+      <div class="stackline">
+        <span class="plate">Stack</span>
+        <span class="chip">n8n</span><span class="chip">Microsoft Outlook</span>
+        <span class="chip">LM Studio</span><span class="chip">Qwen2.5-7B</span>
+        <span class="chip">Groq</span><span class="chip">Excel / OneDrive</span>
+        <span class="chip">Discord</span><span class="chip">Agent tool calling</span>
+      </div>
+    </div>
+  </section>
+
+  <section class="case" id="contact" style="border-top:1px solid var(--hair)">
+    <div class="wrap contact-in">
+      <div>
+        <span class="plate">Get in touch</span>
+        <h2 class="display" style="margin-top:14px">Let&rsquo;s talk</h2>
+      </div>
+      <div class="contact-links">
+        <a href="mailto:miguelisstem@outlook.com"><span>Email</span><span>miguelisstem@outlook.com</span></a>
+        <a href="tel:+15707909041"><span>Phone</span><span>570·790·9041</span></a>
+        <a href="https://www.linkedin.com/in/miguelangelpsuhn" target="_blank" rel="noopener"><span>LinkedIn</span><span>miguelangelpsuhn ↗</span></a>
+        <a href="assets/miguel-romero-resume.pdf" target="_blank" rel="noopener"><span>Résumé</span><span>PDF ↗</span></a>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer class="foot">
+  <div class="wrap foot-in">
+    <span>Miguel Romero · University Park, PA</span>
+    <span id="year">2026</span>
+  </div>
+</footer>
+
+<script src="assets/js/work.js"></script>
+<script src="assets/js/site.js"></script>
+</body>
+</html>

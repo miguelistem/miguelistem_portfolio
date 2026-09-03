@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Eight drones, one corridor — Miguel Romero</title>
+<meta name="description" content="Multi-agent UAV path planning: grid A* global routes, reciprocal velocity obstacle local avoidance and MAPPO policies, running live in the browser.">
+<link rel="canonical" href="https://miguelistem.github.io/miguelistem_portfolio/work-swarm.html">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Miguel Romero">
+<meta property="og:url" content="https://miguelistem.github.io/miguelistem_portfolio/work-swarm.html">
+<meta property="og:title" content="Eight drones, one corridor — Miguel Romero">
+<meta property="og:description" content="Multi-agent UAV path planning: grid A* global routes, reciprocal velocity obstacle local avoidance and MAPPO policies, running live in the browser.">
+<meta property="og:image" content="https://miguelistem.github.io/miguelistem_portfolio/assets/img/og-card.jpg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="Miguel Romero — I build systems that watch state and decide what to do about it.">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Eight drones, one corridor — Miguel Romero">
+<meta name="twitter:description" content="Multi-agent UAV path planning: grid A* global routes, reciprocal velocity obstacle local avoidance and MAPPO policies, running live in the browser.">
+<meta name="twitter:image" content="https://miguelistem.github.io/miguelistem_portfolio/assets/img/og-card.jpg">
+<meta name="theme-color" content="#D8D9D4">
+<link rel="icon" type="image/png" sizes="64x64" href="assets/img/favicon-64.png">
+<link rel="apple-touch-icon" href="assets/img/apple-touch-icon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:ital,wdth,wght@0,62..125,100..900;1,62..125,100..900&family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/css/site.css">
+</head>
+<body>
+
+<header class="topbar">
+  <div class="topbar-in">
+    <a class="mark" href="index.html">MR</a>
+    <nav>
+      <a href="work.html">Work</a>
+      <a href="index.html#capabilities">Capabilities</a>
+      <a href="index.html#record">Record</a>
+      <a href="assets/miguel-romero-resume.pdf" target="_blank" rel="noopener">Résumé ↗</a>
+    </nav>
+  </div>
+</header>
+
+<div class="subnav">
+  <div class="subnav-in">
+    <a href="work.html">← All work</a>
+    <a href="work-automation.html">Plant automation</a>
+    <a href="work-inbox.html">Inbox orchestration</a>
+    <a href="work-coach.html">Chess coach</a>
+    <a href="work-swarm.html" class="on">Swarm autonomy</a>
+    <a href="work-fpga.html">FPGA accelerator</a>
+  </div>
+</div>
+
+<main>
+
+  <section class="case" id="swarm">
+    <div class="wrap">
+
+      <div class="case-head">
+        <div class="tags">
+          <span class="lamp build">In build</span>
+          <span class="plate">Isaac Sim · PyTorch · MAPPO · NumPy</span>
+        </div>
+        <h2>Eight drones,<br>one corridor</h2>
+        <p>
+          Put two groups of UAVs on opposite sides of a wall with three gaps and tell them to swap.
+          Global A* gets each one a route; local reciprocal velocity obstacle avoidance keeps them
+          from meeting in the doorway. A separate collision checker audits every frame and never
+          steers — <strong>it is the referee, not the controller</strong>, so a violation is a real
+          failure rather than something the planner can paper over. This is the planning stack from
+          the Isaac Sim project, running here in 2D.
+        </p>
+      </div>
+
+      <div class="demo rig">
+        <div class="demo-grid">
+          <div class="screen"><canvas id="swarm-canvas"></canvas></div>
+          <div class="readout">
+            <div class="gauge">
+              <h4>Telemetry</h4>
+              <div class="gauge-line"><span>Agents</span><b id="s-agents">8</b></div>
+              <div class="gauge-line"><span>At goal</span><b id="s-settled" class="ok">0</b></div>
+              <div class="gauge-line"><span>Collisions</span><b id="s-coll" class="ok">0</b></div>
+              <div class="gauge-line"><span>Min separation</span><b id="s-sep">—</b></div>
+              <div class="gauge-line"><span>Checks / sec</span><b id="s-rate">—</b></div>
+            </div>
+            <div class="gauge">
+              <h4>Goals reached</h4>
+              <div class="bar-track"><div class="bar-fill" id="s-bar"></div></div>
+            </div>
+            <div>
+              <h4 style="margin-bottom:9px">Legend</h4>
+              <div class="legend">
+                <div><i style="background:#74C9EE;border-radius:50%"></i>Eastbound group</div>
+                <div><i style="background:#EF5A16;border-radius:50%"></i>Westbound group</div>
+                <div><i style="background:#3FCB92;border-radius:50%"></i>Arrived at goal</div>
+                <div><i style="border-top:1px dashed #EF5A16;height:1px"></i>Checker: near miss</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="controls">
+          <span class="ctl-label">Scenario</span>
+          <button class="ctl on" data-scen="corridor" type="button">Corridor swap</button>
+          <button class="ctl" data-scen="antipodal" type="button">Antipodal circle</button>
+          <button class="ctl" data-scen="warehouse" type="button">Warehouse</button>
+          <span class="ctl-sep"></span>
+          <span class="ctl-label">Agents</span>
+          <button class="ctl" data-n="6" type="button">6</button>
+          <button class="ctl on" data-n="8" type="button">8</button>
+          <button class="ctl" data-n="12" type="button">12</button>
+          <span class="ctl-sep"></span>
+          <button class="ctl" id="s-pause" type="button">Pause</button>
+        </div>
+      </div>
+
+      <p class="cap-note">
+        <b>Try the antipodal circle.</b> Every agent's straight-line path runs through the same point
+        at the centre. Without reciprocal avoidance the whole group piles up at the origin; with it,
+        they rotate around each other and clear. That failure mode is exactly why the local planner
+        exists, and it is the reason a global planner alone is not enough.
+      </p>
+
+      <div class="notes">
+        <div class="note">
+          <span class="k">Learning</span>
+          <h4>MAPPO with a<br>central critic</h4>
+          <p>The learned policy is a parameter-shared Gaussian actor over local observations, trained
+             against a critic that sees every agent. Centralized training, decentralized execution —
+             the critic is thrown away at deployment, so each drone flies on its own view with no
+             comms.</p>
+        </div>
+        <div class="note">
+          <span class="k">Architecture</span>
+          <h4>Backends<br>swap cleanly</h4>
+          <p>The planner is pure NumPy and knows nothing about its host. Isaac Sim and a headless
+             runner sit behind one bridge; the CPU checker and the FPGA client sit behind another.
+             Same sim, different backend, comparable numbers.</p>
+        </div>
+        <div class="note">
+          <span class="k">Scenarios</span>
+          <h4>Built to<br>force conflict</h4>
+          <p>Corridor swap creates guaranteed contention at three choke points. Antipodal circle is
+             the classic RVO stress test. Warehouse is randomised shelving. Each one breaks a
+             different assumption.</p>
+        </div>
+        <div class="note">
+          <span class="k">Metrics</span>
+          <h4>Zero is the<br>only passing score</h4>
+          <p>Every run logs collisions, minimum pairwise separation, makespan, and check throughput.
+             A demo-quality run has zero collisions; anything else is a bug, not a tuning problem.</p>
+        </div>
+      </div>
+
+      <div class="stackline">
+        <span class="plate">Stack</span>
+        <span class="chip">NVIDIA Isaac Sim</span><span class="chip">PhysX</span><span class="chip">Python</span>
+        <span class="chip">NumPy</span><span class="chip">PyTorch</span><span class="chip">MAPPO</span>
+        <span class="chip">Grid A*</span><span class="chip">RVO</span>
+      </div>
+    </div>
+  </section>
+
+  <section class="case" id="contact" style="border-top:1px solid var(--hair)">
+    <div class="wrap contact-in">
+      <div>
+        <span class="plate">Get in touch</span>
+        <h2 class="display" style="margin-top:14px">Let&rsquo;s talk</h2>
+      </div>
+      <div class="contact-links">
+        <a href="mailto:miguelisstem@outlook.com"><span>Email</span><span>miguelisstem@outlook.com</span></a>
+        <a href="tel:+15707909041"><span>Phone</span><span>570·790·9041</span></a>
+        <a href="https://www.linkedin.com/in/miguelangelpsuhn" target="_blank" rel="noopener"><span>LinkedIn</span><span>miguelangelpsuhn ↗</span></a>
+        <a href="assets/miguel-romero-resume.pdf" target="_blank" rel="noopener"><span>Résumé</span><span>PDF ↗</span></a>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer class="foot">
+  <div class="wrap foot-in">
+    <span>Miguel Romero · University Park, PA</span>
+    <span id="year">2026</span>
+  </div>
+</footer>
+
+<script src="assets/js/swarm.js"></script>
+<script src="assets/js/work.js"></script>
+<script src="assets/js/site.js"></script>
+</body>
+</html>

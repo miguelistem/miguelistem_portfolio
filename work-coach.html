@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>The engine finds it. The model explains it. — Miguel Romero</title>
+<meta name="description" content="Chess Coach AI: a FastAPI service that scores a player’s chess.com history with Stockfish and has a local LLM explain the recurring mistake in plain chess terms.">
+<link rel="canonical" href="https://miguelistem.github.io/miguelistem_portfolio/work-coach.html">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Miguel Romero">
+<meta property="og:url" content="https://miguelistem.github.io/miguelistem_portfolio/work-coach.html">
+<meta property="og:title" content="The engine finds it. The model explains it. — Miguel Romero">
+<meta property="og:description" content="Chess Coach AI: a FastAPI service that scores a player’s chess.com history with Stockfish and has a local LLM explain the recurring mistake in plain chess terms.">
+<meta property="og:image" content="https://miguelistem.github.io/miguelistem_portfolio/assets/img/og-card.jpg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="Miguel Romero — I build systems that watch state and decide what to do about it.">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="The engine finds it. The model explains it. — Miguel Romero">
+<meta name="twitter:description" content="Chess Coach AI: a FastAPI service that scores a player’s chess.com history with Stockfish and has a local LLM explain the recurring mistake in plain chess terms.">
+<meta name="twitter:image" content="https://miguelistem.github.io/miguelistem_portfolio/assets/img/og-card.jpg">
+<meta name="theme-color" content="#D8D9D4">
+<link rel="icon" type="image/png" sizes="64x64" href="assets/img/favicon-64.png">
+<link rel="apple-touch-icon" href="assets/img/apple-touch-icon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:ital,wdth,wght@0,62..125,100..900;1,62..125,100..900&family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/css/site.css">
+</head>
+<body>
+
+<header class="topbar">
+  <div class="topbar-in">
+    <a class="mark" href="index.html">MR</a>
+    <nav>
+      <a href="work.html">Work</a>
+      <a href="index.html#capabilities">Capabilities</a>
+      <a href="index.html#record">Record</a>
+      <a href="assets/miguel-romero-resume.pdf" target="_blank" rel="noopener">Résumé ↗</a>
+    </nav>
+  </div>
+</header>
+
+<div class="subnav">
+  <div class="subnav-in">
+    <a href="work.html">← All work</a>
+    <a href="work-automation.html">Plant automation</a>
+    <a href="work-inbox.html">Inbox orchestration</a>
+    <a href="work-coach.html" class="on">Chess coach</a>
+    <a href="work-swarm.html">Swarm autonomy</a>
+    <a href="work-fpga.html">FPGA accelerator</a>
+  </div>
+</div>
+
+<main>
+
+  <section class="case" id="coach">
+    <div class="wrap">
+
+      <div class="case-head">
+        <div class="tags">
+          <span class="lamp">Working build</span>
+          <span class="plate">FastAPI · Stockfish · Ollama · React</span>
+        </div>
+        <h2>The engine finds it.<br>The model explains it.</h2>
+        <p>
+          Stockfish will tell you a move cost you 1.7 pawns. That is useless if you don't know why.
+          Chess Coach AI imports a player's history from chess.com, runs every move through the
+          engine, aggregates the losses into patterns, and then hands the <strong>structured</strong>
+          result to a local model with one instruction: explain this in chess, not in centipawns, and
+          invent nothing. Step through a real loss below.
+        </p>
+      </div>
+
+      <div class="demo rig">
+        <div class="chess-wrap">
+          <div class="board-stage" style="background:#0C0E0D;border:1px solid #050706">
+            <div class="evalbar"><div class="white" id="eval-white"></div></div>
+            <canvas id="board"></canvas>
+          </div>
+
+          <div class="coach">
+            <div class="coach-head">
+              <span class="who">Coach · grounded in engine output</span>
+              <span class="mv"><span id="move-label">START</span> <span id="move-tag" style="font-size:10px;letter-spacing:.14em"></span></span>
+            </div>
+            <div class="coach-body" id="coach-text"></div>
+            <div>
+              <div class="gauge-line" style="margin-bottom:9px">
+                <span>Engine evaluation</span><b id="eval-score">+0.20</b>
+              </div>
+              <div class="toolchips" id="tool-chips">
+                <span class="toolchip" data-tool="show_position">show_position</span>
+                <span class="toolchip" data-tool="worst_mistakes">worst_mistakes</span>
+                <span class="toolchip" data-tool="top_engine_moves">top_engine_moves</span>
+                <span class="toolchip" data-tool="try_move">try_move</span>
+                <span class="toolchip" data-tool="try_line">try_line</span>
+              </div>
+            </div>
+            <div class="movestrip" id="move-strip"></div>
+          </div>
+        </div>
+
+        <div class="controls">
+          <button class="ctl" id="c-prev" type="button">← Back</button>
+          <button class="ctl" id="c-next" type="button">Forward →</button>
+          <button class="ctl" id="c-play" type="button">Play through</button>
+          <span class="ctl-sep"></span>
+          <button class="ctl" id="c-blunder" type="button">Jump to the mistake</button>
+          <button class="ctl" id="c-reset" type="button">Reset</button>
+        </div>
+      </div>
+
+      <p class="cap-note">
+        <b>What you are looking at.</b> The board is shown from Black's side, because Black is the
+        student. The bar on the left is the engine's evaluation — Black's share shrinks as the
+        position collapses. The chips underneath light up when the coach calls that tool: the model
+        can replay a line in a sandbox before it commits to an explanation, so it isn't guessing at
+        what a move does.
+      </p>
+
+      <div class="notes">
+        <div class="note">
+          <span class="k">Pipeline</span>
+          <h4>Ingest ·<br>analyze · aggregate</h4>
+          <p>Games come in from the chess.com API, get parsed from PGN, and every ply is scored by
+             Stockfish. Centipawn loss is classified by phase, and the per-game noise rolls up into
+             the openings and mistake patterns that repeat.</p>
+        </div>
+        <div class="note">
+          <span class="k">Grounding</span>
+          <h4>Schema-forced<br>output</h4>
+          <p>The report is a Pydantic model the LLM has to fill: headline, strengths, weaknesses,
+             opening insights, recurring patterns, focus areas. Constraining the shape is what keeps
+             the advice tied to the data instead of drifting into generic chess wisdom.</p>
+        </div>
+        <div class="note">
+          <span class="k">Tooling</span>
+          <h4>A sandbox<br>it can poke</h4>
+          <p>The chat runs against a live board sandbox: show a position, list the worst mistakes,
+             ask the engine for its top moves, try a candidate move, walk a whole line. The model
+             checks before it explains.</p>
+        </div>
+        <div class="note">
+          <span class="k">Deployment</span>
+          <h4>Runs on<br>your machine</h4>
+          <p>Local model through Ollama and a bundled Stockfish binary, so a full review costs
+             nothing per game and no game history leaves the box. FastAPI serves it; a React front end
+             does the board review.</p>
+        </div>
+      </div>
+
+      <div class="stackline">
+        <span class="plate">Stack</span>
+        <span class="chip">Python</span><span class="chip">FastAPI</span><span class="chip">SQLAlchemy</span>
+        <span class="chip">Stockfish</span><span class="chip">python-chess</span><span class="chip">Ollama</span>
+        <span class="chip">Pydantic</span><span class="chip">React</span><span class="chip">Vite</span>
+      </div>
+    </div>
+  </section>
+
+  <section class="case" id="contact" style="border-top:1px solid var(--hair)">
+    <div class="wrap contact-in">
+      <div>
+        <span class="plate">Get in touch</span>
+        <h2 class="display" style="margin-top:14px">Let&rsquo;s talk</h2>
+      </div>
+      <div class="contact-links">
+        <a href="mailto:miguelisstem@outlook.com"><span>Email</span><span>miguelisstem@outlook.com</span></a>
+        <a href="tel:+15707909041"><span>Phone</span><span>570·790·9041</span></a>
+        <a href="https://www.linkedin.com/in/miguelangelpsuhn" target="_blank" rel="noopener"><span>LinkedIn</span><span>miguelangelpsuhn ↗</span></a>
+        <a href="assets/miguel-romero-resume.pdf" target="_blank" rel="noopener"><span>Résumé</span><span>PDF ↗</span></a>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer class="foot">
+  <div class="wrap foot-in">
+    <span>Miguel Romero · University Park, PA</span>
+    <span id="year">2026</span>
+  </div>
+</footer>
+
+<script src="assets/js/coach.js"></script>
+<script src="assets/js/work.js"></script>
+<script src="assets/js/site.js"></script>
+</body>
+</html>

@@ -1,0 +1,285 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Plant operations, automated — Miguel Romero</title>
+<meta name="description" content="Plant-floor automation built in n8n: scheduled shift briefings, material depletion forecasting, calendar-driven rescheduling and a human approval chain over one SQLite database.">
+<link rel="canonical" href="https://miguelistem.github.io/miguelistem_portfolio/work-automation.html">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Miguel Romero">
+<meta property="og:url" content="https://miguelistem.github.io/miguelistem_portfolio/work-automation.html">
+<meta property="og:title" content="Plant operations, automated — Miguel Romero">
+<meta property="og:description" content="Plant-floor automation built in n8n: scheduled shift briefings, material depletion forecasting, calendar-driven rescheduling and a human approval chain over one SQLite database.">
+<meta property="og:image" content="https://miguelistem.github.io/miguelistem_portfolio/assets/img/og-card.jpg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="Miguel Romero — I build systems that watch state and decide what to do about it.">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Plant operations, automated — Miguel Romero">
+<meta name="twitter:description" content="Plant-floor automation built in n8n: scheduled shift briefings, material depletion forecasting, calendar-driven rescheduling and a human approval chain over one SQLite database.">
+<meta name="twitter:image" content="https://miguelistem.github.io/miguelistem_portfolio/assets/img/og-card.jpg">
+<meta name="theme-color" content="#D8D9D4">
+<link rel="icon" type="image/png" sizes="64x64" href="assets/img/favicon-64.png">
+<link rel="apple-touch-icon" href="assets/img/apple-touch-icon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:ital,wdth,wght@0,62..125,100..900;1,62..125,100..900&family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/css/site.css">
+</head>
+<body>
+
+<header class="topbar">
+  <div class="topbar-in">
+    <a class="mark" href="index.html">MR</a>
+    <nav>
+      <a href="work.html">Work</a>
+      <a href="index.html#capabilities">Capabilities</a>
+      <a href="index.html#record">Record</a>
+      <a href="assets/miguel-romero-resume.pdf" target="_blank" rel="noopener">Résumé ↗</a>
+    </nav>
+  </div>
+</header>
+
+<div class="subnav">
+  <div class="subnav-in">
+    <a href="work.html">← All work</a>
+    <a href="work-automation.html" class="on">Plant automation</a>
+    <a href="work-inbox.html">Inbox orchestration</a>
+    <a href="work-coach.html">Chess coach</a>
+    <a href="work-swarm.html">Swarm autonomy</a>
+    <a href="work-fpga.html">FPGA accelerator</a>
+  </div>
+</div>
+
+<main>
+
+  <section class="case" id="automation">
+    <div class="wrap">
+
+      <div class="case-head">
+        <div class="tags">
+          <span class="lamp build">In build</span>
+          <span class="plate">n8n · SQLite · Python · Power BI</span>
+        </div>
+        <h2>Plant operations,<br>automated</h2>
+        <p>
+          A 24/7 plastic-film plant runs five lines, four crews on a twelve-hour rotation, and six
+          weeks of stacked orders. The information that keeps it moving lives in people's heads at
+          shift change. This is an automation layer that reads the same database from four different
+          angles — <strong>a scheduled briefing, a threshold forecast, a calendar event, and an
+          approval chain that pauses on humans</strong> — and hands each role the one thing it needs.
+          Pick a trigger and watch the run.
+        </p>
+      </div>
+
+      <div class="demo rig">
+        <div class="demo-grid">
+          <div class="screen scrollable"><canvas id="pipe-canvas"></canvas></div>
+          <div class="readout">
+            <div class="grow" style="flex:1;min-height:0">
+              <h4 id="pipe-mode">Run log</h4>
+              <div id="pipe-log" style="margin-top:10px;line-height:1.55;color:#A9B5B0"></div>
+            </div>
+            <div class="gauge">
+              <h4>Dataset</h4>
+              <div class="gauge-line"><span>Tables</span><b>16</b></div>
+              <div class="gauge-line"><span>Orders</span><b>301</b></div>
+              <div class="gauge-line"><span>Rolls logged</span><b>794</b></div>
+              <div class="gauge-line"><span>Ledger rows</span><b>1,785</b></div>
+              <div class="gauge-line"><span>Horizon</span><b>6 wks</b></div>
+            </div>
+          </div>
+        </div>
+
+        <p class="swipe-hint">Swipe the schematic sideways to follow the whole run</p>
+
+        <div class="controls">
+          <span class="ctl-label">Trigger</span>
+          <button class="ctl on" data-mode="scheduled" type="button">Scheduled</button>
+          <button class="ctl" data-mode="threshold" type="button">Threshold</button>
+          <button class="ctl" data-mode="event" type="button">Event</button>
+          <button class="ctl" data-mode="human" type="button">Human gate</button>
+          <span class="ctl-sep"></span>
+          <button class="ctl" id="pipe-replay" type="button">Replay</button>
+        </div>
+      </div>
+
+      <p class="cap-note">
+        <b>Reading the diagram.</b> Orange dots are the payload moving between nodes. A yellow ring
+        means the workflow has parked and is waiting on a person — the approval chain spends most of
+        its life there. Dashed red is the rejection branch: an invalid calendar move bounces back with
+        the reason attached instead of silently corrupting the schedule.
+      </p>
+
+      <div class="shots single">
+        <figure class="shot rig">
+          <a href="assets/img/n8n-calendar-sync.webp" target="_blank" rel="noopener">
+            <span class="screen"><img src="assets/img/n8n-calendar-sync.webp"
+              alt="n8n workflow: five Outlook line calendars and a SQL pull merged, change detection against the database, a rules switch sending accepted changes to create, update or delete plus a confirmation email, and a reject branch running an AI agent that explains the bounce before deleting the event"
+              loading="lazy" width="2148" height="1080"></span>
+          </a>
+          <figcaption>
+            <span><b>The built workflow.</b> Five line calendars and a SQL pull of the planned
+              schedule are merged, then change detection compares the two and a rules switch splits
+              the result. Accepted changes create, update or delete the event, sync the calendar and
+              mail the manager. Rejected ones go to an AI agent that works out <em>why</em> the
+              change was refused and names the missing or invalid constraint before the event is
+              bounced. The bug note on that branch is mine: the hosted model doesn't get enough
+              context, so it's moving to a local one — the same fix the inbox project already
+              uses.</span>
+            <span class="zoom">Open full size ↗</span>
+          </figcaption>
+        </figure>
+      </div>
+
+      <p class="plate shots-label">Watch it run</p>
+
+      <div class="shots single">
+        <figure class="shot shot--video rig">
+          <div class="screen">
+            <video controls preload="none" playsinline
+                   poster="assets/video/calendar-sync-poster.jpg" width="1440" height="726">
+              <source src="assets/video/calendar-sync.mp4" type="video/mp4">
+              <a href="assets/video/calendar-sync.mp4">Download the clip</a>.
+            </video>
+          </div>
+          <figcaption>
+            <span><b>The accept path · 58 s.</b> The schedule moves in <code>factory.db</code>, the
+              five line calendars are pulled and merged, the affected events are corrected in
+              Outlook, and the manager gets a mail that names every change — action, order, line,
+              why, new start and end — closing with <em>“database is the source of truth; the
+              calendar was corrected to match.”</em> The reject branch was left unlinked for this
+              recording, so this is the accept path end to end.</span>
+            <span class="zoom">1440 × 726 · silent</span>
+          </figcaption>
+        </figure>
+      </div>
+
+      <p class="plate shots-label">The reporting path</p>
+
+      <div class="shots">
+        <figure class="shot rig">
+          <a href="assets/img/n8n-csv-preseed.webp" target="_blank" rel="noopener">
+            <span class="screen"><img src="assets/img/n8n-csv-preseed.webp"
+              alt="n8n workflow: Outlook trigger, filter for the correct CSV, extract from file, clean the data in JavaScript, insert rows into a Postgres container, then send a confirmation email"
+              loading="lazy" width="1341" height="461"></span>
+          </a>
+          <figcaption>
+            <span><b>Preseeding the warehouse.</b> An emailed CSV arrives, the filter keeps the one
+              that matters, the rows are extracted and cleaned in JavaScript, inserted into a
+              Postgres container behind pgweb, and a confirmation goes back to the sender only after
+              the load succeeds. This is the path that puts factory data somewhere a BI tool can
+              read it. The two nodes flagged in red are the ones that hold credentials.</span>
+            <span class="zoom">Open full size ↗</span>
+          </figcaption>
+        </figure>
+
+        <figure class="shot rig">
+          <a href="assets/img/powerbi-material-shortage.webp" target="_blank" rel="noopener">
+            <span class="screen"><img src="assets/img/powerbi-material-shortage.webp"
+              alt="Power BI report titled Material Shortage Command Center with four KPI tiles all reading Blank and two visuals showing a capacity or licence error"
+              loading="lazy" width="2046" height="1170"></span>
+          </a>
+          <figcaption>
+            <span><b>The dashboard, as a shell.</b> <em>Material Shortage Command Center</em> — every
+              material the open schedule touches, ranked by how soon it runs out. Four tiles
+              (materials critical, total shortfall in pounds, days to first depletion, orders overdue
+              or due now), days of cover ordered lowest-first, shortfall by material against the
+              scheduled run. Every figure reads <b>(Blank)</b> and two visuals return a capacity or
+              licence error: <b>the enterprise licence went with the school account at
+              graduation.</b> What is left is the design — the measures, the ranking, the layout —
+              not a live report.</span>
+            <span class="zoom">Open full size ↗</span>
+          </figcaption>
+        </figure>
+      </div>
+
+      <div class="notes">
+        <div class="note">
+          <span class="k">Principle</span>
+          <h4>Rules reason,<br>the model explains</h4>
+          <p>Every decision is deterministic and constraint-checked, because it has to be auditable.
+             The LLM only turns the finished decision into a sentence a manager can read at 6am. It
+             never writes to the schedule.</p>
+        </div>
+        <div class="note">
+          <span class="k">Design</span>
+          <h4>Four triggers,<br>one schema</h4>
+          <p>Cron, threshold, webhook, and human gate all sit on the same sixteen-table SQLite
+             database. Separate pipelines, shared data model — they meet at one seam, where an
+             approved order enters the production queue.</p>
+        </div>
+        <div class="note">
+          <span class="k">Scope</span>
+          <h4>Not an optimizer,<br>on purpose</h4>
+          <p>Job-shop scheduling is NP-hard, so rescheduling is a transparent greedy heuristic with a
+             human approval gate rather than a black box. A manager can read why an order moved and
+             say no.</p>
+        </div>
+        <div class="note">
+          <span class="k">Data</span>
+          <h4>Edge cases,<br>baked in</h4>
+          <p>The dataset ships with the failures on purpose: a line running behind its own clock, a
+             PET shortfall against a 14-day lead time, an order stuck at chemical, and a cancellation
+             that leaves a reclaimable gap.</p>
+        </div>
+      </div>
+
+      <div class="stackline">
+        <span class="plate">Stack</span>
+        <span class="chip">n8n</span><span class="chip">SQLite</span><span class="chip">Python</span>
+        <span class="chip">SQL</span><span class="chip">PostgreSQL</span><span class="chip">Docker</span>
+        <span class="chip">Outlook Calendar</span><span class="chip off">Power BI †</span>
+        <span class="chip">Webhooks</span><span class="chip">LLM narration</span>
+      </div>
+
+      <p class="caveat">
+        <span class="lamp idle">† Power BI · offline</span>
+        The report above is the real thing, unlicensed. It ran on an enterprise licence tied to my
+        student account, which lapsed at graduation, so the visuals return a capacity error and every
+        measure resolves to blank. The workflows, the Postgres load and the database are unaffected —
+        the reporting layer is a shell until I'm on a licence again, at which point it repopulates
+        without being rebuilt.
+      </p>
+
+      <p class="caveat">
+        <span class="lamp idle">‡ Shift briefing · on hold</span>
+        The scheduled handoff summary is blocked upstream of itself: reading Power BI needs an Azure
+        app registration, and that needs the Pro or Premium licence that lapsed with the same
+        account. The shape is settled — it mirrors the LLM branch of the calendar sync above, but
+        takes its inputs from a Power BI GET, hands the agent a Power BI tool and a calculator, and
+        ends by composing the briefing and mailing it to Outlook. The animation at the top of this
+        case is that design, not a job currently on a timer.
+      </p>
+    </div>
+  </section>
+
+  <section class="case" id="contact" style="border-top:1px solid var(--hair)">
+    <div class="wrap contact-in">
+      <div>
+        <span class="plate">Get in touch</span>
+        <h2 class="display" style="margin-top:14px">Let&rsquo;s talk</h2>
+      </div>
+      <div class="contact-links">
+        <a href="mailto:miguelisstem@outlook.com"><span>Email</span><span>miguelisstem@outlook.com</span></a>
+        <a href="tel:+15707909041"><span>Phone</span><span>570·790·9041</span></a>
+        <a href="https://www.linkedin.com/in/miguelangelpsuhn" target="_blank" rel="noopener"><span>LinkedIn</span><span>miguelangelpsuhn ↗</span></a>
+        <a href="assets/miguel-romero-resume.pdf" target="_blank" rel="noopener"><span>Résumé</span><span>PDF ↗</span></a>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer class="foot">
+  <div class="wrap foot-in">
+    <span>Miguel Romero · University Park, PA</span>
+    <span id="year">2026</span>
+  </div>
+</footer>
+
+<script src="assets/js/pipeline.js"></script>
+<script src="assets/js/work.js"></script>
+<script src="assets/js/site.js"></script>
+</body>
+</html>

@@ -4,7 +4,24 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Miguel Romero — Computer Science, Penn State</title>
-<meta name="description" content="Miguel Romero builds systems that watch state and decide: plant-floor automation, LLM-backed coaching software, and multi-agent UAV path planning.">
+<meta name="description" content="Miguel Romero builds systems that watch state and decide: plant-floor automation, multi-agent LLM inbox orchestration, an LLM chess coach on Stockfish, UAV swarm path planning and an FPGA collision accelerator.">
+<link rel="canonical" href="https://miguelistem.github.io/miguelistem_portfolio/index.html">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Miguel Romero">
+<meta property="og:url" content="https://miguelistem.github.io/miguelistem_portfolio/index.html">
+<meta property="og:title" content="Miguel Romero — Computer Science, Penn State">
+<meta property="og:description" content="Miguel Romero builds systems that watch state and decide: plant-floor automation, multi-agent LLM inbox orchestration, an LLM chess coach on Stockfish, UAV swarm path planning and an FPGA collision accelerator.">
+<meta property="og:image" content="https://miguelistem.github.io/miguelistem_portfolio/assets/img/og-card.jpg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="Miguel Romero — I build systems that watch state and decide what to do about it.">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Miguel Romero — Computer Science, Penn State">
+<meta name="twitter:description" content="Miguel Romero builds systems that watch state and decide: plant-floor automation, multi-agent LLM inbox orchestration, an LLM chess coach on Stockfish, UAV swarm path planning and an FPGA collision accelerator.">
+<meta name="twitter:image" content="https://miguelistem.github.io/miguelistem_portfolio/assets/img/og-card.jpg">
+<meta name="theme-color" content="#D8D9D4">
+<link rel="icon" type="image/png" sizes="64x64" href="assets/img/favicon-64.png">
+<link rel="apple-touch-icon" href="assets/img/apple-touch-icon.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Archivo:ital,wdth,wght@0,62..125,100..900;1,62..125,100..900&family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:wght@400;500;600&display=swap" rel="stylesheet">
@@ -43,7 +60,7 @@
         <p class="hero-body">
           A factory schedule, a chess position, a swarm of drones in a corridor — the shape is the
           same every time. Read the state, work out what it means, and hand a person something they
-          can act on. Three builds below, each one running live in the browser.
+          can act on. Five builds below — three of them run live in your browser.
         </p>
 
         <div class="hero-cta">
@@ -68,28 +85,40 @@
   <section class="band" id="systems">
     <div class="wrap">
       <div class="band-head">
-        <span class="plate">Three systems</span>
+        <span class="plate">Five builds</span>
         <span class="rule"></span>
         <h2>What I&nbsp;built</h2>
       </div>
 
       <div class="systems">
-        <a class="sys rig" href="work.html#automation">
+        <a class="sys rig" href="work-automation.html">
           <div class="screen"><canvas data-mini="flow"></canvas></div>
           <div class="sys-meta">
-            <span class="id">n8n · SQLite · Power BI</span>
+            <span class="id">n8n · SQLite · PostgreSQL</span>
             <h3>Plant floor<br>automation</h3>
             <p>An operations layer for a 24/7 plastic-film factory. One database, four kinds of
-               trigger: a shift briefing at clock-in, a material forecast, a calendar event, and an
-               approval chain that waits on people.</p>
+               trigger: a shift briefing, a material forecast, a calendar event, and an approval
+               chain that waits on people.</p>
             <span class="go">Open case →</span>
           </div>
         </a>
 
-        <a class="sys rig" href="work.html#coach">
+        <a class="sys rig" href="work-inbox.html">
+          <div class="screen"><canvas data-mini="agents"></canvas></div>
+          <div class="sys-meta">
+            <span class="id">n8n · Qwen2.5-7B · Outlook</span>
+            <h3>Agents that work<br>a real inbox</h3>
+            <p>A local 7B model classifies every incoming mail and hands it to a specialist: one
+               drafts replies behind a human approval, one extracts job data into a tracker. Nothing
+               sends itself.</p>
+            <span class="go">Open case →</span>
+          </div>
+        </a>
+
+        <a class="sys rig" href="work-coach.html">
           <div class="screen"><canvas data-mini="board"></canvas></div>
           <div class="sys-meta">
-            <span class="id">FastAPI · Stockfish · local LLM</span>
+            <span class="id">FastAPI · Stockfish · Ollama</span>
             <h3>An LLM that<br>reads the engine</h3>
             <p>Chess Coach AI pulls your game history, runs every move through Stockfish, finds the
                mistake you keep repeating, and says it in words instead of centipawns.</p>
@@ -97,13 +126,25 @@
           </div>
         </a>
 
-        <a class="sys rig" href="work.html#swarm">
+        <a class="sys rig" href="work-swarm.html">
           <div class="screen"><canvas data-mini="swarm"></canvas></div>
           <div class="sys-meta">
-            <span class="id">Isaac Sim · MAPPO · Verilog</span>
+            <span class="id">Isaac Sim · PyTorch · MAPPO</span>
             <h3>Drone swarm<br>path planning</h3>
-            <p>Multi-agent UAVs negotiating a corridor with A* and reciprocal velocity obstacles —
-               and the collision check pushed onto an FPGA so the speedup is measured, not claimed.</p>
+            <p>Multi-agent UAVs negotiating a corridor with A* and reciprocal velocity obstacles,
+               refereed by a collision checker that audits every frame and never steers.</p>
+            <span class="go">Open case →</span>
+          </div>
+        </a>
+
+        <a class="sys rig" href="work-fpga.html">
+          <div class="screen"><canvas data-mini="stages"></canvas></div>
+          <div class="sys-meta">
+            <span class="id">Verilog · Artix-7 · Vivado</span>
+            <h3>Collision checks<br>in hardware</h3>
+            <p>The part of multi-agent planning that scales worst, moved off the host: a five-stage
+               fixed-point datapath retiring one agent pair per clock, benchmarked against the CPU
+               reference.</p>
             <span class="go">Open case →</span>
           </div>
         </a>

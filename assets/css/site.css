@@ -1017,3 +1017,132 @@ footer.foot {
   max-width: 96ch;
 }
 .caveat .lamp { flex: none; }
+
+/* ============================================================
+   WORK BOARD — the index of projects
+   ============================================================ */
+
+.board-head {
+  padding: clamp(38px, 5vw, 66px) 0 clamp(22px, 3vw, 34px);
+  display: grid;
+  grid-template-columns: 210px minmax(0, 1fr);
+  gap: 6px clamp(14px, 3vw, 40px);
+  align-items: start;
+}
+.board-head h1 {
+  grid-column: 2;
+  font-size: clamp(38px, 6vw, 76px);
+  letter-spacing: -0.02em;
+  margin: 0 0 14px;
+}
+.board-head .plate { grid-row: 1; grid-column: 1; padding-top: 10px; }
+.board-head p { grid-column: 2; margin: 0; max-width: 62ch; color: var(--ink-2); }
+
+.board { display: grid; gap: 10px; padding-bottom: clamp(40px, 5vw, 70px); }
+
+.brow {
+  display: grid;
+  grid-template-columns: 136px minmax(0, 1fr) 210px 78px;
+  gap: clamp(16px, 2.4vw, 34px);
+  align-items: center;
+  padding: 22px 24px;
+  text-decoration: none;
+  transition: transform .18s ease, box-shadow .18s ease, border-color .18s ease;
+}
+.brow:hover {
+  transform: translateY(-2px);
+  border-color: var(--ink);
+  box-shadow: 0 8px 22px rgba(0, 0, 0, .09);
+}
+.brow-status .lamp { font-size: 10px; }
+.brow-main { display: grid; gap: 6px; min-width: 0; }
+.brow-name {
+  font-family: var(--f-display);
+  font-variation-settings: 'wdth' 110, 'wght' 700;
+  text-transform: uppercase;
+  font-size: clamp(17px, 1.7vw, 21px);
+  line-height: 1.06;
+  letter-spacing: -0.005em;
+}
+.brow-blurb { font-size: 14.5px; line-height: 1.5; color: var(--ink-2); max-width: 68ch; }
+.brow-note {
+  font-family: var(--f-mono);
+  font-size: 11px;
+  line-height: 1.5;
+  color: var(--ink-3);
+  padding-left: 11px;
+  border-left: 2px solid var(--hair);
+}
+.brow-stack {
+  font-family: var(--f-mono);
+  font-size: 11px;
+  letter-spacing: 0.06em;
+  line-height: 1.6;
+  color: var(--ink-2);
+}
+.brow-go {
+  font-family: var(--f-mono);
+  font-size: 11px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  text-align: right;
+  color: var(--ink);
+}
+.brow:hover .brow-go { color: var(--hazard); }
+
+@media (max-width: 1020px) {
+  .brow { grid-template-columns: 130px minmax(0, 1fr); gap: 14px 24px; }
+  .brow-stack { grid-column: 2; }
+  .brow-go { grid-column: 2; text-align: left; }
+}
+@media (max-width: 700px) {
+  .board-head { grid-template-columns: minmax(0, 1fr); }
+  .board-head h1, .board-head p, .board-head .plate { grid-column: 1; }
+  .board-head .plate { padding-top: 0; }
+  .brow { grid-template-columns: minmax(0, 1fr); padding: 20px; }
+  .brow-stack, .brow-go { grid-column: 1; }
+}
+
+/* ============================================================
+   MOBILE ONLY — nothing below this point applies above 860px.
+   Someone typing the URL off a paper résumé lands on a phone;
+   the demo should be the thing they see, not a wall of prose.
+   ============================================================ */
+
+@media (max-width: 860px) {
+
+  /* the case head stacks on mobile, which pushed the live demo off
+     the first screen. Reorder so it sits directly under the title. */
+  .case > .wrap { display: flex; flex-direction: column; }
+  .case-head    { order: 1; margin-bottom: 18px; }
+  .case .demo,
+  .case > .wrap > .shots:first-of-type { order: 2; }
+  .case-head p  { order: 3; }
+  .case > .wrap > *:not(.case-head):not(.demo) { order: 4; }
+
+  /* pull the description out of the head so it can sit after the demo */
+  .case-head { display: contents; }
+  .case-head .tags {
+    order: 0;
+    display: flex;
+    margin-bottom: 14px;
+    padding-bottom: 12px;
+    border-bottom: 1px solid var(--hair);
+  }
+  .case-head h2 { order: 1; margin-bottom: 16px; }
+  .case-head p  { order: 3; margin-top: 18px; }
+
+  /* 44px minimum touch height — Apple HIG and Material both */
+  .topbar nav a { padding: 15px 0; }
+  .mark { padding: 10px 11px 8px; }
+  .contact-links a { padding: 12px 0; }
+  .ctl {
+    min-height: 44px;
+    padding: 12px 16px;
+    display: inline-flex;
+    align-items: center;
+  }
+  .btn { min-height: 46px; }
+  .subnav a { padding: 15px 15px; }
+  .movestrip button { min-height: 34px; padding: 6px 10px; }
+}

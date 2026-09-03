@@ -4,7 +4,24 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Work — Miguel Romero</title>
-<meta name="description" content="Work by Miguel Romero: factory automation pipelines, a multi-agent LLM inbox orchestrator, an LLM chess coach built on Stockfish, and multi-agent UAV path planning with an FPGA collision accelerator.">
+<meta name="description" content="Five builds by Miguel Romero: plant-floor automation, a multi-agent LLM inbox orchestrator, an LLM chess coach on Stockfish, multi-agent UAV path planning, and an FPGA collision accelerator.">
+<link rel="canonical" href="https://miguelistem.github.io/miguelistem_portfolio/work.html">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Miguel Romero">
+<meta property="og:url" content="https://miguelistem.github.io/miguelistem_portfolio/work.html">
+<meta property="og:title" content="Work — Miguel Romero">
+<meta property="og:description" content="Five builds by Miguel Romero: plant-floor automation, a multi-agent LLM inbox orchestrator, an LLM chess coach on Stockfish, multi-agent UAV path planning, and an FPGA collision accelerator.">
+<meta property="og:image" content="https://miguelistem.github.io/miguelistem_portfolio/assets/img/og-card.jpg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="Miguel Romero — I build systems that watch state and decide what to do about it.">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Work — Miguel Romero">
+<meta name="twitter:description" content="Five builds by Miguel Romero: plant-floor automation, a multi-agent LLM inbox orchestrator, an LLM chess coach on Stockfish, multi-agent UAV path planning, and an FPGA collision accelerator.">
+<meta name="twitter:image" content="https://miguelistem.github.io/miguelistem_portfolio/assets/img/og-card.jpg">
+<meta name="theme-color" content="#D8D9D4">
+<link rel="icon" type="image/png" sizes="64x64" href="assets/img/favicon-64.png">
+<link rel="apple-touch-icon" href="assets/img/apple-touch-icon.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Archivo:ital,wdth,wght@0,62..125,100..900;1,62..125,100..900&family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:wght@400;500;600&display=swap" rel="stylesheet">
@@ -24,705 +41,73 @@
   </div>
 </header>
 
-<div class="subnav">
-  <div class="subnav-in">
-    <a href="#automation" class="on">Factory automation</a>
-    <a href="#inbox">Inbox orchestration</a>
-    <a href="#coach">LLM in the product</a>
-    <a href="#swarm">Swarm autonomy</a>
-    <a href="#fpga">FPGA accelerator</a>
-    <a href="#contact">Contact</a>
-  </div>
-</div>
-
 <main>
 
-  <section class="wrap intro">
+  <section class="wrap board-head">
     <span class="plate">Selected work</span>
+    <h1 class="display">Five builds</h1>
     <p>
-      Five builds, across plant automation, agent orchestration, applied ML and hardware. The
-      diagrams that move are running live in your browser — the swarm is really planning, the chess
-      position is the one that actually keeps costing games. The screenshots are real captures from
-      the systems themselves, failing nodes and all.
+      Each one gets its own page, because each earns different evidence: some run live in your
+      browser, some are captures of the real thing, and two are honest about what a lapsed licence
+      took away. The status on the left is current.
     </p>
   </section>
 
+  <section class="wrap">
+    <div class="board">
+      <a class="brow rig" href="work-automation.html">
+        <span class="brow-status"><span class="lamp build">In build</span></span>
+        <span class="brow-main">
+          <span class="brow-name">Plant operations, automated</span>
+          <span class="brow-blurb">Four kinds of trigger over one factory database — a shift briefing, a depletion forecast, a calendar reschedule, and an approval chain that waits on people.</span>
+          <span class="brow-note">Power BI layer and the cron briefing are on hold — the licence lapsed with my student account.</span>
+        </span>
+        <span class="brow-stack">n8n · SQLite · PostgreSQL · Power BI</span>
+        <span class="brow-go">Open →</span>
+      </a>
 
-  <!-- ================= 01 · AUTOMATION ================= -->
-  <section class="case" id="automation">
-    <div class="wrap">
+      <a class="brow rig" href="work-inbox.html">
+        <span class="brow-status"><span class="lamp ">Working build</span></span>
+        <span class="brow-main">
+          <span class="brow-name">Three agents, one real inbox</span>
+          <span class="brow-blurb">An orchestrator on a local 7B model classifies every incoming mail and hands it to a specialist agent — one drafting replies behind a Discord approval, one extracting job data into Excel.</span>
+        </span>
+        <span class="brow-stack">n8n · Outlook · LM Studio · Qwen2.5-7B</span>
+        <span class="brow-go">Open →</span>
+      </a>
 
-      <div class="case-head">
-        <div class="tags">
-          <span class="lamp build">In build</span>
-          <span class="plate">n8n · SQLite · Python · Power BI</span>
-        </div>
-        <h2>Plant operations,<br>automated</h2>
-        <p>
-          A 24/7 plastic-film plant runs five lines, four crews on a twelve-hour rotation, and six
-          weeks of stacked orders. The information that keeps it moving lives in people's heads at
-          shift change. This is an automation layer that reads the same database from four different
-          angles — <strong>a scheduled briefing, a threshold forecast, a calendar event, and an
-          approval chain that pauses on humans</strong> — and hands each role the one thing it needs.
-          Pick a trigger and watch the run.
-        </p>
-      </div>
+      <a class="brow rig" href="work-coach.html">
+        <span class="brow-status"><span class="lamp ">Working build</span></span>
+        <span class="brow-main">
+          <span class="brow-name">The engine finds it. The model explains it.</span>
+          <span class="brow-blurb">Stockfish scores every move in a player’s history; a local model turns the pattern into coaching written in chess rather than centipawns.</span>
+        </span>
+        <span class="brow-stack">FastAPI · Stockfish · Ollama · React</span>
+        <span class="brow-go">Open →</span>
+      </a>
 
-      <div class="demo rig">
-        <div class="demo-grid">
-          <div class="screen scrollable"><canvas id="pipe-canvas"></canvas></div>
-          <div class="readout">
-            <div class="grow" style="flex:1;min-height:0">
-              <h4 id="pipe-mode">Run log</h4>
-              <div id="pipe-log" style="margin-top:10px;line-height:1.55;color:#A9B5B0"></div>
-            </div>
-            <div class="gauge">
-              <h4>Dataset</h4>
-              <div class="gauge-line"><span>Tables</span><b>16</b></div>
-              <div class="gauge-line"><span>Orders</span><b>301</b></div>
-              <div class="gauge-line"><span>Rolls logged</span><b>794</b></div>
-              <div class="gauge-line"><span>Ledger rows</span><b>1,785</b></div>
-              <div class="gauge-line"><span>Horizon</span><b>6 wks</b></div>
-            </div>
-          </div>
-        </div>
+      <a class="brow rig" href="work-swarm.html">
+        <span class="brow-status"><span class="lamp build">In build</span></span>
+        <span class="brow-main">
+          <span class="brow-name">Eight drones, one corridor</span>
+          <span class="brow-blurb">Global A* plus sampling-based reciprocal velocity obstacle avoidance, with a collision checker that audits every frame and never steers.</span>
+        </span>
+        <span class="brow-stack">Isaac Sim · PyTorch · MAPPO · NumPy</span>
+        <span class="brow-go">Open →</span>
+      </a>
 
-        <p class="swipe-hint">Swipe the schematic sideways to follow the whole run</p>
-
-        <div class="controls">
-          <span class="ctl-label">Trigger</span>
-          <button class="ctl on" data-mode="scheduled" type="button">Scheduled</button>
-          <button class="ctl" data-mode="threshold" type="button">Threshold</button>
-          <button class="ctl" data-mode="event" type="button">Event</button>
-          <button class="ctl" data-mode="human" type="button">Human gate</button>
-          <span class="ctl-sep"></span>
-          <button class="ctl" id="pipe-replay" type="button">Replay</button>
-        </div>
-      </div>
-
-      <p class="cap-note">
-        <b>Reading the diagram.</b> Orange dots are the payload moving between nodes. A yellow ring
-        means the workflow has parked and is waiting on a person — the approval chain spends most of
-        its life there. Dashed red is the rejection branch: an invalid calendar move bounces back with
-        the reason attached instead of silently corrupting the schedule.
-      </p>
-
-      <div class="shots single">
-        <figure class="shot rig">
-          <a href="assets/img/n8n-calendar-sync.png" target="_blank" rel="noopener">
-            <span class="screen"><img src="assets/img/n8n-calendar-sync.png"
-              alt="n8n workflow: five Outlook line calendars and a SQL pull merged, change detection against the database, a rules switch sending accepted changes to create, update or delete plus a confirmation email, and a reject branch running an AI agent that explains the bounce before deleting the event"
-              loading="lazy" width="2148" height="1080"></span>
-          </a>
-          <figcaption>
-            <span><b>The built workflow.</b> Five line calendars and a SQL pull of the planned
-              schedule are merged, then change detection compares the two and a rules switch splits
-              the result. Accepted changes create, update or delete the event, sync the calendar and
-              mail the manager. Rejected ones go to an AI agent that works out <em>why</em> the
-              change was refused and names the missing or invalid constraint before the event is
-              bounced. The bug note on that branch is mine: the hosted model doesn't get enough
-              context, so it's moving to a local one — the same fix the inbox project already
-              uses.</span>
-            <span class="zoom">Open full size ↗</span>
-          </figcaption>
-        </figure>
-      </div>
-
-      <p class="plate shots-label">Watch it run</p>
-
-      <div class="shots single">
-        <figure class="shot shot--video rig">
-          <div class="screen">
-            <video controls preload="none" playsinline
-                   poster="assets/video/calendar-sync-poster.jpg" width="1440" height="726">
-              <source src="assets/video/calendar-sync.mp4" type="video/mp4">
-              <a href="assets/video/calendar-sync.mp4">Download the clip</a>.
-            </video>
-          </div>
-          <figcaption>
-            <span><b>The accept path · 58 s.</b> The schedule moves in <code>factory.db</code>, the
-              five line calendars are pulled and merged, the affected events are corrected in
-              Outlook, and the manager gets a mail that names every change — action, order, line,
-              why, new start and end — closing with <em>“database is the source of truth; the
-              calendar was corrected to match.”</em> The reject branch was left unlinked for this
-              recording, so this is the accept path end to end.</span>
-            <span class="zoom">1440 × 726 · silent</span>
-          </figcaption>
-        </figure>
-      </div>
-
-      <p class="plate shots-label">The reporting path</p>
-
-      <div class="shots">
-        <figure class="shot rig">
-          <a href="assets/img/n8n-csv-preseed.png" target="_blank" rel="noopener">
-            <span class="screen"><img src="assets/img/n8n-csv-preseed.png"
-              alt="n8n workflow: Outlook trigger, filter for the correct CSV, extract from file, clean the data in JavaScript, insert rows into a Postgres container, then send a confirmation email"
-              loading="lazy" width="1341" height="461"></span>
-          </a>
-          <figcaption>
-            <span><b>Preseeding the warehouse.</b> An emailed CSV arrives, the filter keeps the one
-              that matters, the rows are extracted and cleaned in JavaScript, inserted into a
-              Postgres container behind pgweb, and a confirmation goes back to the sender only after
-              the load succeeds. This is the path that puts factory data somewhere a BI tool can
-              read it. The two nodes flagged in red are the ones that hold credentials.</span>
-            <span class="zoom">Open full size ↗</span>
-          </figcaption>
-        </figure>
-
-        <figure class="shot rig">
-          <a href="assets/img/powerbi-material-shortage.png" target="_blank" rel="noopener">
-            <span class="screen"><img src="assets/img/powerbi-material-shortage.png"
-              alt="Power BI report titled Material Shortage Command Center with four KPI tiles all reading Blank and two visuals showing a capacity or licence error"
-              loading="lazy" width="2046" height="1170"></span>
-          </a>
-          <figcaption>
-            <span><b>The dashboard, as a shell.</b> <em>Material Shortage Command Center</em> — every
-              material the open schedule touches, ranked by how soon it runs out. Four tiles
-              (materials critical, total shortfall in pounds, days to first depletion, orders overdue
-              or due now), days of cover ordered lowest-first, shortfall by material against the
-              scheduled run. Every figure reads <b>(Blank)</b> and two visuals return a capacity or
-              licence error: <b>the enterprise licence went with the school account at
-              graduation.</b> What is left is the design — the measures, the ranking, the layout —
-              not a live report.</span>
-            <span class="zoom">Open full size ↗</span>
-          </figcaption>
-        </figure>
-      </div>
-
-      <div class="notes">
-        <div class="note">
-          <span class="k">Principle</span>
-          <h4>Rules reason,<br>the model explains</h4>
-          <p>Every decision is deterministic and constraint-checked, because it has to be auditable.
-             The LLM only turns the finished decision into a sentence a manager can read at 6am. It
-             never writes to the schedule.</p>
-        </div>
-        <div class="note">
-          <span class="k">Design</span>
-          <h4>Four triggers,<br>one schema</h4>
-          <p>Cron, threshold, webhook, and human gate all sit on the same sixteen-table SQLite
-             database. Separate pipelines, shared data model — they meet at one seam, where an
-             approved order enters the production queue.</p>
-        </div>
-        <div class="note">
-          <span class="k">Scope</span>
-          <h4>Not an optimizer,<br>on purpose</h4>
-          <p>Job-shop scheduling is NP-hard, so rescheduling is a transparent greedy heuristic with a
-             human approval gate rather than a black box. A manager can read why an order moved and
-             say no.</p>
-        </div>
-        <div class="note">
-          <span class="k">Data</span>
-          <h4>Edge cases,<br>baked in</h4>
-          <p>The dataset ships with the failures on purpose: a line running behind its own clock, a
-             PET shortfall against a 14-day lead time, an order stuck at chemical, and a cancellation
-             that leaves a reclaimable gap.</p>
-        </div>
-      </div>
-
-      <div class="stackline">
-        <span class="plate">Stack</span>
-        <span class="chip">n8n</span><span class="chip">SQLite</span><span class="chip">Python</span>
-        <span class="chip">SQL</span><span class="chip">PostgreSQL</span><span class="chip">Docker</span>
-        <span class="chip">Outlook Calendar</span><span class="chip off">Power BI †</span>
-        <span class="chip">Webhooks</span><span class="chip">LLM narration</span>
-      </div>
-
-      <p class="caveat">
-        <span class="lamp idle">† Power BI · offline</span>
-        The report above is the real thing, unlicensed. It ran on an enterprise licence tied to my
-        student account, which lapsed at graduation, so the visuals return a capacity error and every
-        measure resolves to blank. The workflows, the Postgres load and the database are unaffected —
-        the reporting layer is a shell until I'm on a licence again, at which point it repopulates
-        without being rebuilt.
-      </p>
-
-      <p class="caveat">
-        <span class="lamp idle">‡ Shift briefing · on hold</span>
-        The scheduled handoff summary is blocked upstream of itself: reading Power BI needs an Azure
-        app registration, and that needs the Pro or Premium licence that lapsed with the same
-        account. The shape is settled — it mirrors the LLM branch of the calendar sync above, but
-        takes its inputs from a Power BI GET, hands the agent a Power BI tool and a calculator, and
-        ends by composing the briefing and mailing it to Outlook. The animation at the top of this
-        case is that design, not a job currently on a timer.
-      </p>
+      <a class="brow rig" href="work-fpga.html">
+        <span class="brow-status"><span class="lamp build">In build</span></span>
+        <span class="brow-main">
+          <span class="brow-name">Collision checking, pushed to hardware</span>
+          <span class="brow-blurb">A five-stage Q16.16 fixed-point datapath retiring one agent pair per clock, fed over UART, returning a collision bitmap to the planner.</span>
+        </span>
+        <span class="brow-stack">Verilog · Artix-7 · Vivado · UART</span>
+        <span class="brow-go">Open →</span>
+      </a>
     </div>
   </section>
 
-  <!-- ================= EMAIL ORCHESTRATION ================= -->
-  <section class="case" id="inbox">
-    <div class="wrap">
-
-      <div class="case-head">
-        <div class="tags">
-          <span class="lamp">Working build</span>
-          <span class="plate">n8n · Outlook · LM Studio · Qwen2.5-7B · Excel</span>
-        </div>
-        <h2>Three agents,<br>one real inbox</h2>
-        <p>
-          Every message that lands in my Outlook goes to an orchestrator running on a 7B model on my
-          own machine. It classifies first and acts second: marketing and noise are dropped, and what
-          survives is handed to a specialist. One drafts a reply and parks it in Discord until I
-          approve it. The other pulls company, role, status and date out of job mail and appends a row
-          to a tracking sheet. <strong>Nothing sends and nothing is written without passing a
-          gate.</strong> This one runs against my actual job search.
-        </p>
-      </div>
-
-      <div class="shots single">
-        <figure class="shot rig">
-          <a href="assets/img/n8n-email-architecture.png" target="_blank" rel="noopener">
-            <span class="screen"><img src="assets/img/n8n-email-architecture.png"
-              alt="n8n workflow: an Outlook trigger feeding an AI Orchestrator backed by a local model and simple memory, which routes to an Email-Response Agent with a Discord approval tool and a Job Application Tracker agent that appends to Excel"
-              loading="lazy" width="1667" height="986"></span>
-          </a>
-          <figcaption>
-            <span><b>The routing layer.</b> Outlook trigger → orchestrator → two specialist agents,
-              each with its own chat model and tools. The Email-Response Agent's only output path
-              runs through Discord, so a draft cannot reach a recipient until I press approve.</span>
-            <span class="zoom">Open full size ↗</span>
-          </figcaption>
-        </figure>
-      </div>
-
-      <p class="plate shots-label">Watch it run</p>
-
-      <div class="shots">
-        <figure class="shot shot--video rig">
-          <div class="screen">
-            <video controls preload="none" playsinline
-                   poster="assets/video/inbox-run-poster.jpg" width="1440" height="890">
-              <source src="assets/video/inbox-run.mp4" type="video/mp4">
-              <a href="assets/video/inbox-run.mp4">Download the clip</a>.
-            </video>
-          </div>
-          <figcaption>
-            <span><b>The full pass · 1 m 45 s.</b> The orchestrator working down the inbox — the
-              classification prompt, messages being skipped as "not a job email", Qwen2.5-7B serving
-              locally out of LM Studio, and the tracking sheet filling in behind it.</span>
-            <span class="zoom">1440 × 890 · silent</span>
-          </figcaption>
-        </figure>
-
-        <figure class="shot shot--video rig">
-          <div class="screen">
-            <video controls preload="none" playsinline
-                   poster="assets/video/inbox-trace-poster.jpg" width="1440" height="878">
-              <source src="assets/video/inbox-trace.mp4" type="video/mp4">
-              <a href="assets/video/inbox-trace.mp4">Download the clip</a>.
-            </video>
-          </div>
-          <figcaption>
-            <span><b>One email, end to end · 47 s.</b> A single application confirmation goes in;
-              company, role, status and date come out as structured fields, the Excel tool is called
-              with them, and the row lands in the sheet.</span>
-            <span class="zoom">1440 × 878 · silent</span>
-          </figcaption>
-        </figure>
-      </div>
-
-      <p class="plate shots-label">Evidence from the runs</p>
-
-      <div class="shots">
-        <figure class="shot shot--tall rig">
-          <a href="assets/img/n8n-email-execution.png" target="_blank" rel="noopener">
-            <span class="screen"><img src="assets/img/n8n-email-execution.png"
-              alt="n8n execution view showing 1000 messages processed over 1 hour 40 minutes, 851 Excel appends, and a Discord node in an error state"
-              loading="lazy" width="1592" height="1303"></span>
-          </a>
-          <figcaption>
-            <span><b>A real run, including the part that broke.</b> 1,000 messages, 1 h 40 m,
-              2.83 M tokens, 851 rows appended — and the Discord node failing at 15.6 s on a
-              message the orchestrator had already correctly skipped.</span>
-            <span class="zoom">Open full size ↗</span>
-          </figcaption>
-        </figure>
-
-        <figure class="shot rig">
-          <a href="assets/img/n8n-email-bugs.png" target="_blank" rel="noopener">
-            <span class="screen"><img src="assets/img/n8n-email-bugs.png"
-              alt="n8n workflow with a red sticky note listing three known bugs: repeated rows in Excel, hallucination when information is missing, and unnecessary Excel tool calls"
-              loading="lazy" width="1590" height="782"></span>
-          </a>
-          <figcaption>
-            <span><b>The defect list, kept in the canvas.</b> Duplicate rows, hallucinated fields
-              when the source email is missing them, and the agent reaching for the Excel tool when
-              it has nothing to write. Named, so they can be fixed.</span>
-            <span class="zoom">Open full size ↗</span>
-          </figcaption>
-        </figure>
-      </div>
-
-      <p class="cap-note">
-        <b>Why the failure list is on the page.</b> A screenshot of a workflow that works proves very
-        little. The interesting artefacts are the thousand-item execution and the three failure modes
-        written next to it — a 7B model asked to extract structured fields will invent them when the
-        source is silent, and the fix is tighter schema constraints and a null path, not a better
-        prompt.
-      </p>
-
-      <div class="notes">
-        <div class="note">
-          <span class="k">Routing</span>
-          <h4>Classify first,<br>act second</h4>
-          <p>The orchestrator's only job is deciding what a message is. Spam, marketing and anything
-             unrelated get dropped before a specialist agent is ever invoked, which keeps tool calls
-             and tokens off the majority of the inbox.</p>
-        </div>
-        <div class="note">
-          <span class="k">Control</span>
-          <h4>Nothing sends<br>itself</h4>
-          <p>The reply agent drafts, then stops. The draft goes to Discord and waits for a human
-             approve before it reaches anyone. Same principle as the plant-floor approval chain: the
-             model proposes, a person commits.</p>
-        </div>
-        <div class="note">
-          <span class="k">Local</span>
-          <h4>Runs on my<br>own hardware</h4>
-          <p>Qwen2.5-7B served by LM Studio on an OpenAI-compatible endpoint at localhost. No
-             per-token bill on a thousand-message run, and a personal inbox never leaves the
-             machine.</p>
-        </div>
-        <div class="note">
-          <span class="k">Extraction</span>
-          <h4>Free text into<br>a schema</h4>
-          <p>Company, role, status, date applied, recruiter, next steps, requisition number — pulled
-             from prose written by a hundred different sender templates, normalised against a fixed
-             status lifecycle, and appended as a row.</p>
-        </div>
-      </div>
-
-      <div class="stackline">
-        <span class="plate">Stack</span>
-        <span class="chip">n8n</span><span class="chip">Microsoft Outlook</span>
-        <span class="chip">LM Studio</span><span class="chip">Qwen2.5-7B</span>
-        <span class="chip">Groq</span><span class="chip">Excel / OneDrive</span>
-        <span class="chip">Discord</span><span class="chip">Agent tool calling</span>
-      </div>
-    </div>
-  </section>
-
-  <!-- ================= 02 · CHESS COACH ================= -->
-  <section class="case" id="coach">
-    <div class="wrap">
-
-      <div class="case-head">
-        <div class="tags">
-          <span class="lamp">Working build</span>
-          <span class="plate">FastAPI · Stockfish · Ollama · React</span>
-        </div>
-        <h2>The engine finds it.<br>The model explains it.</h2>
-        <p>
-          Stockfish will tell you a move cost you 1.7 pawns. That is useless if you don't know why.
-          Chess Coach AI imports a player's history from chess.com, runs every move through the
-          engine, aggregates the losses into patterns, and then hands the <strong>structured</strong>
-          result to a local model with one instruction: explain this in chess, not in centipawns, and
-          invent nothing. Step through a real loss below.
-        </p>
-      </div>
-
-      <div class="demo rig">
-        <div class="chess-wrap">
-          <div class="board-stage" style="background:#0C0E0D;border:1px solid #050706">
-            <div class="evalbar"><div class="white" id="eval-white"></div></div>
-            <canvas id="board"></canvas>
-          </div>
-
-          <div class="coach">
-            <div class="coach-head">
-              <span class="who">Coach · grounded in engine output</span>
-              <span class="mv"><span id="move-label">START</span> <span id="move-tag" style="font-size:10px;letter-spacing:.14em"></span></span>
-            </div>
-            <div class="coach-body" id="coach-text"></div>
-            <div>
-              <div class="gauge-line" style="margin-bottom:9px">
-                <span>Engine evaluation</span><b id="eval-score">+0.20</b>
-              </div>
-              <div class="toolchips" id="tool-chips">
-                <span class="toolchip" data-tool="show_position">show_position</span>
-                <span class="toolchip" data-tool="worst_mistakes">worst_mistakes</span>
-                <span class="toolchip" data-tool="top_engine_moves">top_engine_moves</span>
-                <span class="toolchip" data-tool="try_move">try_move</span>
-                <span class="toolchip" data-tool="try_line">try_line</span>
-              </div>
-            </div>
-            <div class="movestrip" id="move-strip"></div>
-          </div>
-        </div>
-
-        <div class="controls">
-          <button class="ctl" id="c-prev" type="button">← Back</button>
-          <button class="ctl" id="c-next" type="button">Forward →</button>
-          <button class="ctl" id="c-play" type="button">Play through</button>
-          <span class="ctl-sep"></span>
-          <button class="ctl" id="c-blunder" type="button">Jump to the mistake</button>
-          <button class="ctl" id="c-reset" type="button">Reset</button>
-        </div>
-      </div>
-
-      <p class="cap-note">
-        <b>What you are looking at.</b> The board is shown from Black's side, because Black is the
-        student. The bar on the left is the engine's evaluation — Black's share shrinks as the
-        position collapses. The chips underneath light up when the coach calls that tool: the model
-        can replay a line in a sandbox before it commits to an explanation, so it isn't guessing at
-        what a move does.
-      </p>
-
-      <div class="notes">
-        <div class="note">
-          <span class="k">Pipeline</span>
-          <h4>Ingest ·<br>analyze · aggregate</h4>
-          <p>Games come in from the chess.com API, get parsed from PGN, and every ply is scored by
-             Stockfish. Centipawn loss is classified by phase, and the per-game noise rolls up into
-             the openings and mistake patterns that repeat.</p>
-        </div>
-        <div class="note">
-          <span class="k">Grounding</span>
-          <h4>Schema-forced<br>output</h4>
-          <p>The report is a Pydantic model the LLM has to fill: headline, strengths, weaknesses,
-             opening insights, recurring patterns, focus areas. Constraining the shape is what keeps
-             the advice tied to the data instead of drifting into generic chess wisdom.</p>
-        </div>
-        <div class="note">
-          <span class="k">Tooling</span>
-          <h4>A sandbox<br>it can poke</h4>
-          <p>The chat runs against a live board sandbox: show a position, list the worst mistakes,
-             ask the engine for its top moves, try a candidate move, walk a whole line. The model
-             checks before it explains.</p>
-        </div>
-        <div class="note">
-          <span class="k">Deployment</span>
-          <h4>Runs on<br>your machine</h4>
-          <p>Local model through Ollama and a bundled Stockfish binary, so a full review costs
-             nothing per game and no game history leaves the box. FastAPI serves it; a React front end
-             does the board review.</p>
-        </div>
-      </div>
-
-      <div class="stackline">
-        <span class="plate">Stack</span>
-        <span class="chip">Python</span><span class="chip">FastAPI</span><span class="chip">SQLAlchemy</span>
-        <span class="chip">Stockfish</span><span class="chip">python-chess</span><span class="chip">Ollama</span>
-        <span class="chip">Pydantic</span><span class="chip">React</span><span class="chip">Vite</span>
-      </div>
-    </div>
-  </section>
-
-  <!-- ================= 03 · SWARM ================= -->
-  <section class="case" id="swarm">
-    <div class="wrap">
-
-      <div class="case-head">
-        <div class="tags">
-          <span class="lamp build">In build</span>
-          <span class="plate">Isaac Sim · PyTorch · MAPPO · NumPy</span>
-        </div>
-        <h2>Eight drones,<br>one corridor</h2>
-        <p>
-          Put two groups of UAVs on opposite sides of a wall with three gaps and tell them to swap.
-          Global A* gets each one a route; local reciprocal velocity obstacle avoidance keeps them
-          from meeting in the doorway. A separate collision checker audits every frame and never
-          steers — <strong>it is the referee, not the controller</strong>, so a violation is a real
-          failure rather than something the planner can paper over. This is the planning stack from
-          the Isaac Sim project, running here in 2D.
-        </p>
-      </div>
-
-      <div class="demo rig">
-        <div class="demo-grid">
-          <div class="screen"><canvas id="swarm-canvas"></canvas></div>
-          <div class="readout">
-            <div class="gauge">
-              <h4>Telemetry</h4>
-              <div class="gauge-line"><span>Agents</span><b id="s-agents">8</b></div>
-              <div class="gauge-line"><span>At goal</span><b id="s-settled" class="ok">0</b></div>
-              <div class="gauge-line"><span>Collisions</span><b id="s-coll" class="ok">0</b></div>
-              <div class="gauge-line"><span>Min separation</span><b id="s-sep">—</b></div>
-              <div class="gauge-line"><span>Checks / sec</span><b id="s-rate">—</b></div>
-            </div>
-            <div class="gauge">
-              <h4>Goals reached</h4>
-              <div class="bar-track"><div class="bar-fill" id="s-bar"></div></div>
-            </div>
-            <div>
-              <h4 style="margin-bottom:9px">Legend</h4>
-              <div class="legend">
-                <div><i style="background:#74C9EE;border-radius:50%"></i>Eastbound group</div>
-                <div><i style="background:#EF5A16;border-radius:50%"></i>Westbound group</div>
-                <div><i style="background:#3FCB92;border-radius:50%"></i>Arrived at goal</div>
-                <div><i style="border-top:1px dashed #EF5A16;height:1px"></i>Checker: near miss</div>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <div class="controls">
-          <span class="ctl-label">Scenario</span>
-          <button class="ctl on" data-scen="corridor" type="button">Corridor swap</button>
-          <button class="ctl" data-scen="antipodal" type="button">Antipodal circle</button>
-          <button class="ctl" data-scen="warehouse" type="button">Warehouse</button>
-          <span class="ctl-sep"></span>
-          <span class="ctl-label">Agents</span>
-          <button class="ctl" data-n="6" type="button">6</button>
-          <button class="ctl on" data-n="8" type="button">8</button>
-          <button class="ctl" data-n="12" type="button">12</button>
-          <span class="ctl-sep"></span>
-          <button class="ctl" id="s-pause" type="button">Pause</button>
-        </div>
-      </div>
-
-      <p class="cap-note">
-        <b>Try the antipodal circle.</b> Every agent's straight-line path runs through the same point
-        at the centre. Without reciprocal avoidance the whole group piles up at the origin; with it,
-        they rotate around each other and clear. That failure mode is exactly why the local planner
-        exists, and it is the reason a global planner alone is not enough.
-      </p>
-
-      <div class="notes">
-        <div class="note">
-          <span class="k">Learning</span>
-          <h4>MAPPO with a<br>central critic</h4>
-          <p>The learned policy is a parameter-shared Gaussian actor over local observations, trained
-             against a critic that sees every agent. Centralized training, decentralized execution —
-             the critic is thrown away at deployment, so each drone flies on its own view with no
-             comms.</p>
-        </div>
-        <div class="note">
-          <span class="k">Architecture</span>
-          <h4>Backends<br>swap cleanly</h4>
-          <p>The planner is pure NumPy and knows nothing about its host. Isaac Sim and a headless
-             runner sit behind one bridge; the CPU checker and the FPGA client sit behind another.
-             Same sim, different backend, comparable numbers.</p>
-        </div>
-        <div class="note">
-          <span class="k">Scenarios</span>
-          <h4>Built to<br>force conflict</h4>
-          <p>Corridor swap creates guaranteed contention at three choke points. Antipodal circle is
-             the classic RVO stress test. Warehouse is randomised shelving. Each one breaks a
-             different assumption.</p>
-        </div>
-        <div class="note">
-          <span class="k">Metrics</span>
-          <h4>Zero is the<br>only passing score</h4>
-          <p>Every run logs collisions, minimum pairwise separation, makespan, and check throughput.
-             A demo-quality run has zero collisions; anything else is a bug, not a tuning problem.</p>
-        </div>
-      </div>
-
-      <div class="stackline">
-        <span class="plate">Stack</span>
-        <span class="chip">NVIDIA Isaac Sim</span><span class="chip">PhysX</span><span class="chip">Python</span>
-        <span class="chip">NumPy</span><span class="chip">PyTorch</span><span class="chip">MAPPO</span>
-        <span class="chip">Grid A*</span><span class="chip">RVO</span>
-      </div>
-    </div>
-  </section>
-
-  <!-- ================= 04 · FPGA ================= -->
-  <section class="case" id="fpga">
-    <div class="wrap">
-
-      <div class="case-head">
-        <div class="tags">
-          <span class="lamp build">In build</span>
-          <span class="plate">Verilog · Artix-7 · Vivado · UART</span>
-        </div>
-        <h2>Collision checking,<br>pushed to hardware</h2>
-        <p>
-          Collision checking is the part of multi-agent planning that grows fastest: pairwise tests
-          scale with the square of the fleet. So it comes off the host. Agent states stream to an
-          FPGA over UART, a five-stage fixed-point datapath retires <strong>one pair per clock</strong>,
-          and a collision bitmap comes back for the planner to gate its trajectory candidates against.
-        </p>
-      </div>
-
-      <div class="fpga rig" style="padding:0">
-        <div>
-          <span class="plate">Datapath</span>
-          <h4>Five stages, Q16.16, no square roots</h4>
-          <p>Coordinates are signed 32-bit fixed point — ±32,768 m at ~15 µm resolution, far more than
-             a warehouse or a canyon needs. The sphere test never takes a root: it compares
-             dx² + dy² + dz² against (rᵢ + rⱼ)², which keeps the whole thing to adds and multiplies
-             and lets the pipeline stay full.</p>
-
-          <div class="stages" id="fpga-stages">
-            <div class="stage">Fetch pair</div>
-            <div class="stage">Δ subtract</div>
-            <div class="stage">Square</div>
-            <div class="stage">Sum 66-bit</div>
-            <div class="stage">Compare</div>
-          </div>
-          <p class="foot-line" style="margin:0;font-family:var(--f-mono);font-size:11px;color:var(--ink-3);letter-spacing:.06em">
-            5 PAIRS IN FLIGHT · 1 RESULT PER CYCLE · UART 921600 8N1
-          </p>
-        </div>
-
-        <div>
-          <span class="plate">Why offload</span>
-          <h4 style="margin-bottom:16px">Checks per frame</h4>
-          <div class="throughput" id="fpga-load">
-            <div class="tp-row">
-              <div class="lbl"><span>8 agents</span><b>156</b></div>
-              <div class="tp-track"><div class="tp-fill" data-w="16"></div></div>
-            </div>
-            <div class="tp-row">
-              <div class="lbl"><span>16 agents</span><b>376</b></div>
-              <div class="tp-track"><div class="tp-fill" data-w="37"></div></div>
-            </div>
-            <div class="tp-row accel">
-              <div class="lbl"><span>32 agents</span><b>1,008</b></div>
-              <div class="tp-track"><div class="tp-fill" data-w="100"></div></div>
-            </div>
-          </div>
-          <p class="foot-line" style="margin:0;font-size:13.5px;color:var(--ink-2)">
-            Pairwise plus obstacle tests, at 60 Hz. The host benchmark runs the identical simulation
-            against both backends and reports checks per second for each, so the comparison is real
-            rather than asserted.
-          </p>
-        </div>
-      </div>
-
-      <div class="notes">
-        <div class="note">
-          <span class="k">Protocol</span>
-          <h4>A parser<br>on the wire</h4>
-          <p>A command FSM behind the UART receiver decodes agent-state and obstacle writes into a
-             16-entry register file and an AABB memory, then kicks the pair scheduler. Framing and
-             back-pressure are part of the design, not an afterthought.</p>
-        </div>
-        <div class="note">
-          <span class="k">Co-design</span>
-          <h4>One interface,<br>two implementations</h4>
-          <p>The FPGA client and the NumPy checker expose the same function to the planner. That is
-             the whole reason the benchmark means anything — the simulation cannot tell which one it
-             is talking to.</p>
-        </div>
-        <div class="note">
-          <span class="k">Verification</span>
-          <h4>Testbenches<br>before boards</h4>
-          <p>RTL modules are exercised in simulation against the NumPy reference before anything is
-             synthesised, so a mismatch shows up as a failing vector rather than a drone flying
-             through a shelf.</p>
-        </div>
-        <div class="note">
-          <span class="k">Boundary</span>
-          <h4>Fixed point is<br>a design decision</h4>
-          <p>Floating point would cost area and add latency for range nobody needs. Choosing Q16.16
-             and proving the 66-bit intermediate width is the interesting part of the problem.</p>
-        </div>
-      </div>
-
-      <div class="stackline">
-        <span class="plate">Stack</span>
-        <span class="chip">Verilog</span><span class="chip">Vivado</span><span class="chip">Artix-7</span>
-        <span class="chip">UART</span><span class="chip">Fixed-point arithmetic</span>
-        <span class="chip">Testbench verification</span>
-      </div>
-    </div>
-  </section>
-
-  <!-- ================= CONTACT ================= -->
   <section class="case" id="contact" style="border-top:1px solid var(--hair)">
     <div class="wrap contact-in">
       <div>
@@ -747,10 +132,6 @@
   </div>
 </footer>
 
-<script src="assets/js/swarm.js"></script>
-<script src="assets/js/pipeline.js"></script>
-<script src="assets/js/coach.js"></script>
-<script src="assets/js/work.js"></script>
 <script src="assets/js/site.js"></script>
 </body>
 </html>
