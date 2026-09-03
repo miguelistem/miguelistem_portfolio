@@ -116,18 +116,19 @@
         <figure class="shot rig">
           <a href="assets/img/n8n-calendar-sync.webp" target="_blank" rel="noopener">
             <span class="screen"><img src="assets/img/n8n-calendar-sync.webp"
-              alt="n8n workflow: five Outlook line calendars and a SQL pull merged, change detection against the database, a rules switch sending accepted changes to create, update or delete plus a confirmation email, and a reject branch running an AI agent that explains the bounce before deleting the event"
-              loading="lazy" width="2148" height="1080"></span>
+              alt="n8n workflow: five Outlook line calendars and a SQL pull merged, change detection against the database, a wait-for-approval email to the manager, then a rules switch sending approved changes to create, update or delete plus a confirmation email, and a reject branch running an AI agent that explains the bounce before deleting the event"
+              loading="lazy" width="2426" height="1154"></span>
           </a>
           <figcaption>
             <span><b>The built workflow.</b> Five line calendars and a SQL pull of the planned
               schedule are merged, then change detection compares the two and a rules switch splits
-              the result. Accepted changes create, update or delete the event, sync the calendar and
-              mail the manager. Rejected ones go to an AI agent that works out <em>why</em> the
-              change was refused and names the missing or invalid constraint before the event is
-              bounced. The bug note on that branch is mine: the hosted model doesn't get enough
-              context, so it's moving to a local one — the same fix the inbox project already
-              uses.</span>
+              the result. <b>A valid change still doesn't apply itself</b> — it goes out as a
+              wait-for-approval mail, and only once the manager approves does the event get created,
+              updated or deleted, the calendar synced and the confirmation sent. Deny it and the run
+              ends with the issue handed back. Rejected changes take the other branch, where an AI
+              agent works out <em>why</em> it was refused and names the missing or invalid
+              constraint. The bug note there is mine: the hosted model doesn't get enough context,
+              so it's moving to a local one — the same fix the inbox project already uses.</span>
             <span class="zoom">Open full size ↗</span>
           </figcaption>
         </figure>
