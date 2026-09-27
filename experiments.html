@@ -1,0 +1,568 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Experiments &amp; Lab Bench — Miguel Romero</title>
+<meta name="description" content="Physical robotics simulations, Fanuc M-710iC/70 joint kinematics in Isaac Sim, Isaac Lab RL cube pick experiments and failure autopsies, and pipeline stress tests.">
+<link rel="canonical" href="https://miguelistem.github.io/miguelistem_portfolio/experiments.html">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Miguel Romero">
+<meta property="og:url" content="https://miguelistem.github.io/miguelistem_portfolio/experiments.html">
+<meta property="og:title" content="Experiments &amp; Lab Bench — Miguel Romero">
+<meta property="og:description" content="Physical simulation probes in Isaac Sim, Fanuc M-710iC/70 joint kinematics, Isaac Lab RL cube pick attempt, and pipeline stress tests.">
+<meta property="og:image" content="https://miguelistem.github.io/miguelistem_portfolio/assets/img/og-card.jpg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="Miguel Romero — Lab Bench & Experiments">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Experiments &amp; Lab Bench — Miguel Romero">
+<meta name="twitter:description" content="Physical simulation probes in Isaac Sim, Fanuc M-710iC/70 joint kinematics, Isaac Lab RL cube pick attempt, and pipeline stress tests.">
+<meta name="twitter:image" content="https://miguelistem.github.io/miguelistem_portfolio/assets/img/og-card.jpg">
+<meta name="theme-color" content="#D8D9D4">
+<link rel="icon" type="image/png" sizes="64x64" href="assets/img/favicon-64.png">
+<link rel="apple-touch-icon" href="assets/img/apple-touch-icon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:ital,wdth,wght@0,62..125,100..900;1,62..125,100..900&family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/css/site.css">
+<link rel="stylesheet" href="assets/css/experiments.css">
+</head>
+<body>
+
+<header class="topbar">
+  <div class="topbar-in">
+    <a class="mark" href="index.html">MR</a>
+    <nav>
+      <a href="projects.html">Projects</a>
+      <a href="experiments.html" aria-current="page">Experiments</a>
+      <a href="index.html#capabilities">Capabilities</a>
+      <a href="index.html#record">Record</a>
+      <a href="MiguelRomero_Resume_AutomationManufacturing.pdf" target="_blank" rel="noopener">Résumé ↗</a>
+    </nav>
+  </div>
+</header>
+
+<main>
+
+  <!-- ============ HERO & LAB BANNER ============ -->
+  <section class="wrap exp-hero">
+    <div class="page-tabs-wrap">
+      <nav class="page-tabs" aria-label="Work navigation">
+        <a href="projects.html" class="page-tab">
+          Core Projects <span class="tab-badge neutral">5</span>
+        </a>
+        <a href="experiments.html" class="page-tab on" aria-current="page">
+          Lab &amp; Experiments <span class="tab-badge">Active</span>
+        </a>
+      </nav>
+    </div>
+
+    <div class="exp-hero-head">
+      <span class="plate">R&amp;D Bench · Sim &amp; Probes</span>
+      <h1 class="display exp-hero-title">Lab Bench &amp;<br><span>Experiments</span></h1>
+      <p class="exp-hero-lede">
+        Before a system is reliable enough to run on factory shifts or live inboxes, it starts as an experiment.
+        This bench logs physical robotics simulations in <strong>NVIDIA Isaac Sim</strong>, exploratory reinforcement
+        learning in <strong>Isaac Lab</strong>, adversarial pipeline stress-tests, and honest post-mortems of what
+        worked, what drifted, and what failed completely.
+      </p>
+
+      <div class="exp-status-bar">
+        <div class="exp-status-item">
+          <span>Active Probes:</span>
+          <b>05 Logged</b>
+        </div>
+        <div class="exp-status-item">
+          <span>Robotics Core:</span>
+          <b>Fanuc M-710iC/70</b>
+        </div>
+        <div class="exp-status-item">
+          <span>AI Architecture:</span>
+          <b>LiteLLM Gateway &amp; Governance</b>
+        </div>
+        <div class="exp-status-item">
+          <span>Negative Results:</span>
+          <b style="color:var(--hazard)">01 Autopsy Included</b>
+        </div>
+      </div>
+    </div>
+
+    <!-- Category filter buttons -->
+    <div class="exp-filters" role="tablist" aria-label="Filter experiments by category">
+      <button class="exp-filter-btn on" data-filter="all" type="button">
+        All Experiments <span class="count">(5)</span>
+      </button>
+      <button class="exp-filter-btn" data-filter="robotics" type="button">
+        Robotics &amp; Sim (Fanuc) <span class="count">(2)</span>
+      </button>
+      <button class="exp-filter-btn" data-filter="ai" type="button">
+        Enterprise AI (LiteLLM) <span class="count">(1)</span>
+      </button>
+      <button class="exp-filter-btn" data-filter="automation" type="button">
+        Automation &amp; Data <span class="count">(2)</span>
+      </button>
+    </div>
+  </section>
+
+  <!-- ============ EXPERIMENTS LIST ============ -->
+  <section class="wrap">
+    <div class="exp-list">
+
+      <!-- EXP-01: Fanuc Kinematics -->
+      <article class="exp-rig rig rise" data-category="robotics" id="exp-fanuc-kinematics">
+        <div class="exp-rig-head">
+          <div class="exp-rig-id-group">
+            <span class="exp-id">EXP-01</span>
+            <span class="exp-category-tag">Robotics // Physics Simulation</span>
+            <span class="lamp">Valid in Sim</span>
+          </div>
+          <div class="chips">
+            <span class="chip hot">Fanuc M-710iC/70</span>
+            <span class="chip hot">NVIDIA Isaac Sim</span>
+            <span class="chip">PhysX 5</span>
+            <span class="chip">USD Articulation</span>
+          </div>
+        </div>
+
+        <h2 class="exp-rig-title">Fanuc M-710iC/70: Joint Articulation &amp; Kinematics</h2>
+        <p class="exp-rig-desc">
+          Exploring joint degrees of freedom, limits, and multi-axis articulation on an industrial Fanuc M-710iC/70
+          manipulator inside NVIDIA Isaac Sim. Verifying drive damping, velocity limits, and reachable workspace geometry
+          before wiring high-level planners or training policies.
+        </p>
+
+        <div class="exp-stage-grid">
+          <div class="screen exp-video-wrap">
+            <span class="exp-media-badge signal">Isaac Sim // 60 FPS Viewport</span>
+            <video controls playsinline preload="metadata" poster="assets/video/fanuc-kinematics-poster.jpg" width="1267" height="673">
+              <source src="assets/video/fanuc-kinematics.mp4" type="video/mp4">
+              Your browser does not support the video tag.
+            </video>
+          </div>
+
+          <div class="exp-telemetry">
+            <h4>Actuation Telemetry</h4>
+            <div class="exp-data-row"><span>Target Manipulator</span><b>Fanuc M-710iC/70</b></div>
+            <div class="exp-data-row"><span>Payload Class</span><b>70 kg</b></div>
+            <div class="exp-data-row"><span>Max Reach</span><b>2,050 mm</b></div>
+            <div class="exp-data-row"><span>Degrees of Freedom</span><b>6 Revolute Joints (J1–J6)</b></div>
+            <div class="exp-data-row"><span>Physics Engine</span><b>PhysX 5 (GPU Articulation)</b></div>
+            <div class="exp-data-row"><span>Drive Mode</span><b>Position &amp; Velocity Control</b></div>
+            <div class="exp-data-row"><span>Self-Collision Mesh</span><b class="ok">Audited / Clear</b></div>
+            <div class="exp-data-row"><span>Singularity Drift</span><b class="ok">Stable</b></div>
+          </div>
+        </div>
+
+        <div class="exp-notes-grid">
+          <div class="exp-note-cell">
+            <span class="exp-note-label">Hypothesis &amp; Goal</span>
+            <h5>Establish Ground Truth Physics</h5>
+            <p>
+              Industrial robotic arms have massive inertia and strict joint torque envelopes. Before testing any automated
+              trajectory or reinforcement learning policy, the robot's URDF/USD physics representation must accurately model
+              joint stiffness, damping, and mechanical limits.
+            </p>
+          </div>
+          <div class="exp-note-cell">
+            <span class="exp-note-label">Simulation Setup</span>
+            <h5>Isaac Sim USD Stage</h5>
+            <p>
+              Imported Fanuc M-710iC/70 USD with complete articulation hierarchy. Actuated joints across their dynamic ranges
+              (J1 ±180°, J2 -60°/+75°, J3 -170°/+230°, J4 ±360°, J5 ±125°, J6 ±360°) to inspect physics solver stability under
+              fast direction reversals.
+            </p>
+          </div>
+          <div class="exp-note-cell">
+            <span class="exp-note-label">Findings &amp; Takeaway</span>
+            <h5>Smooth Kinematic Envelope</h5>
+            <p>
+              The joint articulation proved completely stable under PhysX 5 GPU stepping with zero contact tunneling or joint
+              explosions. Revealed that wrist joints (J4–J6) require aggressive velocity damping to prevent oscillatory overshoot
+              during rapid orientation corrections.
+            </p>
+          </div>
+        </div>
+      </article>
+
+      <!-- EXP-02: Isaac Lab RL Pick Failure -->
+      <article class="exp-rig rig rise" data-category="robotics" id="exp-fanuc-rl">
+        <div class="exp-rig-head">
+          <div class="exp-rig-id-group">
+            <span class="exp-id">EXP-02</span>
+            <span class="exp-category-tag">Reinforcement Learning // Isaac Lab</span>
+            <span class="lamp build">Exploratory · Failed Run</span>
+          </div>
+          <div class="chips">
+            <span class="chip hot">Isaac Lab</span>
+            <span class="chip hot">PyTorch RL</span>
+            <span class="chip">PPO Actor-Critic</span>
+            <span class="chip">Reward Shaping</span>
+          </div>
+        </div>
+
+        <h2 class="exp-rig-title">Isaac Lab RL Cube Pick: Policy Exploration &amp; Failure Analysis</h2>
+        <p class="exp-rig-desc">
+          A mini demo attempting to use end-to-end Reinforcement Learning via NVIDIA Isaac Lab to teach the Fanuc manipulator
+          to locate, reach, grasp, and lift a target cube. <strong>The experiment failed to converge on clean pickups</strong> —
+          and documenting why failure happens in robotics RL is just as valuable as celebrating converged runs.
+        </p>
+
+        <div class="exp-stage-grid">
+          <div class="screen exp-video-wrap">
+            <span class="exp-media-badge hazard">Isaac Lab // RL Trial Run (Failed Pick)</span>
+            <video controls playsinline preload="metadata" poster="assets/video/fanuc-rl-poster.jpg" width="893" height="482">
+              <source src="assets/video/fanuc-rl.mp4" type="video/mp4">
+              <source src="Experiments_Fanucm710RL.mp4" type="video/mp4">
+              Your browser does not support the video tag.
+            </video>
+          </div>
+
+          <div class="exp-telemetry">
+            <h4>RL Policy Readout</h4>
+            <div class="exp-data-row"><span>Framework</span><b>NVIDIA Isaac Lab (OmniIsaacGym)</b></div>
+            <div class="exp-data-row"><span>Algorithm</span><b>Model-Free PPO (Gaussian Policy)</b></div>
+            <div class="exp-data-row"><span>Action Space</span><b>6-Axis Joint Velocities + Gripper</b></div>
+            <div class="exp-data-row"><span>Observation Space</span><b>Joint Pos, Velocities, Cube Pose</b></div>
+            <div class="exp-data-row"><span>Target Object</span><b>50 mm Rigid Cube on Table</b></div>
+            <div class="exp-data-row"><span>Training Time</span><b>~2.5 hrs (GPU Parallel Sim)</b></div>
+            <div class="exp-data-row"><span>Episode Success Rate</span><b class="bad">~4.2% (Failed Pick)</b></div>
+            <div class="exp-data-row"><span>Primary Failure Mode</span><b class="warn">Grasp Ejection &amp; Lunge</b></div>
+          </div>
+        </div>
+
+        <!-- Static screenshot of the setup -->
+        <figure class="shot rig" style="margin-bottom:18px;">
+          <a href="fanucRLdemo.png" target="_blank" rel="noopener">
+            <div class="screen">
+              <img src="assets/img/fanuc-rl-demo.png" alt="Fanuc robot in Isaac Lab RL environment with target cube and parallel training instances"
+                   loading="lazy" width="1197" height="645"
+                   onerror="this.src='fanucRLdemo.png'">
+            </div>
+          </a>
+          <figcaption>
+            <span><b>The Isaac Lab environment setup.</b> Parallel training instances running in Isaac Lab to gather experience rollouts for the cube pick policy.</span>
+            <span class="zoom">Open capture ↗</span>
+          </figcaption>
+        </figure>
+
+        <div class="exp-notes-grid">
+          <div class="exp-note-cell">
+            <span class="exp-note-label">The Objective</span>
+            <h5>Autonomous Cube Acquisition</h5>
+            <p>
+              Train a neural policy from scratch to guide the Fanuc arm's end-effector toward a randomly spawned cube,
+              align parallel jaws, clamp with sufficient frictional force, and elevate the cube 15 cm above the worktable.
+            </p>
+          </div>
+
+          <div class="exp-note-cell failure-callout">
+            <span class="exp-note-label">Failure Pathology #1</span>
+            <h5>The Joint-Space Velocity Trap</h5>
+            <p>
+              Directly outputting raw 6-DoF joint velocities without an Operational Space Controller (OSC) created severe
+              trajectory jitter. The policy learned to aggressively whip joint 1 and 2 to minimize Euclidean distance to the cube,
+              arriving at the table with excessive downward momentum and poor gripper alignment.
+            </p>
+          </div>
+
+          <div class="exp-note-cell failure-callout">
+            <span class="exp-note-label">Failure Pathology #2</span>
+            <h5>Frictional Contact &amp; Grasp Squeeze</h5>
+            <p>
+              Without tactile pressure sensors or fine contact compliance in the reward formulation, the gripper closed either
+              too early (knocking the cube away like a billiard ball) or closed with uneven pad contact, ejecting the cube out
+              of the jaws upon lift-off.
+            </p>
+          </div>
+
+          <div class="exp-note-cell">
+            <span class="exp-note-label">Engineering Takeaway</span>
+            <h5>Why Hybrid Control Wins</h5>
+            <p>
+              Heavy industrial robots (70 kg payload class) shouldn't be controlled end-to-end via unconstrained joint RL for
+              simple pick tasks. The optimal architecture is <strong>classical motion planning (RMPflow / MoveIt) for the macro
+              approach</strong>, with <strong>RL or impedance control restricted to the fine 10 cm micro-grasp phase</strong>.
+            </p>
+          </div>
+        </div>
+      </article>
+
+      <!-- EXP-03: LiteLLM Gateway & Enterprise AI Governance -->
+      <article class="exp-rig rig rise" data-category="ai" id="exp-litellm-gateway">
+        <div class="exp-rig-head">
+          <div class="exp-rig-id-group">
+            <span class="exp-id">EXP-03</span>
+            <span class="exp-category-tag">Enterprise AI // Gateways &amp; Governance</span>
+            <span class="lamp">Operational · Bench Configured</span>
+          </div>
+          <div class="chips">
+            <span class="chip hot">LiteLLM Proxy</span>
+            <span class="chip hot">Team Budgets</span>
+            <span class="chip hot">Virtual Keys</span>
+            <span class="chip">Dynamic Fallbacks</span>
+            <span class="chip">Data Guardrails</span>
+            <span class="chip">LangGraph Ready</span>
+          </div>
+        </div>
+
+        <h2 class="exp-rig-title">Enterprise AI Gateway: LiteLLM, Governance, &amp; Team Budgets</h2>
+        <p class="exp-rig-desc">
+          When companies ask <em>"How do we start implementing AI into workflows and using agents?"</em>, the real question
+          is never just which model to pick — it is <strong>how to govern it, apply privacy guardrails, allocate departmental budgets,
+          and ensure zero-downtime fallbacks</strong>. Tinkering with LiteLLM to build an enterprise proxy: provisioning scoped
+          virtual keys, setting spending caps, enforcing prompt guardrails before data leaves the network, and establishing a unified
+          gateway for multi-agent frameworks like LangGraph.
+        </p>
+
+        <div class="exp-stage-grid">
+          <!-- Main capture: Model Management & Fallback Routing -->
+          <figure class="shot rig" style="margin:0;">
+            <a href="LiteLLMmodelManagement.png" target="_blank" rel="noopener">
+              <div class="screen">
+                <img src="assets/img/litellm-models.png" alt="LiteLLM Model Management UI showing model routing, custom configurations, and fallback paths"
+                     loading="lazy" width="1912" height="948"
+                     onerror="this.src='LiteLLMmodelManagement.png'">
+              </div>
+            </a>
+            <figcaption>
+              <span><b>Model Management &amp; Fallback Routing.</b> Configuring model mappings, custom parameters, and automated fallback chains across providers.</span>
+              <span class="zoom">Open capture ↗</span>
+            </figcaption>
+          </figure>
+
+          <div class="exp-telemetry">
+            <h4>Gateway Architecture Readout</h4>
+            <div class="exp-data-row"><span>Proxy Gateway</span><b>LiteLLM (OpenAI-Compatible Spec)</b></div>
+            <div class="exp-data-row"><span>Routing Logic</span><b>Dynamic Tiering + Automatic Fallbacks</b></div>
+            <div class="exp-data-row"><span>Team Budgets</span><b class="ok">Enforced Spend Caps / Period</b></div>
+            <div class="exp-data-row"><span>Key Management</span><b>Scoped Virtual API Keys (Per-User / Service)</b></div>
+            <div class="exp-data-row"><span>Data Guardrails</span><b class="ok">Pre-Route PII &amp; Leak Rejection</b></div>
+            <div class="exp-data-row"><span>Agent Frameworks</span><b>LangGraph / MCP / Webhook Bots</b></div>
+            <div class="exp-data-row"><span>Failover Resilience</span><b class="ok">Zero-Downtime Provider Switch</b></div>
+            <div class="exp-data-row"><span>Telemetry &amp; Audit</span><b>Unified Token &amp; Latency Logging</b></div>
+          </div>
+        </div>
+
+        <div class="exp-subgallery">
+          <figure class="shot rig">
+            <a href="LiteLLMteams.png" target="_blank" rel="noopener">
+              <div class="screen">
+                <img src="assets/img/litellm-teams.png" alt="LiteLLM Teams dashboard showing budget caps, token allocations, and department spending"
+                     loading="lazy" width="1913" height="942"
+                     onerror="this.src='LiteLLMteams.png'">
+              </div>
+            </a>
+            <figcaption>
+              <b>Department &amp; Team Budgets.</b> Setting hard monthly limits and token usage quotas per team (Engineering, Support, Operations) to prevent unexpected bill spikes.
+            </figcaption>
+          </figure>
+
+          <figure class="shot rig">
+            <a href="liteLLMVirtualKeys.png" target="_blank" rel="noopener">
+              <div class="screen">
+                <img src="assets/img/litellm-virtual-keys.png" alt="LiteLLM Virtual Keys view showing scoped API key generation with RPM/TPM limits"
+                     loading="lazy" width="1624" height="400"
+                     onerror="this.src='liteLLMVirtualKeys.png'">
+              </div>
+            </a>
+            <figcaption>
+              <b>Granular Virtual Keys.</b> Provisioning secure, scoped API credentials for internal tools, customer-support agents, and employee accounts with explicit model permissions.
+            </figcaption>
+          </figure>
+        </div>
+
+        <div class="exp-notes-grid">
+          <div class="exp-note-cell">
+            <span class="exp-note-label">The Core Problem</span>
+            <h5>The "Free Service" Privacy Trap</h5>
+            <p>
+              Workers rapidly adopt consumer AI accounts for everyday tasks. But <em>if a service is free, your internal data is
+              the product</em>. Unchecked copy-pasting of customer records or factory logs leaks proprietary data into external training
+              stores. LiteLLM acts as a sovereign checkpoint: defining company policy, intercepting data, and logging all usage before
+              prompts ever touch an LLM.
+            </p>
+          </div>
+
+          <div class="exp-note-cell">
+            <span class="exp-note-label">Cost Governance</span>
+            <h5>Teams, Quotas, &amp; Virtual Keys</h5>
+            <p>
+              Rather than handing out unmetered root API keys, the gateway provisions isolated <strong>Virtual Keys</strong> with
+              strict Rate-Per-Minute (RPM) and Token-Per-Minute (TPM) ceilings. Each department receives its own budget dashboard
+              (as configured in the teams view), isolating financial risk and preventing runaway recursive agent loops from draining capital.
+            </p>
+          </div>
+
+          <div class="exp-note-cell">
+            <span class="exp-note-label">High Availability</span>
+            <h5>Dynamic Fallbacks &amp; Smart Routing</h5>
+            <p>
+              If a primary model provider experiences an outage, 503 error, or token rate-limit cliff, LiteLLM's configured
+              fallback chain automatically redirects requests to a secondary model without downstream disruption. Routine tasks route
+              to fast, low-cost models; complex reasoning routes to heavyweight models seamlessly.
+            </p>
+          </div>
+
+          <div class="exp-note-cell">
+            <span class="exp-note-label">Agent Ready</span>
+            <h5>LangGraph &amp; Tool Support</h5>
+            <p>
+              Modern autonomous systems (like customer support agents built in <strong>LangGraph</strong> or event-driven tools)
+              require standard OpenAI-compatible endpoints with high reliability. The gateway provides unified authorization,
+              memory connection points, and structured audit logs so every tool call and agent decision is observable and reproducible.
+            </p>
+          </div>
+        </div>
+      </article>
+
+      <!-- EXP-04: Plant Floor Calendar Conflict Engine -->
+      <article class="exp-rig rig rise" data-category="automation" id="exp-calendar-sync">
+        <div class="exp-rig-head">
+          <div class="exp-rig-id-group">
+            <span class="exp-id">EXP-04</span>
+            <span class="exp-category-tag">Automation // Event Engine</span>
+            <span class="lamp">Bench Tested</span>
+          </div>
+          <div class="chips">
+            <span class="chip hot">n8n</span>
+            <span class="chip hot">Microsoft Graph</span>
+            <span class="chip">SQLite Ledger</span>
+            <span class="chip">ETag Diffing</span>
+          </div>
+        </div>
+
+        <h2 class="exp-rig-title">Plant Calendar Sync: Multi-Line Conflict Reconciliation</h2>
+        <p class="exp-rig-desc">
+          Bench-testing bi-directional schedule reconciliation across five manufacturing line calendars and a centralized
+          manufacturing database. Handling operator drag-and-drop conflicts and two-phase approval gates.
+        </p>
+
+        <div class="exp-stage-grid">
+          <div class="screen exp-video-wrap">
+            <span class="exp-media-badge signal">Calendar Sync Pipeline Demo</span>
+            <video controls playsinline preload="metadata" poster="assets/video/calendar-sync-exp-poster.jpg" width="1089" height="549">
+              <source src="calendarsyncdemo.mp4" type="video/mp4">
+              Your browser does not support the video tag.
+            </video>
+          </div>
+
+          <div class="exp-telemetry">
+            <h4>Reconciliation Bench</h4>
+            <div class="exp-data-row"><span>Synchronized Feeds</span><b>5 Outlook Line Calendars</b></div>
+            <div class="exp-data-row"><span>Master State</span><b>SQLite factory.db</b></div>
+            <div class="exp-data-row"><span>Polling Cadence</span><b>Webhook Event + 5-min Cron Audit</b></div>
+            <div class="exp-data-row"><span>Diff Algorithm</span><b>Hash Comparison of Order IDs &amp; Windows</b></div>
+            <div class="exp-data-row"><span>Unauthorized Moves</span><b class="warn">AI Rejection Explainer</b></div>
+            <div class="exp-data-row"><span>Two-Phase Commit</span><b class="ok">Verified Stable</b></div>
+          </div>
+        </div>
+
+        <div class="exp-subgallery">
+          <figure class="shot rig">
+            <a href="calendarsyncfullflow.png" target="_blank" rel="noopener">
+              <div class="screen">
+                <img src="calendarsyncfullflow.png" alt="Complete calendar sync workflow graph in n8n"
+                     loading="lazy" width="600" height="340">
+              </div>
+            </a>
+            <figcaption>
+              <b>Primary flow architecture.</b> Merging line calendars with SQL planned schedule, evaluating change signatures, and dispatching approvals.
+            </figcaption>
+          </figure>
+
+          <figure class="shot rig">
+            <a href="calendarsyncfullflow2.png" target="_blank" rel="noopener">
+              <div class="screen">
+                <img src="calendarsyncfullflow2.png" alt="Rejection branch and AI explanation node in n8n"
+                     loading="lazy" width="600" height="340">
+              </div>
+            </a>
+            <figcaption>
+              <b>Rejection handling branch.</b> Invalid scheduling moves bounce back with diagnostic explanation rather than silently corrupting line capacity.
+            </figcaption>
+          </figure>
+        </div>
+      </article>
+
+      <!-- EXP-05: Material Depletion Pre-Seed -->
+      <article class="exp-rig rig rise" data-category="automation" id="exp-material-forecast">
+        <div class="exp-rig-head">
+          <div class="exp-rig-id-group">
+            <span class="exp-id">EXP-05</span>
+            <span class="exp-category-tag">Data Engineering // Predictive Thresholds</span>
+            <span class="lamp">Bench Tested</span>
+          </div>
+          <div class="chips">
+            <span class="chip hot">SQLite</span>
+            <span class="chip hot">Python Data Pre-Seed</span>
+            <span class="chip">n8n Cron</span>
+            <span class="chip">Power BI Layer</span>
+          </div>
+        </div>
+
+        <h2 class="exp-rig-title">Material Depletion Pipeline &amp; Synthetic Stress-Seed</h2>
+        <p class="exp-rig-desc">
+          Building and evaluating predictive inventory depletion algorithms against synthetic high-throughput film production
+          data. Pre-seeding 1,785 ledger transactions to stress-test 72-hour resin stock-out warning triggers.
+        </p>
+
+        <div class="exp-subgallery" style="grid-template-columns: repeat(auto-fit, minmax(360px, 1fr));">
+          <figure class="shot rig">
+            <a href="materialforecastn8npreseed.png" target="_blank" rel="noopener">
+              <div class="screen">
+                <img src="materialforecastn8npreseed.png" alt="Material forecast database seeding workflow in n8n"
+                     loading="lazy" width="800" height="450">
+              </div>
+            </a>
+            <figcaption>
+              <b>Synthetic ledger generation.</b> Populating historical roll output, resin consumption coefficients, and pending sales orders to validate depletion formulas.
+            </figcaption>
+          </figure>
+
+          <figure class="shot rig">
+            <a href="materialforecast_draft.png" target="_blank" rel="noopener">
+              <div class="screen">
+                <img src="materialforecast_draft.png" alt="Draft diagram of material shortage warning logic"
+                     loading="lazy" width="800" height="450">
+              </div>
+            </a>
+            <figcaption>
+              <b>Threshold calculation logic.</b> Dynamic safety stock evaluation based on vendor lead times and extruder line velocities.
+            </figcaption>
+          </figure>
+        </div>
+      </article>
+
+    </div>
+  </section>
+
+  <!-- ============ CONTACT ============ -->
+  <section class="case" id="contact" style="border-top:1px solid var(--hair)">
+    <div class="wrap contact-in">
+      <div>
+        <span class="plate">Get in touch</span>
+        <h2 class="display" style="margin-top:14px">Let&rsquo;s talk</h2>
+      </div>
+      <div class="contact-links">
+        <a href="mailto:miguelisstem@outlook.com"><span>Email</span><span>miguelisstem@outlook.com</span></a>
+        <a href="tel:+15707909041"><span>Phone</span><span>570·790·9041</span></a>
+        <a href="https://www.linkedin.com/in/miguelangelpsuhn" target="_blank" rel="noopener"><span>LinkedIn</span><span>miguelangelpsuhn ↗</span></a>
+        <a href="MiguelRomero_Resume_AutomationManufacturing.pdf" target="_blank" rel="noopener"><span>Résumé</span><span>PDF ↗</span></a>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<footer class="foot">
+  <div class="wrap foot-in">
+    <span>Miguel Romero · University Park, PA</span>
+    <span id="year">2026</span>
+  </div>
+</footer>
+
+<script src="assets/js/site.js"></script>
+<script src="assets/js/experiments.js"></script>
+</body>
+</html>

@@ -545,6 +545,91 @@ footer.foot {
 .case-head p { margin: 0; color: var(--ink-2); }
 .case-head p strong { color: var(--ink); font-weight: 600; }
 
+/* case study telemetry HUD */
+.case-overview-hud {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 1px;
+  background: var(--hair);
+  border: 1px solid var(--hair);
+  margin: 0 0 clamp(20px, 2.5vw, 32px);
+}
+.hud-col {
+  background: var(--panel);
+  padding: 13px 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+.hud-label {
+  font-family: var(--f-mono);
+  font-size: 10px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--ink-3);
+}
+.hud-col b {
+  font-family: var(--f-mono);
+  font-size: 11.5px;
+  color: var(--ink);
+  line-height: 1.4;
+}
+
+/* architectural contrast / state comparison */
+.arch-diff-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+  gap: 1px;
+  background: var(--hair);
+  border: 1px solid var(--hair);
+  margin-top: clamp(24px, 3vw, 36px);
+}
+.arch-diff-card {
+  background: var(--panel);
+  padding: 22px 24px;
+}
+.arch-diff-card .k {
+  font-family: var(--f-mono);
+  font-size: 10.5px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--ink-3);
+  margin-bottom: 6px;
+  display: block;
+}
+.arch-diff-card.after .k { color: var(--signal); }
+.arch-diff-card.before .k { color: var(--fault); }
+.arch-diff-card h4 {
+  font-family: var(--f-display);
+  font-variation-settings: 'wdth' 106, 'wght' 700;
+  text-transform: uppercase;
+  font-size: 16px;
+  letter-spacing: 0.005em;
+  margin: 0 0 14px;
+  line-height: 1.15;
+}
+.arch-diff-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: 10px;
+}
+.arch-diff-list li {
+  font-family: var(--f-mono);
+  font-size: 11.5px;
+  line-height: 1.55;
+  color: var(--ink-2);
+  display: grid;
+  grid-template-columns: 16px minmax(0, 1fr);
+  gap: 8px;
+}
+.arch-diff-list li .bullet { font-weight: 600; }
+.arch-diff-card.before .bullet { color: var(--fault); }
+.arch-diff-card.after .bullet { color: var(--signal); }
+.arch-diff-list li b { color: var(--ink); font-weight: 600; }
+
+
 /* demo rig: screen + side readout */
 .demo { padding: 12px; }
 .demo-grid {
@@ -1038,6 +1123,44 @@ footer.foot {
 .board-head .plate { grid-row: 1; grid-column: 1; padding-top: 10px; }
 .board-head p { grid-column: 2; margin: 0; max-width: 62ch; color: var(--ink-2); }
 
+/* the DevOps cycle, rendered as a rail of stage chips — the last one
+   (automate) is the live one, so it carries the hazard state and pulses */
+.cycle-strip {
+  grid-column: 2;
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 6px 8px;
+  margin: 0 0 18px;
+  font-family: var(--f-mono);
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+.cyc {
+  padding: 4px 8px;
+  border: 1px solid var(--hair);
+  background: var(--panel);
+  color: var(--ink-2);
+  white-space: nowrap;
+}
+.cyc.hot {
+  border-color: var(--hazard);
+  color: var(--hazard);
+  background: color-mix(in srgb, var(--hazard) 9%, var(--panel));
+  animation: cyc-pulse 2.6s ease-in-out infinite;
+}
+.cyc-arrow { color: var(--hair-2); }
+.cyc-arrow.loop { color: var(--hazard); }
+@keyframes cyc-pulse {
+  0%, 100% { box-shadow: 0 0 0 0 color-mix(in srgb, var(--hazard) 45%, transparent); }
+  50%      { box-shadow: 0 0 0 5px color-mix(in srgb, var(--hazard) 0%, transparent); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .cyc.hot { animation: none; }
+}
+
 .board { display: grid; gap: 10px; padding-bottom: clamp(40px, 5vw, 70px); }
 
 .brow {
@@ -1097,7 +1220,7 @@ footer.foot {
 }
 @media (max-width: 700px) {
   .board-head { grid-template-columns: minmax(0, 1fr); }
-  .board-head h1, .board-head p, .board-head .plate { grid-column: 1; }
+  .board-head h1, .board-head p, .board-head .plate, .board-head .cycle-strip { grid-column: 1; }
   .board-head .plate { padding-top: 0; }
   .brow { grid-template-columns: minmax(0, 1fr); padding: 20px; }
   .brow-stack, .brow-go { grid-column: 1; }

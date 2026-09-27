@@ -1,0 +1,515 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Projects — Miguel Romero</title>
+<meta name="description" content="State to action, in practice — Miguel Romero builds systems that watch state and decide what to do about it: n8n factory and inbox orchestration, a Stockfish-and-LLM chess coach, UAV swarm autonomy, and an FPGA collision accelerator.">
+<link rel="canonical" href="https://miguelistem.github.io/miguelistem_portfolio/projects.html">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Miguel Romero">
+<meta property="og:url" content="https://miguelistem.github.io/miguelistem_portfolio/projects.html">
+<meta property="og:title" content="Projects — Miguel Romero">
+<meta property="og:description" content="State to action, in practice — systems that watch state and decide what to do about it: n8n orchestration, an LLM chess coach, UAV swarm autonomy, and an FPGA collision accelerator.">
+<meta property="og:image" content="https://miguelistem.github.io/miguelistem_portfolio/assets/img/og-card.jpg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="Miguel Romero — I build systems that watch state and decide what to do about it.">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Projects — Miguel Romero">
+<meta name="twitter:description" content="State to action, in practice — systems that watch state and decide what to do about it: n8n orchestration, an LLM chess coach, UAV swarm autonomy, and an FPGA collision accelerator.">
+<meta name="twitter:image" content="https://miguelistem.github.io/miguelistem_portfolio/assets/img/og-card.jpg">
+<meta name="theme-color" content="#D8D9D4">
+<link rel="icon" type="image/png" sizes="64x64" href="assets/img/favicon-64.png">
+<link rel="apple-touch-icon" href="assets/img/apple-touch-icon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:ital,wdth,wght@0,62..125,100..900;1,62..125,100..900&family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/css/site.css">
+<link rel="stylesheet" href="assets/css/projects.css">
+<link rel="stylesheet" href="assets/css/experiments.css">
+</head>
+<body>
+
+<header class="topbar">
+  <div class="topbar-in">
+    <a class="mark" href="index.html">MR</a>
+    <nav>
+      <a href="projects.html" aria-current="page">Projects</a>
+      <a href="experiments.html">Experiments</a>
+      <a href="index.html#capabilities">Capabilities</a>
+      <a href="index.html#record">Record</a>
+      <a href="MiguelRomero_Resume_AutomationManufacturing.pdf" target="_blank" rel="noopener">Résumé ↗</a>
+    </nav>
+  </div>
+</header>
+
+<main>
+
+  <!-- ============ HERO & ARCHITECTURE RAIL ============ -->
+  <section class="wrap proj-hero">
+    <div class="page-tabs-wrap">
+      <nav class="page-tabs" aria-label="Work navigation">
+        <a href="projects.html" class="page-tab on" aria-current="page">
+          Core Projects <span class="tab-badge">5 Builds</span>
+        </a>
+        <a href="experiments.html" class="page-tab">
+          Lab &amp; Experiments <span class="tab-badge neutral">5</span>
+        </a>
+      </nav>
+    </div>
+
+    <div class="proj-hero-head">
+      <span class="plate">Selected Systems · Production Grade</span>
+      <h1 class="display proj-title">From State<br><span>to Action</span></h1>
+      <p class="proj-lede">
+        I build systems that watch state and decide what to do about it: closing the loop from sensation to actuation —
+        sense, plan, solve, gate, and actuate — and automating the operational steps that repeat.
+        Explore the builds below with live simulation viewports, architecture telemetry, and complete case studies.
+      </p>
+
+      <!-- System status overview readout -->
+      <div class="proj-status-bar">
+        <div class="proj-status-item">
+          <span>Active Builds:</span>
+          <b>05 Core Systems</b>
+        </div>
+        <div class="proj-status-item">
+          <span>Live In-Browser Demos:</span>
+          <b>05 Live Viewports</b>
+        </div>
+        <div class="proj-status-item">
+          <span>Deployment State:</span>
+          <b>2 Working · 3 In Build</b>
+        </div>
+        <div class="proj-status-item">
+          <span>Architecture:</span>
+          <b style="color:var(--hazard)">Zero-Dependency Static</b>
+        </div>
+      </div>
+
+      <!-- State Decision Architecture Rail (Industrial 5-Stage Bus) -->
+      <div class="state-rail-wrap">
+        <div class="state-rail" role="region" aria-label="Five-stage automation architecture rail. Click any module to filter projects.">
+          
+          <div class="state-rail-stage" data-stage="sense" title="Filter: Sensation & Ingestion">
+            <div class="stage-head-line">
+              <span class="stage-num">01 // SENSE</span>
+              <span class="stage-lamp"></span>
+            </div>
+            <h3 class="stage-name">State Monitor</h3>
+            <p class="stage-desc">Webhooks, crons, DB event hooks &amp; telemetry streams</p>
+            <div class="stage-meta">n8n · IMAP · SQLite · Isaac Sim</div>
+          </div>
+
+          <div class="state-rail-stage" data-stage="plan" title="Filter: Data Harmonization & Planning">
+            <div class="stage-head-line">
+              <span class="stage-num">02 // PLAN</span>
+              <span class="stage-lamp"></span>
+            </div>
+            <h3 class="stage-name">Harmonization</h3>
+            <p class="stage-desc">Schema validation, change detection &amp; global A* routing</p>
+            <div class="stage-meta">ETag Diff · Grid A* · Regex Clean</div>
+          </div>
+
+          <div class="state-rail-stage" data-stage="solve" title="Filter: Heuristics & Inference">
+            <div class="stage-head-line">
+              <span class="stage-num">03 // SOLVE</span>
+              <span class="stage-lamp"></span>
+            </div>
+            <h3 class="stage-name">Inference &amp; Logic</h3>
+            <p class="stage-desc">Local 7B reasoning, Stockfish 16 &amp; Q16.16 fixed-point math</p>
+            <div class="stage-meta">Qwen2.5-7B · Stockfish · Artix-7</div>
+          </div>
+
+          <div class="state-rail-stage" data-stage="gate" title="Filter: Human Gates & Verification">
+            <div class="stage-head-line">
+              <span class="stage-num">04 // GATE</span>
+              <span class="stage-lamp"></span>
+            </div>
+            <h3 class="stage-name">Human Gate</h3>
+            <p class="stage-desc">Actionable Discord &amp; Outlook approvals; zero blind sends</p>
+            <div class="stage-meta">Discord · Outlook · Frame Audit</div>
+          </div>
+
+          <div class="state-rail-stage" data-stage="actuate" title="Filter: Actuation & Feedback">
+            <div class="stage-head-line">
+              <span class="stage-num">05 // ACT</span>
+              <span class="stage-lamp"></span>
+            </div>
+            <h3 class="stage-name">Commit &amp; Close</h3>
+            <p class="stage-desc">Calendar sync, ledger commit, drone velocity &amp; auto-briefing</p>
+            <div class="stage-meta">Multi-Cal · Excel · UART · RVO</div>
+          </div>
+
+        </div>
+
+        <div class="state-rail-hint">
+          <span id="rail-status-text">Click any architecture module to filter matching builds</span>
+          <button id="rail-clear" class="state-rail-clear-btn" type="button">Reset Architecture Filter ✕</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Filter toolbar and view mode switcher -->
+    <div class="proj-toolbar">
+      <div class="proj-filters" role="tablist" aria-label="Filter builds by domain">
+        <button class="proj-filter-btn on" data-filter="all" type="button">
+          All Builds <span class="count">(5)</span>
+        </button>
+        <button class="proj-filter-btn" data-filter="automation" type="button">
+          Factory Automation <span class="count">(1)</span>
+        </button>
+        <button class="proj-filter-btn" data-filter="ai" type="button">
+          AI &amp; Multi-Agent <span class="count">(2)</span>
+        </button>
+        <button class="proj-filter-btn" data-filter="robotics" type="button">
+          Robotics &amp; Hardware <span class="count">(2)</span>
+        </button>
+      </div>
+
+      <div class="proj-view-modes" role="group" aria-label="Build layout view mode">
+        <button class="proj-view-btn on" data-mode="detailed" type="button" title="Detailed rigs with live simulation viewports and telemetry">Detailed Rigs</button>
+        <button class="proj-view-btn" data-mode="compact" type="button" title="High-density engineering summary matrix">Compact Matrix</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ PROJECT BUILDS LIST ============ -->
+  <section class="wrap">
+    <div class="proj-build-list">
+
+      <!-- BUILD 01: Plant operations -->
+      <article class="bld-rig rig rise" data-category="automation" data-stages="sense,plan,gate,actuate" id="bld-automation">
+        <div class="bld-head">
+          <div class="bld-id-group">
+            <span class="bld-num">BUILD // 01</span>
+            <span class="bld-category">Industrial Automation // Event Engines</span>
+            <span class="lamp build">In build</span>
+          </div>
+          <div class="chips">
+            <span class="chip hot">n8n</span>
+            <span class="chip hot">SQLite</span>
+            <span class="chip">PostgreSQL</span>
+            <span class="chip">Power BI</span>
+            <span class="chip">Python</span>
+          </div>
+        </div>
+
+        <div class="bld-stage-grid">
+          <div class="screen bld-screen">
+            <span class="bld-screen-badge signal">Live Simulation // Flow Engine</span>
+            <canvas data-mini="flow"></canvas>
+          </div>
+
+          <div class="bld-telemetry">
+            <h4>System Telemetry</h4>
+            <div class="bld-data-row"><span>Target Plant</span><b>24/7 Extrusion (5 Lines, 4 Crews)</b></div>
+            <div class="bld-data-row"><span>Trigger Spectrum</span><b>4 Modes: Cron, Threshold, Event, Human</b></div>
+            <div class="bld-data-row"><span>Production Horizon</span><b>6 Weeks Forward Schedule</b></div>
+            <div class="bld-data-row"><span>Transaction Ledger</span><b>1,785 Rows · 16 Tables</b></div>
+            <div class="bld-data-row"><span>Human Gate</span><b class="warn">Outlook Actionable Approval</b></div>
+            <div class="bld-data-row"><span>Conflict Resolution</span><b class="ok">Bi-Directional ETag Diff</b></div>
+          </div>
+        </div>
+
+        <div class="bld-body">
+          <h2 class="bld-title">
+            <a href="project-automation.html">Plant operations, automated</a>
+          </h2>
+          <p class="bld-blurb">
+            A continuous operations layer for a 24/7 plastic-film manufacturing facility. One centralized database,
+            four distinct kinds of trigger: a shift briefing that runs on a cron schedule, a material depletion forecast,
+            a calendar change-detection sync, and an approval chain that pauses on humans before committing state changes.
+          </p>
+          <div class="bld-highlight-note">
+            <b>Core Automation Principle:</b> A valid schedule move still never applies itself autonomously. It halts at a
+            wait-for-approval human gate; only when the operations manager signs off does the event sync across Outlook calendars
+            and database line ledgers.
+          </div>
+        </div>
+
+        <div class="bld-action-bar">
+          <div class="bld-stage-tags">
+            <span>Architecture Layers:</span>
+            <b>Sense · Plan · Gate · Actuate</b>
+          </div>
+          <div class="bld-actions-group">
+            <a class="btn solid" href="project-automation.html">Open Case Study →</a>
+          </div>
+        </div>
+      </article>
+
+      <!-- BUILD 02: Three agents, one real inbox -->
+      <article class="bld-rig rig rise" data-category="ai" data-stages="sense,plan,solve,gate,actuate" id="bld-inbox">
+        <div class="bld-head">
+          <div class="bld-id-group">
+            <span class="bld-num">BUILD // 02</span>
+            <span class="bld-category">Multi-Agent Systems // Local LLM</span>
+            <span class="lamp">Working build</span>
+          </div>
+          <div class="chips">
+            <span class="chip hot">n8n</span>
+            <span class="chip hot">Qwen2.5-7B</span>
+            <span class="chip">LM Studio</span>
+            <span class="chip">Outlook</span>
+            <span class="chip">Discord Approvals</span>
+          </div>
+        </div>
+
+        <div class="bld-stage-grid">
+          <div class="screen bld-screen">
+            <span class="bld-screen-badge beam">Live Simulation // Agent Router</span>
+            <canvas data-mini="agents"></canvas>
+          </div>
+
+          <div class="bld-telemetry">
+            <h4>Agent Orchestrator Telemetry</h4>
+            <div class="bld-data-row"><span>Host Model</span><b>Qwen2.5-7B-Instruct (Local GPU)</b></div>
+            <div class="bld-data-row"><span>Architecture</span><b>Router + 2 Specialist Downstream Agents</b></div>
+            <div class="bld-data-row"><span>Context Window</span><b>8,192 Tokens · Zero Cloud Leak</b></div>
+            <div class="bld-data-row"><span>Classification Time</span><b>~1.45 s / email</b></div>
+            <div class="bld-data-row"><span>Outbound Policy</span><b class="ok">Zero Autonomous Send (100% Gated)</b></div>
+            <div class="bld-data-row"><span>Approval Interface</span><b>Discord Webhook Action Buttons</b></div>
+          </div>
+        </div>
+
+        <div class="bld-body">
+          <h2 class="bld-title">
+            <a href="project-inbox.html">Three agents, one real inbox</a>
+          </h2>
+          <p class="bld-blurb">
+            A production orchestrator running on a local 7B parameter open-weights model that classifies every incoming
+            operational email and hands it to a dedicated specialist: one drafts polite replies behind a human Discord approval gate,
+            and one extracts job tracker parameters into Excel. Nothing ever sends itself without human sign-off.
+          </p>
+          <div class="bld-highlight-note">
+            <b>Privacy &amp; Safety Rule:</b> Operates completely on local hardware via LM Studio. Proprietary client communications
+            never touch third-party cloud LLM APIs, and sensitive outbound drafts are held in an approval queue until verified.
+          </div>
+        </div>
+
+        <div class="bld-action-bar">
+          <div class="bld-stage-tags">
+            <span>Architecture Layers:</span>
+            <b>Sense · Plan · Solve · Gate · Actuate</b>
+          </div>
+          <div class="bld-actions-group">
+            <a class="btn solid" href="project-inbox.html">Open Case Study →</a>
+          </div>
+        </div>
+      </article>
+
+      <!-- BUILD 03: Chess Coach AI -->
+      <article class="bld-rig rig rise" data-category="ai" data-stages="sense,plan,solve" id="bld-coach">
+        <div class="bld-head">
+          <div class="bld-id-group">
+            <span class="bld-num">BUILD // 03</span>
+            <span class="bld-category">Applied AI // Engine Translation</span>
+            <span class="lamp">Working build</span>
+          </div>
+          <div class="chips">
+            <span class="chip hot">FastAPI</span>
+            <span class="chip hot">Stockfish 16</span>
+            <span class="chip">Ollama</span>
+            <span class="chip">React</span>
+            <span class="chip">HTML5 Canvas</span>
+          </div>
+        </div>
+
+        <div class="bld-stage-grid">
+          <div class="screen bld-screen">
+            <span class="bld-screen-badge signal">Live Simulation // Chess Engine</span>
+            <canvas data-mini="board"></canvas>
+          </div>
+
+          <div class="bld-telemetry">
+            <h4>Chess Coach Telemetry</h4>
+            <div class="bld-data-row"><span>Evaluation Engine</span><b>Stockfish 16 (Depth 18+, Centipawns)</b></div>
+            <div class="bld-data-row"><span>Language Layer</span><b>Local Ollama LLM (Prompt-Engineered)</b></div>
+            <div class="bld-data-row"><span>Backend API</span><b>FastAPI Asynchronous Pipeline</b></div>
+            <div class="bld-data-row"><span>Input Format</span><b>PGN Game Histories &amp; FEN Positions</b></div>
+            <div class="bld-data-row"><span>Browser Demo</span><b class="ok">Interactive Board + Eval Bar</b></div>
+            <div class="bld-data-row"><span>Output Mode</span><b>Conversational Strategic Feedback</b></div>
+          </div>
+        </div>
+
+        <div class="bld-body">
+          <h2 class="bld-title">
+            <a href="project-coach.html">The engine finds it. The model explains it.</a>
+          </h2>
+          <p class="bld-blurb">
+            Stockfish scores every move in a player's history with ruthless mathematical precision; a local language model turns
+            the pattern of blunders into coaching written in human chess terminology rather than raw centipawn delta numbers.
+          </p>
+          <div class="bld-highlight-note">
+            <b>Translation Layer:</b> Bridging the gap between brute-force search engines and human learning. Rather than
+            staring at <em>"-3.4 on move 14"</em>, players receive plain-English diagnosis of weak squares, pin vulnerabilities, and tactical oversights.
+          </div>
+        </div>
+
+        <div class="bld-action-bar">
+          <div class="bld-stage-tags">
+            <span>Architecture Layers:</span>
+            <b>Sense · Plan · Solve</b>
+          </div>
+          <div class="bld-actions-group">
+            <a class="btn solid" href="project-coach.html">Open Case Study →</a>
+          </div>
+        </div>
+      </article>
+
+      <!-- BUILD 04: Drone Swarm Path Planning -->
+      <article class="bld-rig rig rise" data-category="robotics" data-stages="sense,plan,solve,gate,actuate" id="bld-swarm">
+        <div class="bld-head">
+          <div class="bld-id-group">
+            <span class="bld-num">BUILD // 04</span>
+            <span class="bld-category">Robotics &amp; Autonomy // Multi-Agent RL</span>
+            <span class="lamp build">In build</span>
+          </div>
+          <div class="chips">
+            <span class="chip hot">Isaac Sim</span>
+            <span class="chip hot">PyTorch</span>
+            <span class="chip">MAPPO</span>
+            <span class="chip">RVO / ORCA</span>
+            <span class="chip">Grid A*</span>
+          </div>
+        </div>
+
+        <div class="bld-stage-grid">
+          <div class="screen bld-screen">
+            <span class="bld-screen-badge hazard">Live Simulation // Swarm Autonomy</span>
+            <canvas data-mini="swarm"></canvas>
+          </div>
+
+          <div class="bld-telemetry">
+            <h4>Swarm Planner Telemetry</h4>
+            <div class="bld-data-row"><span>Swarm Agents</span><b>8 to 12 Autonomous UAVs</b></div>
+            <div class="bld-data-row"><span>Global Planner</span><b>Grid A* (Obstacle Inflated)</b></div>
+            <div class="bld-data-row"><span>Local Avoidance</span><b>Reciprocal Velocity Obstacles (RVO)</b></div>
+            <div class="bld-data-row"><span>Referee Architecture</span><b class="ok">Independent Collision Auditor</b></div>
+            <div class="bld-data-row"><span>Policy Training</span><b>Multi-Agent PPO (Centralized Critic)</b></div>
+            <div class="bld-data-row"><span>Simulation Platform</span><b>NVIDIA Isaac Sim + 2D Engine</b></div>
+          </div>
+        </div>
+
+        <div class="bld-body">
+          <h2 class="bld-title">
+            <a href="project-swarm.html">Eight drones, one corridor</a>
+          </h2>
+          <p class="bld-blurb">
+            Global A* gives each drone a waypoint path through narrow openings; local reciprocal velocity obstacle avoidance
+            keeps them from colliding in the doorway. An independent collision checker audits every single frame and never steers —
+            acting as a strict referee rather than a forgiving controller.
+          </p>
+          <div class="bld-highlight-note">
+            <b>Referee Separation:</b> The collision auditor has zero authority to correct trajectories. If two drones brush,
+            it flags a true safety failure. This ensures the MAPPO policy genuinely learns cooperative deconfliction without hidden crutches.
+          </div>
+        </div>
+
+        <div class="bld-action-bar">
+          <div class="bld-stage-tags">
+            <span>Architecture Layers:</span>
+            <b>Sense · Plan · Solve · Gate · Actuate</b>
+          </div>
+          <div class="bld-actions-group">
+            <a class="btn solid" href="project-swarm.html">Open Case Study →</a>
+          </div>
+        </div>
+      </article>
+
+      <!-- BUILD 05: FPGA Collision Accelerator -->
+      <article class="bld-rig rig rise" data-category="robotics" data-stages="plan,solve,actuate" id="bld-fpga">
+        <div class="bld-head">
+          <div class="bld-id-group">
+            <span class="bld-num">BUILD // 05</span>
+            <span class="bld-category">Digital Logic // Hardware Acceleration</span>
+            <span class="lamp build">In build</span>
+          </div>
+          <div class="chips">
+            <span class="chip hot">Verilog RTL</span>
+            <span class="chip hot">Artix-7 FPGA</span>
+            <span class="chip">Vivado</span>
+            <span class="chip">Q16.16 Fixed-Point</span>
+            <span class="chip">UART Bus</span>
+          </div>
+        </div>
+
+        <div class="bld-stage-grid">
+          <div class="screen bld-screen">
+            <span class="bld-screen-badge beam">Live Simulation // 5-Stage Datapath</span>
+            <canvas data-mini="stages"></canvas>
+          </div>
+
+          <div class="bld-telemetry">
+            <h4>FPGA Datapath Telemetry</h4>
+            <div class="bld-data-row"><span>Target Silicon</span><b>Xilinx Artix-7 (Basys 3 / Vivado)</b></div>
+            <div class="bld-data-row"><span>Pipeline Depth</span><b>5 Stages: Fetch, Sub, Mult, Acc, Comp</b></div>
+            <div class="bld-data-row"><span>Number Format</span><b>Q16.16 Fixed Point (Zero Float Latency)</b></div>
+            <div class="bld-data-row"><span>Throughput Rate</span><b class="ok">1 Agent Pair Retired / Clock Cycle</b></div>
+            <div class="bld-data-row"><span>Host Interface</span><b>115,200 Baud UART Serial Bus</b></div>
+            <div class="bld-data-row"><span>Output Bitmap</span><b>Single-Bit Collision Truth Vector</b></div>
+          </div>
+        </div>
+
+        <div class="bld-body">
+          <h2 class="bld-title">
+            <a href="project-fpga.html">Collision checking, pushed to hardware</a>
+          </h2>
+          <p class="bld-blurb">
+            The mathematical bottleneck of multi-agent swarm planning is O(N²) pair-wise distance checks. This project offloads
+            that quadratic math from the host CPU into custom silicon: a five-stage fixed-point datapath retiring one agent pair
+            per clock cycle, benchmarked directly against the CPU reference.
+          </p>
+          <div class="bld-highlight-note">
+            <b>Hardware Efficiency:</b> Using Q16.16 fixed-point arithmetic eliminates the high area and latency penalty of floating-point
+            units on FPGAs, delivering deterministic microsecond collision auditing for high-density autonomous fleets.
+          </div>
+        </div>
+
+        <div class="bld-action-bar">
+          <div class="bld-stage-tags">
+            <span>Architecture Layers:</span>
+            <b>Plan · Solve · Actuate</b>
+          </div>
+          <div class="bld-actions-group">
+            <a class="btn solid" href="project-fpga.html">Open Case Study →</a>
+          </div>
+        </div>
+      </article>
+
+    </div>
+  </section>
+
+  <!-- ============ CONTACT ============ -->
+  <section class="case" id="contact" style="border-top:1px solid var(--hair)">
+    <div class="wrap contact-in">
+      <div>
+        <span class="plate">Get in touch</span>
+        <h2 class="display" style="margin-top:14px">Let&rsquo;s talk</h2>
+      </div>
+      <div class="contact-links">
+        <a href="mailto:miguelisstem@outlook.com"><span>Email</span><span>miguelisstem@outlook.com</span></a>
+        <a href="tel:+15707909041"><span>Phone</span><span>570·790·9041</span></a>
+        <a href="https://www.linkedin.com/in/miguelangelpsuhn" target="_blank" rel="noopener"><span>LinkedIn</span><span>miguelangelpsuhn ↗</span></a>
+        <a href="MiguelRomero_Resume_AutomationManufacturing.pdf" target="_blank" rel="noopener"><span>Résumé</span><span>PDF ↗</span></a>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<footer class="foot">
+  <div class="wrap foot-in">
+    <span>Miguel Romero · University Park, PA</span>
+    <span id="year">2026</span>
+  </div>
+</footer>
+
+<script src="assets/js/swarm.js"></script>
+<script src="assets/js/mini.js"></script>
+<script src="assets/js/site.js"></script>
+<script src="assets/js/projects.js"></script>
+</body>
+</html>

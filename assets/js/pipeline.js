@@ -1,112 +1,155 @@
 /* ============================================================
-   pipeline.js — animated run of the plant-ops workflows.
-   One domain, four trigger types: scheduled, threshold,
-   event-driven, human-in-the-loop. Each mode replays its own
-   route and emits the artifact the real pipeline would send.
+   pipeline.js — Authentic n8n Workflow Engine Simulation
+   Models the real n8n production workflows from project captures:
+   1. Event: Outlook Calendar Sync & Change Detection (from n8n-calendar-sync.webp)
+   2. Scheduled: Shift Handoff Briefing (06:00 Manager Summary)
+   3. Threshold: Material Depletion & PO Warning (Lead-time burn-down)
+   4. Human Gate: Order Production Approval Chain (Multi-dept signoff)
    ============================================================ */
+
 (function (global) {
   'use strict';
 
-  const VW = 1040, VH = 460;
-  const NW = 152, NH = 54;
+  const VW = 1040, VH = 480;
+  const NW = 142, NH = 58;
 
-  const KIND = {
-    trigger: { line: '#EF5A16', text: '#F6D7C6' },
-    data:    { line: '#74C9EE', text: '#CFE9F6' },
-    logic:   { line: '#8D9A95', text: '#DCE6E1' },
-    ai:      { line: '#EF5A16', text: '#F6D7C6' },
-    gate:    { line: '#C9A227', text: '#EEDFA8' },
-    out:     { line: '#3FCB92', text: '#C4EEDC' },
-    fault:   { line: '#E5484D', text: '#F3C4C6' }
+  // n8n Category color themes matching real n8n node icons
+  const NODE_STYLES = {
+    trigger: { bg: '#1E2522', border: '#FF6D5A', iconBg: '#FF6D5A', iconTxt: '⚡', text: '#FFEAE6' },
+    cron:    { bg: '#1E2522', border: '#FF6D5A', iconBg: '#FF6D5A', iconTxt: '⏰', text: '#FFEAE6' },
+    outlook: { bg: '#142129', border: '#0078D4', iconBg: '#0078D4', iconTxt: '✉', text: '#E1F1FD' },
+    db:      { bg: '#162329', border: '#336791', iconBg: '#336791', iconTxt: '⛁', text: '#DCEDF9' },
+    code:    { bg: '#1F2420', border: '#4E9F3D', iconBg: '#4E9F3D', iconTxt: '{ }', text: '#E5F7E2' },
+    switch:  { bg: '#262215', border: '#F0A000', iconBg: '#F0A000', iconTxt: '⌥', text: '#FDF3DC' },
+    ai:      { bg: '#24192B', border: '#9B51E0', iconBg: '#9B51E0', iconTxt: '✦', text: '#F6EBFF' },
+    gate:    { bg: '#292314', border: '#EF5A16', iconBg: '#EF5A16', iconTxt: '⏳', text: '#FFEFE6' },
+    out:     { bg: '#14261F', border: '#3FCB92', iconBg: '#3FCB92', iconTxt: '✔', text: '#DDF9EC' },
+    fault:   { bg: '#2A171A', border: '#E5484D', iconBg: '#E5484D', iconTxt: '✕', text: '#FFE6E7' }
   };
 
-  function N(cx, cy, kind, l1, l2, extra) {
-    return Object.assign({ cx, cy, kind, l1, l2 }, extra || {});
+  function Node(cx, cy, type, title, sub, extra) {
+    return Object.assign({ cx, cy, type, title, sub }, extra || {});
   }
 
   const GRAPHS = {
-    scheduled: {
-      title: 'SHIFT HANDOFF SUMMARY',
-      sub: 'Scheduled · fires at the manager\'s clock-in, one hour before crew change',
+    // Exact reproduction of n8n-calendar-sync.webp
+    event: {
+      title: 'CALENDAR SYNC & RECONCILIATION // n8n WORKFLOW',
+      sub: 'Event Driven · Outlook line calendars merged with factory.db SQL planned schedule',
       nodes: {
-        t:  N(96, 230, 'trigger', 'CRON 06:00', 'mgr clock-in'),
-        d1: N(310, 112, 'data', 'SHIFTS', 'handoff link'),
-        d2: N(310, 230, 'data', 'PRODUCTION_ROLLS', 'outgoing shift'),
-        d3: N(310, 348, 'data', 'LINE_EVENTS', 'stops + holds'),
-        l1: N(530, 230, 'logic', 'EFFICIENCY', 'actual vs targets'),
-        a1: N(740, 230, 'ai', 'LLM NARRATOR', 'numbers → prose'),
-        o1: N(944, 230, 'out', 'EMAIL', 'day manager')
+        t:   Node(80,  230, 'trigger', 'Schedule / Webhook', 'on 15m polling'),
+        c1:  Node(240, 130, 'outlook', '5 Line Calendars', 'fetch Outlook events'),
+        sql: Node(240, 330, 'db',      'SQL factory.db',   'pull planned orders'),
+        dif: Node(410, 230, 'code',    'Change Detection', 'diff timestamp & ID'),
+        sw:  Node(570, 230, 'switch',  'Rules Switch',     'valid vs conflict'),
+        
+        // Accept branch (upper)
+        em:  Node(730, 130, 'outlook', 'Approval Email',   'send to plant mgr'),
+        gt:  Node(880, 130, 'gate',    'Human Webhook Gate','waiting for click', { human: true }),
+        up:  Node(990, 230, 'out',     'Sync Calendar & DB','commit audit row'),
+        
+        // Reject branch (lower)
+        ai:  Node(730, 330, 'ai',      'LLM Diagnostics',  'explain conflict'),
+        bn:  Node(880, 330, 'fault',   'Bounce Notice',    'delete invalid item')
       },
-      edges: [['t','d1'],['t','d2'],['t','d3'],['d1','l1'],['d2','l1'],['d3','l1'],['l1','a1'],['a1','o1']],
+      edges: [
+        ['t', 'c1'], ['t', 'sql'],
+        ['c1', 'dif'], ['sql', 'dif'],
+        ['dif', 'sw'],
+        ['sw', 'em', { label: 'Valid Move' }],
+        ['em', 'gt'],
+        ['gt', 'up'],
+        ['sw', 'ai', { label: 'Conflict / Invalid', fault: true }],
+        ['ai', 'bn', { fault: true }]
+      ],
       waves: [
-        { e: [['t','d1'],['t','d2'],['t','d3']], emit: ['06:00 · handoff SH-20260806-N → crew C'] },
-        { e: [['d1','l1'],['d2','l1'],['d3','l1']], emit: ['48 rolls · 40.1 k-lb logged overnight'] },
-        { e: [['l1','a1']], emit: ['Line X 61% of target · extruder fault 03:10, 90 min'] },
-        { e: [['a1','o1']], emit: ['Brief sent — X is behind because of the 03:10 fault,', 'not crew pace. Y held 45 min on gauge drift.'] }
+        { e: [['t','c1'], ['t','sql']], emit: ['14:30:00 · Webhook triggered: schedule scan started'] },
+        { e: [['c1','dif'], ['sql','dif']], emit: ['Fetched 5 line calendars (42 events) + 301 SQL ledger rows'] },
+        { e: [['dif','sw']], emit: ['Diff detected: Line 2 ORD-10293 shifted forward by +4.5 hrs'] },
+        { e: [['sw','em']], emit: ['Rules check: slot available. Dispatched Actionable Message to manager'] },
+        { e: [['em','gt']], hold: 1400, emit: ['HUMAN GATE ACTIVE · Waiting for manager email click...'] },
+        { e: [['gt','up']], emit: ['Manager approved! Synced Outlook calendar and committed factory.db ledger.'] }
+      ]
+    },
+
+    scheduled: {
+      title: 'SHIFT BRIEFING AUTOMATION // 06:00 CRON',
+      sub: 'Scheduled · Runs 1 hour before shift handoff to brief incoming crew',
+      nodes: {
+        t:   Node(80,  230, 'cron',    'Cron 06:00',       'shift change trigger'),
+        sh:  Node(260, 120, 'db',      'Shift Records',    'pull outgoing crew'),
+        ro:  Node(260, 230, 'db',      'Production Rolls', 'extract roll counts'),
+        ev:  Node(260, 340, 'db',      'Extruder Events',  'stops, faults, downtime'),
+        ef:  Node(460, 230, 'code',    'Line Efficiency',  'calc actual vs target'),
+        ai:  Node(660, 230, 'ai',      'Qwen 7B Narrator', 'numbers → briefing prose'),
+        gw:  Node(830, 230, 'gate',    'Accuracy Gate',    'verify anomaly flags'),
+        ml:  Node(980, 230, 'out',     'Manager Outlook',  'send morning briefing')
+      },
+      edges: [
+        ['t', 'sh'], ['t', 'ro'], ['t', 'ev'],
+        ['sh', 'ef'], ['ro', 'ef'], ['ev', 'ef'],
+        ['ef', 'ai'], ['ai', 'gw'], ['gw', 'ml']
+      ],
+      waves: [
+        { e: [['t','sh'],['t','ro'],['t','ev']], emit: ['06:00:00 · Shift cron fired for morning handoff'] },
+        { e: [['sh','ef'],['ro','ef'],['ev','ef']], emit: ['Overnight aggregate: 48 rolls logged (40.1 k-lb)'] },
+        { e: [['ef','ai']], emit: ['Line 2 operated at 61% target due to 03:10 extruder heater fault (90 min)'] },
+        { e: [['ai','gw']], emit: ['LLM generated concise explanation attributing gap to fault, not crew pace'] },
+        { e: [['gw','ml']], emit: ['Briefing verified and delivered to Operations Manager Outlook inbox'] }
       ]
     },
 
     threshold: {
-      title: 'MATERIAL DEPLETION FORECAST',
-      sub: 'Threshold · projects burn-down against lead time instead of waiting for the bin to empty',
+      title: 'MATERIAL DEPLETION MONITOR // PREDICTIVE FORECAST',
+      sub: 'Threshold · Evaluates raw resin burn-down against supplier lead times',
       nodes: {
-        t:  N(96, 230, 'trigger', 'CRON 30 MIN', '+ on receipt'),
-        d1: N(310, 140, 'data', 'MATERIAL LEDGER', 'balance_after_lb'),
-        d2: N(310, 320, 'data', 'SCHEDULE', '6 weeks committed'),
-        l1: N(530, 230, 'logic', 'FORECAST', 'demand vs on-hand'),
-        g1: N(740, 230, 'gate', 'LEAD-TIME GATE', 'cover < 14 days?'),
-        o1: N(944, 140, 'out', 'PROCUREMENT', 'PO draft + alert'),
-        o2: N(944, 320, 'logic', 'NO ACTION', 'within cover', { dim: true })
+        t:   Node(80,  230, 'cron',    'Interval 30m',     'material ledger scan'),
+        st:  Node(260, 140, 'db',      'Material Stock',   'balance_after_lb'),
+        sc:  Node(260, 320, 'db',      'Committed Queue',  '6-week order demand'),
+        fc:  Node(460, 230, 'code',    'Depletion Model',  'burn rate vs lead time'),
+        sw:  Node(640, 230, 'switch',  'Stockout Risk?',   'cover < 14 days?'),
+        al:  Node(840, 140, 'fault',   'Procurement Alert','PO draft generated'),
+        ok:  Node(840, 320, 'out',     'Sufficient Stock', 'log safe operating reserve')
       },
-      edges: [['t','d1'],['t','d2'],['d1','l1'],['d2','l1'],['l1','g1'],['g1','o1'],['g1','o2',{dim:true}]],
+      edges: [
+        ['t','st'], ['t','sc'],
+        ['st','fc'], ['sc','fc'],
+        ['fc','sw'],
+        ['sw','al', { label: 'Deficit Risk', fault: true }],
+        ['sw','ok', { label: 'Adequate Stock' }]
+      ],
       waves: [
-        { e: [['t','d1'],['t','d2']], emit: ['Scanning 12 materials against the committed queue'] },
-        { e: [['d1','l1'],['d2','l1']], emit: ['PET · 9,000 lb on hand'] },
-        { e: [['l1','g1']], emit: ['R-LAM-12 needs 141,000 lb within 14 days'] },
-        { e: [['g1','o1']], emit: ['SHORTFALL. Lead time 14 d = zero slack.', 'Order PET today or Line R stalls Aug 21.'] }
-      ]
-    },
-
-    event: {
-      title: 'CALENDAR MOVE → RESCHEDULE',
-      sub: 'Event-driven · the manager drags an order in Outlook and the schedule answers back',
-      nodes: {
-        t:  N(96, 230, 'trigger', 'OUTLOOK CAL', 'move / add / delete'),
-        l1: N(288, 230, 'logic', 'VALIDATE', 'line capability'),
-        g:  N(482, 230, 'gate', 'SPEC MATCH?', 'gauge · width · color'),
-        ob: N(676, 96, 'fault', 'BOUNCE', 'revert + reason', { dim: true }),
-        l2: N(676, 340, 'logic', 'CASCADE', 'shift queue up/down'),
-        d:  N(852, 340, 'data', 'WRITE factory.db', '+ audit row'),
-        o:  N(944, 196, 'out', 'CONFIRM', 'new ETA + impact')
-      },
-      edges: [['t','l1'],['l1','g'],['g','ob',{dim:true,label:'invalid'}],['g','l2'],['l2','d'],['d','o']],
-      waves: [
-        { e: [['t','l1']], emit: ['ORD-10293 cancelled — Line R slot freed Aug 9'] },
-        { e: [['l1','g']], emit: ['Checking line_capabilities for the next eligible order'] },
-        { e: [['g','l2']], emit: ['ORD-10301 runs on R at 1,180 lb/h. Accepted.'] },
-        { e: [['l2','d']], emit: ['Cascading 14 downstream jobs up by 6 h 20 m'] },
-        { e: [['d','o']], emit: ['Confirmed. Two rush orders moved back inside due date.', 'Nothing written until the manager approves.'] }
+        { e: [['t','st'],['t','sc']], emit: ['Scanning 12 material silos against active line queue'] },
+        { e: [['st','fc'],['sc','fc']], emit: ['Resin PET on-hand: 9,000 lb. Projected 14-day need: 141,000 lb'] },
+        { e: [['fc','sw']], emit: ['Lead-time threshold breach: PET cover drops to 2.8 days (threshold = 14 d)'] },
+        { e: [['sw','al']], emit: ['CRITICAL SHORTFALL: Line 3 will stall in 3 days. Automated PO draft sent!'] }
       ]
     },
 
     human: {
-      title: 'ORDER APPROVAL CHAIN',
-      sub: 'Human-in-the-loop · a state machine that pauses on people and resumes on their answer',
+      title: 'ORDER APPROVAL CHAIN // STATE MACHINE',
+      sub: 'Human-in-the-Loop · Order state machine that pauses on humans and resumes on commit',
       nodes: {
-        t:  N(100, 230, 'trigger', 'ORD-10291', 'new order'),
-        a1: N(336, 116, 'logic', 'CHEMICAL', 'feedstock confirm', { human: true }),
-        a2: N(336, 344, 'logic', 'MANUFACTURING', 'line capacity', { human: true }),
-        j:  N(556, 230, 'gate', 'JOIN', 'both must clear'),
-        m:  N(760, 230, 'logic', 'MANAGEMENT', 'schedule sign-off', { human: true }),
-        o:  N(944, 230, 'out', 'SCHEDULED', 'enters the queue')
+        t:   Node(80,  230, 'trigger', 'New Sales Order',  'ORD-10305 submitted'),
+        c1:  Node(270, 130, 'gate',    'Chemical Approval','feedstock verification', { human: true }),
+        c2:  Node(270, 330, 'gate',    'Line Capacity',    'slot feasibility signoff', { human: true }),
+        jn:  Node(470, 230, 'code',    'Barrier Join',     'wait for both approvals'),
+        mg:  Node(680, 230, 'gate',    'Management Exec',  'final executive gate', { human: true }),
+        db:  Node(870, 230, 'db',      'Postgres Commit',  'insert into prod queue'),
+        ok:  Node(990, 230, 'out',     'Order Scheduled',  'notify plant & customer')
       },
-      edges: [['t','a1'],['t','a2'],['a1','j'],['a2','j'],['j','m'],['m','o']],
+      edges: [
+        ['t','c1'], ['t','c2'],
+        ['c1','jn'], ['c2','jn'],
+        ['jn','mg'], ['mg','db'], ['db','ok']
+      ],
       waves: [
-        { e: [['t','a1'],['t','a2']], emit: ['Stages open in parallel. Workflow parks and waits.'] },
-        { e: [['a1','j']], hold: 900, emit: ['Chemical approved 04:12 — LLDPE lot 22-B confirmed'] },
-        { e: [['a2','j']], hold: 500, emit: ['Manufacturing approved 05:40 — Line Y slot Aug 12'] },
-        { e: [['j','m']], emit: ['Both cleared. Management gate opens.'] },
-        { e: [['m','o']], hold: 1000, emit: ['Approved. Order drops into the production queue', 'with the full decision trail attached.'] }
+        { e: [['t','c1'],['t','c2']], emit: ['ORD-10305 dispatched to Chemical Lab and Line Supervisors'] },
+        { e: [['c1','jn']], hold: 900, emit: ['Chemical lab confirmed resin blend lot #44-A'] },
+        { e: [['c2','jn']], hold: 600, emit: ['Manufacturing confirmed Line 4 window open Aug 14'] },
+        { e: [['jn','mg']], emit: ['Both prerequisite gates cleared. Order elevated to Plant Manager'] },
+        { e: [['mg','db']], hold: 1100, emit: ['Plant Manager signed off via mobile webhook'] },
+        { e: [['db','ok']], emit: ['Order committed to production queue with full cryptographic audit trail.'] }
       ]
     }
   };
@@ -119,9 +162,9 @@
     let W = 0, H = 0, scale = 1, offX = 0, offY = 0;
     const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
-    let key = opts.mode || 'scheduled';
-    let g = GRAPHS[key];
-    let waveIdx = 0, phase = 'hold', phaseStart = 0, doneNodes = {}, active = {};
+    let key = opts.mode || 'event';
+    let g = GRAPHS[key] || GRAPHS.event;
+    let waveIdx = 0, phase = 'hold', phaseStart = 0, doneNodes = {}, activeEdges = [];
     let raf = null;
 
     function resize() {
@@ -138,9 +181,9 @@
 
     function restart() {
       waveIdx = 0; phase = 'hold'; phaseStart = performance.now();
-      doneNodes = {}; active = {};
+      doneNodes = {}; activeEdges = [];
       doneNodes[Object.keys(g.nodes)[0]] = true;
-      if (opts.onEmit) opts.onEmit(null); // clear
+      if (opts.onEmit) opts.onEmit(null);
     }
 
     function setMode(k) {
@@ -150,166 +193,230 @@
       restart();
     }
 
-    /* ---------- geometry ---------- */
     const X = (x) => offX + x * scale;
     const Y = (y) => offY + y * scale;
 
     function anchor(from, to) {
       const a = g.nodes[from], b = g.nodes[to];
-      const hw = (NW / 2), hh = (NH / 2);
-      const ax = a.cx + (b.cx > a.cx ? hw : b.cx < a.cx ? -hw : 0);
-      const bx = b.cx + (b.cx > a.cx ? -hw : b.cx < a.cx ? hw : 0);
-      return { ax, ay: a.cy, bx, by: b.cy, ahh: hh, bhh: hh };
+      const hw = (NW / 2) * scale;
+      const ax = X(a.cx) + (b.cx > a.cx ? hw : b.cx < a.cx ? -hw : 0);
+      const ay = Y(a.cy);
+      const bx = X(b.cx) + (b.cx > a.cx ? -hw : b.cx < a.cx ? hw : 0);
+      const by = Y(b.cy);
+      return { ax, ay, bx, by };
     }
 
-    function pointOn(e, t) {
-      // cubic-ish S curve between the two anchors
-      const { ax, ay, bx, by } = e;
-      const mx = (ax + bx) / 2;
-      const u = 1 - t;
-      const x = u * u * u * ax + 3 * u * u * t * mx + 3 * u * t * t * mx + t * t * t * bx;
-      const y = u * u * u * ay + 3 * u * u * t * ay + 3 * u * t * t * by + t * t * t * by;
-      return [x, y];
-    }
+    function drawCard(c, n, isDone, isLive, waiting, now) {
+      const w = NW * scale;
+      const h = NH * scale;
+      const x = X(n.cx) - w / 2;
+      const y = Y(n.cy) - h / 2;
+      const st = NODE_STYLES[n.type] || NODE_STYLES.code;
 
-    function strokeEdge(c, e, style, width, dash) {
-      const { ax, ay, bx, by } = e;
-      const mx = (ax + bx) / 2;
-      c.strokeStyle = style;
-      c.lineWidth = width;
-      c.setLineDash(dash || []);
+      // Card body with rounded corners
+      const r = 6 * scale;
       c.beginPath();
-      c.moveTo(X(ax), Y(ay));
-      c.bezierCurveTo(X(mx), Y(ay), X(mx), Y(by), X(bx), Y(by));
+      c.roundRect(x, y, w, h, r);
+      c.fillStyle = st.bg;
+      c.fill();
+
+      // Border glow when live or waiting
+      let borderColor = isDone ? st.border : '#2B3732';
+      let borderWidth = 1;
+
+      if (isLive) {
+        borderColor = '#EF5A16';
+        borderWidth = 2;
+        c.shadowColor = 'rgba(239, 90, 22, 0.4)';
+        c.shadowBlur = 10;
+      } else if (waiting) {
+        const pulse = 0.5 + 0.5 * Math.sin(now / 180);
+        borderColor = `rgba(239, 90, 22, ${0.4 + 0.6 * pulse})`;
+        borderWidth = 2;
+        c.shadowColor = 'rgba(239, 90, 22, 0.5)';
+        c.shadowBlur = 12;
+      }
+
+      c.lineWidth = borderWidth;
+      c.strokeStyle = borderColor;
+      c.stroke();
+      c.shadowBlur = 0; // reset shadow
+
+      // Left Icon square (n8n node style)
+      const iconSize = h - 10 * scale;
+      const iconX = x + 5 * scale;
+      const iconY = y + 5 * scale;
+      c.beginPath();
+      c.roundRect(iconX, iconY, iconSize, iconSize, 4 * scale);
+      c.fillStyle = st.iconBg;
+      c.fill();
+
+      // Icon symbol
+      c.fillStyle = '#FFFFFF';
+      c.font = `700 ${Math.max(10, 13 * scale)}px "IBM Plex Mono", monospace`;
+      c.textAlign = 'center';
+      c.textBaseline = 'middle';
+      c.fillText(st.iconTxt, iconX + iconSize / 2, iconY + iconSize / 2 + 1);
+
+      // Node title text
+      const textX = iconX + iconSize + 7 * scale;
+      c.textAlign = 'left';
+      c.textBaseline = 'alphabetic';
+      c.font = `600 ${Math.max(9, 11 * scale)}px "IBM Plex Sans", -apple-system, sans-serif`;
+      c.fillStyle = isDone || isLive ? '#FFFFFF' : '#8A9792';
+      c.fillText(n.title, textX, y + 22 * scale, w - (iconSize + 16 * scale));
+
+      // Node subtitle / action
+      c.font = `400 ${Math.max(8, 9.5 * scale)}px "IBM Plex Mono", monospace`;
+      c.fillStyle = isDone ? '#A2B3AD' : '#5E6B66';
+      c.fillText(n.sub, textX, y + 42 * scale, w - (iconSize + 16 * scale));
+
+      // Input port circle on left
+      c.beginPath();
+      c.arc(x, Y(n.cy), 3.5 * scale, 0, Math.PI * 2);
+      c.fillStyle = '#202A26';
+      c.fill();
+      c.strokeStyle = borderColor;
+      c.lineWidth = 1;
+      c.stroke();
+
+      // Output port circle on right
+      c.beginPath();
+      c.arc(x + w, Y(n.cy), 3.5 * scale, 0, Math.PI * 2);
+      c.fillStyle = '#202A26';
+      c.fill();
+      c.strokeStyle = borderColor;
+      c.lineWidth = 1;
+      c.stroke();
+
+      // Execution status badge
+      if (waiting) {
+        c.font = `700 ${Math.max(7.5, 9 * scale)}px "IBM Plex Mono", monospace`;
+        c.fillStyle = '#EF5A16';
+        c.textAlign = 'right';
+        c.fillText('PAUSED (GATE)', x + w - 4 * scale, y - 4 * scale);
+      } else if (isDone) {
+        c.font = `600 ${Math.max(7.5, 8.5 * scale)}px "IBM Plex Mono", monospace`;
+        c.fillStyle = '#3FCB92';
+        c.textAlign = 'right';
+        c.fillText('✔ EXECUTED', x + w - 4 * scale, y - 4 * scale);
+      }
+    }
+
+    function strokeN8nEdge(c, a, isDone, isLive, fault, label) {
+      const { ax, ay, bx, by } = a;
+      const mx = (ax + bx) / 2;
+
+      c.beginPath();
+      c.moveTo(ax, ay);
+      c.bezierCurveTo(mx, ay, mx, by, bx, by);
+
+      if (fault) {
+        c.strokeStyle = isDone ? '#E5484D' : '#4E2429';
+        c.lineWidth = isLive ? 2.5 : 1.5;
+        c.setLineDash([4 * scale, 4 * scale]);
+      } else if (isLive) {
+        c.strokeStyle = '#EF5A16';
+        c.lineWidth = 2.5;
+        c.setLineDash([]);
+      } else if (isDone) {
+        c.strokeStyle = '#3FCB92';
+        c.lineWidth = 1.5;
+        c.setLineDash([]);
+      } else {
+        c.strokeStyle = '#27342F';
+        c.lineWidth = 1;
+        c.setLineDash([]);
+      }
+
       c.stroke();
       c.setLineDash([]);
+
+      // Optional edge branch label
+      if (label) {
+        c.font = `500 ${Math.max(8, 9.5 * scale)}px "IBM Plex Mono", monospace`;
+        c.fillStyle = fault ? '#E5484D' : '#8A9792';
+        c.textAlign = 'center';
+        c.textBaseline = 'middle';
+        c.fillText(label, mx, (ay + by) / 2 - 8 * scale);
+      }
     }
 
-    function edgeKey(e) { return e[0] + '>' + e[1]; }
-
-    /* ---------- draw ---------- */
     function draw(now) {
       const c = ctx;
       c.setTransform(dpr, 0, 0, dpr, 0, 0);
       c.fillStyle = '#0C0E0D';
       c.fillRect(0, 0, W, H);
 
-      // faint schematic grid
-      c.strokeStyle = '#151C1A';
-      c.lineWidth = 1;
-      c.beginPath();
-      for (let x = 0; x <= VW; x += 40) { c.moveTo(X(x), Y(0)); c.lineTo(X(x), Y(VH)); }
-      for (let y = 0; y <= VH; y += 40) { c.moveTo(X(0), Y(y)); c.lineTo(X(VW), Y(y)); }
-      c.stroke();
-
-      const wave = g.waves[waveIdx];
-      const liveKeys = wave ? wave.e.map(edgeKey) : [];
-
-      // edges
-      for (const ed of g.edges) {
-        const e = anchor(ed[0], ed[1]);
-        const meta = ed[2] || {};
-        const k = edgeKey(ed);
-        const settled = doneNodes[ed[1]] && doneNodes[ed[0]];
-        let col = '#232B29';
-        if (meta.dim) col = '#2A1F21';
-        else if (settled) col = '#31423C';
-        strokeEdge(c, e, col, Math.max(1, 1.4 * scale), meta.dim ? [4, 4] : null);
-
-        if (meta.label) {
-          c.font = `600 ${Math.max(8, 9 * scale)}px "IBM Plex Mono", monospace`;
-          c.fillStyle = '#5A3F41';
-          c.textAlign = 'center';
-          c.fillText(meta.label.toUpperCase(), X((e.ax + e.bx) / 2), Y((e.ay + e.by) / 2) - 6);
+      // n8n dotted grid canvas background
+      c.fillStyle = '#18221E';
+      const dotSpacing = 24 * scale;
+      for (let gx = offX % dotSpacing; gx < W; gx += dotSpacing) {
+        for (let gy = offY % dotSpacing; gy < H; gy += dotSpacing) {
+          c.fillRect(gx, gy, 1.2, 1.2);
         }
       }
 
-      // travelling tokens
-      if (wave && phase === 'travel') {
-        const t = Math.min(1, (now - phaseStart) / travelMs());
-        for (const ed of wave.e) {
-          const e = anchor(ed[0], ed[1]);
-          strokeEdge(c, e, 'rgba(239,90,22,.55)', Math.max(1.2, 1.8 * scale));
-          for (let s = 0; s < 3; s++) {
-            const tt = t - s * 0.11;
-            if (tt < 0 || tt > 1) continue;
-            const [px, py] = pointOn(e, tt);
-            const r = Math.max(1.6, (3.4 - s * 0.8) * scale);
-            c.beginPath();
-            c.arc(X(px), Y(py), r, 0, Math.PI * 2);
-            c.fillStyle = s === 0 ? '#FFB088' : 'rgba(239,90,22,.5)';
-            c.fill();
-          }
-        }
+      // Draw all connection edges
+      g.edges.forEach((ed) => {
+        const fromId = ed[0], toId = ed[1];
+        const extra = ed[2] || {};
+        const isDone = doneNodes[fromId] && doneNodes[toId];
+        const isLive = activeEdges.some(ae => ae[0] === fromId && ae[1] === toId);
+        const a = anchor(fromId, toId);
+        strokeN8nEdge(c, a, isDone, isLive, extra.fault, extra.label);
+      });
+
+      // Draw live animated data packets traveling along edges
+      if (phase === 'travel' && activeEdges.length) {
+        const t = Math.min(1, Math.max(0, (now - phaseStart) / travelMs()));
+        activeEdges.forEach((ed) => {
+          const a = anchor(ed[0], ed[1]);
+          const mx = (a.ax + a.bx) / 2;
+          const u = 1 - t;
+          const px = u * u * u * a.ax + 3 * u * u * t * mx + 3 * u * t * t * mx + t * t * t * a.bx;
+          const py = u * u * u * a.ay + 3 * u * u * t * a.ay + 3 * u * t * t * a.by + t * t * t * a.by;
+
+          c.beginPath();
+          c.arc(px, py, Math.max(3.5, 5 * scale), 0, Math.PI * 2);
+          c.fillStyle = '#EF5A16';
+          c.shadowColor = 'rgba(239, 90, 22, 0.8)';
+          c.shadowBlur = 10;
+          c.fill();
+          c.shadowBlur = 0;
+        });
       }
 
-      // nodes
-      for (const id in g.nodes) {
+      // Draw all n8n node cards
+      Object.keys(g.nodes).forEach((id) => {
         const n = g.nodes[id];
-        const kk = KIND[n.kind] || KIND.logic;
-        const x = X(n.cx - NW / 2), y = Y(n.cy - NH / 2);
-        const w = NW * scale, h = NH * scale;
         const isDone = !!doneNodes[id];
-        const isLive = wave && wave.e.some((ed) => ed[1] === id) && phase !== 'hold';
-        const waiting = n.human && wave && wave.e.some((ed) => ed[0] === id) && phase === 'hold';
+        const isLive = activeEdges.some(ae => ae[1] === id);
+        const waiting = n.human && isLive && phase === 'hold';
+        drawCard(c, n, isDone, isLive, waiting, now);
+      });
 
-        c.fillStyle = n.dim ? '#101413' : (isDone || isLive ? '#151C1A' : '#101413');
-        c.fillRect(x, y, w, h);
-
-        let border = n.dim ? '#242B29' : (isDone ? kk.line : '#2C3532');
-        if (isLive) border = '#EF5A16';
-        if (waiting) border = '#C9A227';
-        c.strokeStyle = border;
-        c.lineWidth = isLive || waiting ? Math.max(1.4, 2 * scale) : 1;
-        c.strokeRect(x + 0.5, y + 0.5, w - 1, h - 1);
-
-        // left kind bar
-        c.fillStyle = n.dim ? '#2A322F' : kk.line;
-        c.globalAlpha = isDone || isLive ? 1 : 0.42;
-        c.fillRect(x, y, Math.max(2, 3 * scale), h);
-        c.globalAlpha = 1;
-
-        c.textAlign = 'left';
-        c.font = `600 ${Math.max(8.5, 11 * scale)}px "IBM Plex Mono", monospace`;
-        c.fillStyle = n.dim ? '#4B5350' : (isDone || isLive ? kk.text : '#79837F');
-        c.fillText(n.l1, x + 11 * scale, y + h * 0.42);
-        c.font = `400 ${Math.max(7.5, 9.5 * scale)}px "IBM Plex Mono", monospace`;
-        c.fillStyle = n.dim ? '#3C4442' : '#6E7A76';
-        c.fillText(n.l2, x + 11 * scale, y + h * 0.72);
-
-        if (waiting) {
-          const pulse = 0.5 + 0.5 * Math.sin(now / 220);
-          c.fillStyle = `rgba(201,162,39,${0.35 + 0.5 * pulse})`;
-          c.beginPath();
-          c.arc(x + w - 11 * scale, y + 12 * scale, Math.max(2, 3.2 * scale), 0, Math.PI * 2);
-          c.fill();
-          c.font = `600 ${Math.max(7, 8 * scale)}px "IBM Plex Mono", monospace`;
-          c.fillStyle = '#C9A227';
-          c.textAlign = 'right';
-          c.fillText('WAITING', x + w - 20 * scale, y + 15 * scale);
-        } else if (isDone && !n.dim) {
-          c.fillStyle = kk.line;
-          c.beginPath();
-          c.arc(x + w - 11 * scale, y + 12 * scale, Math.max(1.8, 2.6 * scale), 0, Math.PI * 2);
-          c.fill();
-        }
-      }
-
+      // Canvas Header HUD
       c.textAlign = 'left';
-      c.font = `600 ${Math.max(8.5, 10 * scale)}px "IBM Plex Mono", monospace`;
-      c.fillStyle = '#5D6B66';
-      c.fillText(g.title, X(8), Y(20));
+      c.textBaseline = 'top';
+      c.font = `700 ${Math.max(9, 10.5 * scale)}px "IBM Plex Mono", monospace`;
+      c.fillStyle = '#6E7C77';
+      c.fillText(g.title, offX + 12 * scale, offY + 12 * scale);
     }
 
-    function travelMs() { return reduced ? 60 : 700; }
+    function travelMs() { return reduced ? 60 : 750; }
 
-    /* ---------- run loop ---------- */
     function tick(now) {
       const wave = g.waves[waveIdx];
       if (wave) {
         if (phase === 'hold') {
-          const hold = reduced ? 40 : (wave.hold || 260);
-          if (now - phaseStart > hold) { phase = 'travel'; phaseStart = now; }
+          activeEdges = [];
+          const hold = reduced ? 40 : (wave.hold || 340);
+          if (now - phaseStart > hold) {
+            phase = 'travel';
+            phaseStart = now;
+            activeEdges = wave.e.slice();
+          }
         } else if (phase === 'travel') {
           if (now - phaseStart > travelMs()) {
             wave.e.forEach((ed) => { doneNodes[ed[1]] = true; });
@@ -317,30 +424,33 @@
             waveIdx++;
             phase = 'hold';
             phaseStart = now;
+            activeEdges = [];
           }
         }
       } else {
-        if (now - phaseStart > (reduced ? 1500 : 2400)) restart();
+        // Run completed: hold final state for 4.5 seconds, then replay
+        if (now - phaseStart > 4500) {
+          restart();
+        }
       }
+
       draw(now);
       raf = requestAnimationFrame(tick);
     }
 
-    const io = new IntersectionObserver((es) => {
-      es.forEach((e) => {
-        if (e.isIntersecting && !raf) { phaseStart = performance.now(); raf = requestAnimationFrame(tick); }
-        else if (!e.isIntersecting && raf) { cancelAnimationFrame(raf); raf = null; }
-      });
-    }, { threshold: 0.05 });
-    io.observe(canvas);
+    raf = requestAnimationFrame(tick);
 
-    let rt;
-    window.addEventListener('resize', () => { clearTimeout(rt); rt = setTimeout(resize, 120); });
+    window.addEventListener('resize', () => {
+      resize();
+    });
 
-    restart();
-    if (opts.onMode) opts.onMode(g);
-
-    return { setMode, restart, graph: () => g };
+    return {
+      setMode,
+      restart,
+      destroy: () => {
+        if (raf) cancelAnimationFrame(raf);
+      }
+    };
   }
 
   global.Pipeline = { mount, GRAPHS };

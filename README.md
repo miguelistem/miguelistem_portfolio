@@ -5,17 +5,17 @@ A static two-page portfolio. No build step, no dependencies, no framework: open
 
 ```
 index.html          home — hero, three systems, capabilities, record, contact
-work.html           the showcase — four cases, each with a live demo
+projects.html           the showcase — four cases, each with a live demo
+MiguelRomero_Resume_AutomationManufacturing.pdf  the résumé — every "Résumé" link points here
 assets/
   css/site.css      all styling, one file
   js/swarm.js       multi-agent sim: grid A* + RVO avoidance + collision checker
   js/pipeline.js    animated n8n workflow graphs, four trigger modes
   js/coach.js       chess board, eval bar, and the typed coaching explanation
   js/mini.js        the small ambient canvases on the home page
-  js/work.js        wires the demos on work.html to their controls
+  js/work.js        wires the demos on projects.html to their controls
   js/site.js        shared behaviour: sub-nav highlighting, reveals, year
   img/miguel.jpg    hero photo
-  miguel-romero-resume.pdf
 ```
 
 ## Running it locally
@@ -48,9 +48,9 @@ to need changing:
 | Headline, bio, contact details | `index.html` |
 | Skills chips | `index.html`, the `#capabilities` section |
 | Education and jobs | `index.html`, the `#record` section |
-| Case-study copy | `work.html`, one `<section class="case">` per project |
-| Project status lamps | `work.html` — `<span class="lamp">` is green, `lamp build` is orange |
-| Résumé PDF | replace `assets/miguel-romero-resume.pdf` |
+| Case-study copy | `projects.html`, one `<section class="case">` per project |
+| Project status lamps | `projects.html` — `<span class="lamp">` is green, `lamp build` is orange |
+| Résumé PDF | replace `MiguelRomero_Resume_AutomationManufacturing.pdf` in the repo root |
 | Colours, type scale | the `:root` block at the top of `assets/css/site.css` |
 
 ## The demos

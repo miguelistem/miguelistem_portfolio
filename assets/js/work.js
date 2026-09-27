@@ -32,9 +32,12 @@
       }).join('');
     };
 
+    const initBtn = document.querySelector('[data-mode].on');
+    const initMode = initBtn ? initBtn.dataset.mode : 'event';
+
     const pipe = window.Pipeline.mount({
       canvas: pipeCanvas,
-      mode: 'scheduled',
+      mode: initMode,
       onMode: (g) => {
         sub = g.sub;
         if (headEl) headEl.textContent = g.title;
@@ -53,6 +56,52 @@
     group('[data-mode]', (b) => pipe.setMode(b.dataset.mode));
     const replay = $('#pipe-replay');
     if (replay) replay.addEventListener('click', () => pipe.restart());
+  }
+
+  /* ---------------- 01b · inbox orchestrator ---------------- */
+  const inboxCanvas = $('#inbox-canvas');
+  if (inboxCanvas && window.InboxPipeline) {
+    const logEl = $('#inbox-log');
+    const headEl = $('#inbox-mode');
+    let lines = [];
+    let sub = '';
+    let stale = false;
+
+    const paint = () => {
+      const head = sub
+        ? '<div style="color:#6E7A76;margin-bottom:10px;padding-bottom:8px;border-bottom:1px solid #1F2724">' + sub + '</div>'
+        : '';
+      if (logEl) {
+        logEl.innerHTML = head + lines.map((l, i) => {
+          const dim = i < lines.length - 1 ? 'opacity:.48;' : 'color:#DCE6E1;';
+          return '<div style="' + dim + 'margin-bottom:6px"><span style="color:#EF5A16">›</span> ' + l + '</div>';
+        }).join('');
+      }
+    };
+
+    const initBtn = document.querySelector('[data-inbox-mode].on');
+    const initMode = initBtn ? initBtn.dataset.inboxMode : 'job';
+
+    const inboxSim = window.InboxPipeline.mount({
+      canvas: inboxCanvas,
+      mode: initMode,
+      onMode: (g) => {
+        sub = g.sub;
+        if (headEl) headEl.textContent = g.title;
+        paint();
+      },
+      onEmit: (emit) => {
+        if (emit === null) { stale = true; return; }
+        if (stale) { lines = []; stale = false; }
+        emit.forEach((l) => lines.push(l));
+        while (lines.length > 6) lines.shift();
+        paint();
+      }
+    });
+
+    group('[data-inbox-mode]', (b) => inboxSim.setMode(b.dataset.inboxMode));
+    const replay = $('#inbox-replay');
+    if (replay) replay.addEventListener('click', () => inboxSim.restart());
   }
 
   /* ---------------- 02 · chess coach ---------------- */
