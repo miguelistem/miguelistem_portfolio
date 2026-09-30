@@ -37,8 +37,8 @@
     <nav>
       <a href="projects.html" aria-current="page">Projects</a>
       <a href="experiments.html">Experiments</a>
-      <a href="index.html#capabilities">Capabilities</a>
-      <a href="index.html#record">Record</a>
+      <a href="index.html#skills">Technical Skills</a>
+      <a href="index.html#experience">Education &amp; Experience</a>
       <a href="MiguelRomero_Resume_AutomationManufacturing.pdf" target="_blank" rel="noopener">Résumé ↗</a>
     </nav>
   </div>
@@ -51,7 +51,7 @@
     <div class="page-tabs-wrap">
       <nav class="page-tabs" aria-label="Work navigation">
         <a href="projects.html" class="page-tab on" aria-current="page">
-          Core Projects <span class="tab-badge">5 Builds</span>
+          Core Projects <span class="tab-badge">6 Builds</span>
         </a>
         <a href="experiments.html" class="page-tab">
           Lab &amp; Experiments <span class="tab-badge neutral">5</span>
@@ -72,15 +72,15 @@
       <div class="proj-status-bar">
         <div class="proj-status-item">
           <span>Active Builds:</span>
-          <b>05 Core Systems</b>
+          <b>06 Core Systems</b>
         </div>
         <div class="proj-status-item">
           <span>Live In-Browser Demos:</span>
-          <b>05 Live Viewports</b>
+          <b>06 Viewports &amp; Rigs</b>
         </div>
         <div class="proj-status-item">
           <span>Deployment State:</span>
-          <b>2 Working · 3 In Build</b>
+          <b>3 Working · 3 In Build</b>
         </div>
         <div class="proj-status-item">
           <span>Architecture:</span>
@@ -155,10 +155,10 @@
     <div class="proj-toolbar">
       <div class="proj-filters" role="tablist" aria-label="Filter builds by domain">
         <button class="proj-filter-btn on" data-filter="all" type="button">
-          All Builds <span class="count">(5)</span>
+          All Builds <span class="count">(6)</span>
         </button>
         <button class="proj-filter-btn" data-filter="automation" type="button">
-          Factory Automation <span class="count">(1)</span>
+          Factory Automation <span class="count">(2)</span>
         </button>
         <button class="proj-filter-btn" data-filter="ai" type="button">
           AI &amp; Multi-Agent <span class="count">(2)</span>
@@ -240,11 +240,79 @@
         </div>
       </article>
 
-      <!-- BUILD 02: Three agents, one real inbox -->
-      <article class="bld-rig rig rise" data-category="ai" data-stages="sense,plan,solve,gate,actuate" id="bld-inbox">
+      <!-- BUILD 02: Dual Cell Production Line Balancer -->
+      <article class="bld-rig rig rise" data-category="automation" data-stages="sense,plan,solve,gate,actuate" id="bld-line-balancer">
         <div class="bld-head">
           <div class="bld-id-group">
             <span class="bld-num">BUILD // 02</span>
+            <span class="bld-category">Industrial Automation // PLC &amp; CNC Synchronization</span>
+            <span class="lamp">Working build</span>
+          </div>
+          <div class="chips">
+            <span class="chip hot">CODESYS</span>
+            <span class="chip hot">Factory I/O</span>
+            <span class="chip hot">Ladder Logic (IEC 61131-3)</span>
+            <span class="chip">PLC Interlocks</span>
+            <span class="chip">CNC Workcells</span>
+          </div>
+        </div>
+
+        <div class="bld-stage-grid">
+          <div class="screen bld-screen">
+            <span class="bld-screen-badge signal">Live Capture // Synchronized Run</span>
+            <video controls playsinline preload="metadata" poster="Product Line.png">
+              <source src="ProductLinePLCSynchronizedcompressed.mp4" type="video/mp4">
+              <a href="ProductLinePLCSynchronizedcompressed.mp4">Download the clip</a>.
+            </video>
+          </div>
+
+          <div class="bld-telemetry">
+            <h4>PLC Balancer Telemetry</h4>
+            <div class="bld-data-row"><span>Controller</span><b>CODESYS SoftPLC (IEC 61131-3)</b></div>
+            <div class="bld-data-row"><span>Simulation Cell</span><b>Factory I/O Dual CNC Machining Centers</b></div>
+            <div class="bld-data-row"><span>Feed Tracking</span><b>Retroreflective Sensors + SR Latches</b></div>
+            <div class="bld-data-row"><span>Throughput Audit</span><b>CTU Exit Counters + CMP Delta Blocks</b></div>
+            <div class="bld-data-row"><span>Cycle Interlock</span><b class="ok">AND-Gated Machine Cycle Hold</b></div>
+            <div class="bld-data-row"><span>Target Output</span><b>1:1 Synchronized Base &amp; Lid Pairs</b></div>
+          </div>
+        </div>
+
+        <div class="bld-body">
+          <h2 class="bld-title">
+            <a href="project-line-balancer.html">Dual cell production line balancer</a>
+          </h2>
+          <p class="bld-blurb">
+            I designed and programmed a dual-cell production line balancer using CODESYS (Ladder Logic) and Factory I/O
+            to synchronize two CNC lines producing matching bases and lids. Autonomous conveyor feed logic coordinates
+            CNC status signals and entrance/exit sensors with Set/Reset latches to track part presence in each machine.
+            To prevent line imbalance, counter blocks on the exit sensors track output totals and comparison blocks evaluate
+            count differentials. If one line ran ahead or stalled, a hold variable was AND-gated with part-presence logic
+            to hold the machine cycle trigger until counts rebalanced.
+          </p>
+          <div class="bld-highlight-note">
+            <b>Closed-Loop Interlock:</b> Production pacing is governed autonomously in ladder logic. When differential count
+            between base and lid units exceeds tolerance, the faster cell's infeed cycle is gated off immediately while the lagging
+            cell catches up, ensuring downstream assembly never starves or overflows.
+          </div>
+        </div>
+
+        <div class="bld-action-bar">
+          <div class="bld-stage-tags">
+            <span>Architecture Layers:</span>
+            <b>Sense · Plan · Solve · Gate · Actuate</b>
+          </div>
+          <div class="bld-actions-group">
+            <a class="btn solid" href="project-line-balancer.html">Open Case Study →</a>
+            <a class="btn" href="Product Line.png" target="_blank" rel="noopener">Layout Still ↗</a>
+          </div>
+        </div>
+      </article>
+
+      <!-- BUILD 03: Three agents, one real inbox -->
+      <article class="bld-rig rig rise" data-category="ai" data-stages="sense,plan,solve,gate,actuate" id="bld-inbox">
+        <div class="bld-head">
+          <div class="bld-id-group">
+            <span class="bld-num">BUILD // 03</span>
             <span class="bld-category">Multi-Agent Systems // Local LLM</span>
             <span class="lamp">Working build</span>
           </div>
@@ -300,11 +368,11 @@
         </div>
       </article>
 
-      <!-- BUILD 03: Chess Coach AI -->
+      <!-- BUILD 04: Chess Coach AI -->
       <article class="bld-rig rig rise" data-category="ai" data-stages="sense,plan,solve" id="bld-coach">
         <div class="bld-head">
           <div class="bld-id-group">
-            <span class="bld-num">BUILD // 03</span>
+            <span class="bld-num">BUILD // 04</span>
             <span class="bld-category">Applied AI // Engine Translation</span>
             <span class="lamp">Working build</span>
           </div>
@@ -359,11 +427,11 @@
         </div>
       </article>
 
-      <!-- BUILD 04: Drone Swarm Path Planning -->
+      <!-- BUILD 05: Drone Swarm Path Planning -->
       <article class="bld-rig rig rise" data-category="robotics" data-stages="sense,plan,solve,gate,actuate" id="bld-swarm">
         <div class="bld-head">
           <div class="bld-id-group">
-            <span class="bld-num">BUILD // 04</span>
+            <span class="bld-num">BUILD // 05</span>
             <span class="bld-category">Robotics &amp; Autonomy // Multi-Agent RL</span>
             <span class="lamp build">In build</span>
           </div>
@@ -419,11 +487,11 @@
         </div>
       </article>
 
-      <!-- BUILD 05: FPGA Collision Accelerator -->
+      <!-- BUILD 06: FPGA Collision Accelerator -->
       <article class="bld-rig rig rise" data-category="robotics" data-stages="plan,solve,actuate" id="bld-fpga">
         <div class="bld-head">
           <div class="bld-id-group">
-            <span class="bld-num">BUILD // 05</span>
+            <span class="bld-num">BUILD // 06</span>
             <span class="bld-category">Digital Logic // Hardware Acceleration</span>
             <span class="lamp build">In build</span>
           </div>

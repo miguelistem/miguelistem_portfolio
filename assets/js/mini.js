@@ -372,12 +372,112 @@
     });
   }
 
+  /* ---------- balancer: Dual-Cell Production Line Balancer ---------- */
+
+  function balancer(canvas) {
+    loop(canvas, (c, w, h, t) => {
+      c.fillStyle = '#0C0E0D';
+      c.fillRect(0, 0, w, h);
+
+      c.font = '700 8.5px "IBM Plex Mono", monospace';
+      c.fillStyle = '#4D5854';
+      c.textAlign = 'left';
+      c.fillText('CODESYS IEC 61131-3 // DUAL-CELL BALANCER', 10, 16);
+
+      const cycle = t % 8;
+      const baseOut = 24 + Math.floor(t * 0.8);
+      const isHold = (cycle > 4.5 && cycle < 6.8);
+      const lidOut = isHold ? baseOut - 1 : baseOut;
+      const delta = Math.abs(baseOut - lidOut);
+
+      const trackW = w - 24;
+      const x0 = 12;
+      const yLine1 = h * 0.36;
+      const yLine2 = h * 0.68;
+      const lineH = 18;
+
+      [ { y: yLine1, label: 'L1: BASE', color: '#388BFD', hold: isHold },
+        { y: yLine2, label: 'L2: LID',  color: '#EF5A16', hold: false }
+      ].forEach((line, idx) => {
+        c.fillStyle = '#141A17';
+        c.beginPath();
+        c.roundRect(x0, line.y - lineH/2, trackW, lineH, 2);
+        c.fill();
+        c.strokeStyle = line.hold ? 'rgba(239,90,22,0.4)' : '#232D29';
+        c.lineWidth = 1;
+        c.stroke();
+
+        c.strokeStyle = '#1D2622';
+        for (let rx = x0 + 10; rx < x0 + trackW - 5; rx += 14) {
+          c.beginPath();
+          c.moveTo(rx, line.y - lineH/2 + 2);
+          c.lineTo(rx, line.y + lineH/2 - 2);
+          c.stroke();
+        }
+
+        const stationW = 44;
+        const sx = x0 + trackW * 0.44;
+        c.fillStyle = line.hold ? '#261B14' : '#1A2420';
+        c.beginPath();
+        c.roundRect(sx, line.y - lineH/2 - 4, stationW, lineH + 8, 3);
+        c.fill();
+        c.strokeStyle = line.hold ? '#EF5A16' : '#3FCB92';
+        c.stroke();
+
+        c.font = '700 7.5px "IBM Plex Mono", monospace';
+        c.fillStyle = line.hold ? '#EF5A16' : '#A9B5B0';
+        c.textAlign = 'center';
+        c.textBaseline = 'middle';
+        c.fillText(line.hold ? 'HOLD' : 'CNC', sx + stationW / 2, line.y);
+
+        // Entrance photo-eye
+        const s1x = sx - 14;
+        c.fillStyle = '#3FCB92';
+        c.fillRect(s1x, line.y - lineH/2, 2, lineH);
+
+        // Exit photo-eye
+        const s2x = sx + stationW + 12;
+        c.fillStyle = '#388BFD';
+        c.fillRect(s2x, line.y - lineH/2, 2, lineH);
+
+        // Moving part
+        const speed = line.hold ? 0 : 0.42;
+        const partProg = ((t * speed + idx * 0.5) % 1);
+        const px = x0 + 6 + partProg * (trackW - 20);
+        c.fillStyle = line.color;
+        c.beginPath();
+        c.roundRect(px, line.y - 5, 10, 10, 2);
+        c.fill();
+
+        c.font = '600 7.5px "IBM Plex Mono", monospace';
+        c.fillStyle = '#7A8C85';
+        c.textAlign = 'left';
+        c.fillText(line.label, x0 + 4, line.y - lineH/2 - 4);
+      });
+
+      c.font = '600 8.5px "IBM Plex Mono", monospace';
+      c.textAlign = 'left';
+      if (isHold) {
+        c.fillStyle = '#EF5A16';
+        c.fillText(`INTERLOCK: AND-GATE HOLD ACTIVE [Δ = ${delta}]`, 10, h - 8);
+      } else {
+        c.fillStyle = '#3FCB92';
+        c.fillText('STATUS: BALANCED 1:1 [CYCLE TRIGGER ARMED]', 10, h - 8);
+      }
+
+      c.textAlign = 'right';
+      c.fillStyle = '#7A8C85';
+      c.fillText(`BASE:${baseOut} LID:${lidOut}`, w - 10, h - 8);
+    });
+  }
+
   function init() {
     document.querySelectorAll('canvas[data-mini]').forEach((cv) => {
       const kind = cv.dataset.mini;
       if (kind === 'flow' || kind === 'agents') flow(cv, kind);
       else if (kind === 'stages') stages(cv);
       else if (kind === 'board') board(cv);
+      else if (kind === 'balancer') balancer(cv);
       else if (kind === 'swarm' && global.Swarm) {
         global.Swarm.mount({ canvas: cv, scenario: 'corridor', n: 8, mini: true });
       }

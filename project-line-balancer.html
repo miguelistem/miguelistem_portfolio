@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Dual Cell Production Line Balancer — Miguel Romero</title>
+<meta name="description" content="Dual-cell production line balancer programmed in CODESYS (Ladder Logic) and Factory I/O: autonomous conveyor feed logic, Set/Reset part-presence latches, exit counter blocks, and AND-gated hold interlocks to synchronize two CNC manufacturing cells.">
+<link rel="canonical" href="https://miguelistem.github.io/miguelistem_portfolio/project-line-balancer.html">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Miguel Romero">
+<meta property="og:url" content="https://miguelistem.github.io/miguelistem_portfolio/project-line-balancer.html">
+<meta property="og:title" content="Dual Cell Production Line Balancer — Miguel Romero">
+<meta property="og:description" content="Dual-cell production line balancer programmed in CODESYS (Ladder Logic) and Factory I/O: autonomous conveyor feed logic, Set/Reset part-presence latches, exit counter blocks, and AND-gated hold interlocks to synchronize two CNC manufacturing cells.">
+<meta property="og:image" content="https://miguelistem.github.io/miguelistem_portfolio/Product Line.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="655">
+<meta property="og:image:alt" content="Dual Cell Production Line Balancer in Factory I/O and CODESYS">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Dual Cell Production Line Balancer — Miguel Romero">
+<meta name="twitter:description" content="Dual-cell production line balancer in CODESYS and Factory I/O: autonomous conveyor feed logic, Set/Reset latches, counter blocks, and AND-gated hold interlocks.">
+<meta name="twitter:image" content="https://miguelistem.github.io/miguelistem_portfolio/Product Line.png">
+<meta name="theme-color" content="#D8D9D4">
+<link rel="icon" type="image/png" sizes="64x64" href="assets/img/favicon-64.png">
+<link rel="apple-touch-icon" href="assets/img/apple-touch-icon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:ital,wdth,wght@0,62..125,100..900;1,62..125,100..900&family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/css/site.css">
+</head>
+<body>
+
+<header class="topbar">
+  <div class="topbar-in">
+    <a class="mark" href="index.html">MR</a>
+    <nav>
+      <a href="projects.html">Projects</a>
+      <a href="experiments.html">Experiments</a>
+      <a href="index.html#skills">Technical Skills</a>
+      <a href="index.html#experience">Education &amp; Experience</a>
+      <a href="MiguelRomero_Resume_AutomationManufacturing.pdf" target="_blank" rel="noopener">Résumé ↗</a>
+    </nav>
+  </div>
+</header>
+
+<div class="subnav">
+  <div class="subnav-in">
+    <a href="projects.html">← All projects</a>
+    <a href="experiments.html">Lab &amp; Experiments ↗</a>
+    <a href="project-automation.html">Plant automation</a>
+    <a href="project-line-balancer.html" class="on">Line balancer</a>
+    <a href="project-inbox.html">Inbox orchestration</a>
+    <a href="project-coach.html">Chess coach</a>
+    <a href="project-swarm.html">Swarm autonomy</a>
+    <a href="project-fpga.html">FPGA accelerator</a>
+  </div>
+</div>
+
+<main>
+
+  <section class="case" id="line-balancer">
+    <div class="wrap">
+
+      <div class="case-head">
+        <div class="tags">
+          <span class="lamp">Working build</span>
+          <span class="plate">CODESYS · Factory I/O · Ladder Logic (IEC 61131-3) · PLC Synchronization</span>
+        </div>
+        <h2>Dual-cell production<br>line balancer</h2>
+        <p>
+          I designed and programmed a dual-cell production line balancer using <strong>CODESYS (Ladder Logic)</strong>
+          and <strong>Factory I/O</strong> to synchronize two CNC lines producing matching bases and lids.
+          I created autonomous conveyor feed logic using CNC status signals and entrance/exit sensors with
+          <strong>Set/Reset latches</strong> to track part presence in each machine. To prevent line imbalance,
+          I used <strong>counter blocks</strong> on the exit sensors to track output totals and <strong>comparison blocks</strong>
+          to evaluate count differentials. If one line ran ahead or stalled, a <strong>hold variable was AND-gated</strong>
+          with part-presence logic to hold the machine cycle trigger until counts rebalanced.
+        </p>
+      </div>
+
+      <div class="case-overview-hud">
+        <div class="hud-col">
+          <span class="hud-label">PLC Runtime</span>
+          <b>CODESYS SoftPLC (IEC 61131-3)</b>
+        </div>
+        <div class="hud-col">
+          <span class="hud-label">Simulation Cell</span>
+          <b>Factory I/O Dual CNC Machining Centers</b>
+        </div>
+        <div class="hud-col">
+          <span class="hud-label">Logic Language</span>
+          <b>Ladder Diagram (LD)</b>
+        </div>
+        <div class="hud-col">
+          <span class="hud-label">Balancing Interlock</span>
+          <b>AND-Gated Machine Cycle Hold</b>
+        </div>
+        <div class="hud-col">
+          <span class="hud-label">Target Pairing</span>
+          <b>1:1 Synchronized Base &amp; Lid Output</b>
+        </div>
+      </div>
+
+      <!-- Video Run Capture -->
+      <p class="plate shots-label">Watch it run · Synchronized CNC Cells</p>
+
+      <div class="shots single">
+        <figure class="shot shot--video rig">
+          <div class="screen">
+            <video controls playsinline preload="metadata"
+                   poster="Product Line.png" width="2556" height="1392">
+              <source src="ProductLinePLCSynchronizedcompressed.mp4" type="video/mp4">
+              <a href="ProductLinePLCSynchronizedcompressed.mp4">Download the clip</a>.
+            </video>
+          </div>
+          <figcaption>
+            <span><b>Autonomous line synchronization · 90 s.</b> Factory I/O simulates two parallel CNC machining centers:
+              Line 1 processes raw base castings while Line 2 machines corresponding lids. Infeed conveyors feed stock
+              past entrance optical sensors that trip Set/Reset latches. When a part clears the chamber, exit counter blocks
+              increment total output. Mathematical comparison blocks evaluate production delta; if one line runs ahead,
+              an AND-gated hold interlock pauses cycle triggers until the lagging cell rebalances.</span>
+            <span class="zoom">1080p · Factory I/O + CODESYS</span>
+          </figcaption>
+        </figure>
+      </div>
+
+      <!-- High Resolution Layout Capture -->
+      <p class="plate shots-label">Plant Floor Layout &amp; Tooling</p>
+
+      <div class="shots single">
+        <figure class="shot rig">
+          <a href="Product Line.png" target="_blank" rel="noopener">
+            <span class="screen"><img src="Product Line.png"
+                 alt="Factory I/O 3D environment displaying dual CNC machining centers, infeed/outfeed roller conveyors, optical sensors, and operator panel"
+                 width="2555" height="1395"></span>
+            <figcaption class="cap">
+              <span><b>Factory I/O twin workcell overview.</b> Dual CNC machining centers with dedicated infeed entry conveyors,
+                machining chambers, and exit conveyors merging toward downstream assembly. Photo-eye sensors and pneumatic stops
+                coordinate part pacing into the safety enclosures.</span>
+              <span class="zoom">Click for full capture ↗</span>
+            </figcaption>
+          </a>
+        </figure>
+      </div>
+
+      <!-- Technical Architecture Breakdown Cards -->
+      <div class="notes">
+        <div class="note">
+          <span class="k">01 // TRACKING</span>
+          <h4>Set/Reset latches &amp;<br>part-presence state</h4>
+          <p>
+            Fleeting optical sensor pulses can easily cause race conditions in cyclical scan execution.
+            Entrance and exit retroreflective photo-eyes feed Set/Reset (SR) latches in ladder logic to maintain
+            unambiguous part-presence memory inside each CNC chamber, interlocking machine doors and clamping sequences safely.
+          </p>
+        </div>
+        <div class="note">
+          <span class="k">02 // ACCOUNTING</span>
+          <h4>Exit counter blocks &amp;<br>differential CMP</h4>
+          <p>
+            IEC 61131-3 CTU (Count-Up) function blocks placed on outfeed exit sensors continuously track cumulative
+            base and lid completions. CMP (Comparison) blocks calculate the real-time differential between both lines
+            to detect production imbalance the moment cycle times drift.
+          </p>
+        </div>
+        <div class="note">
+          <span class="k">03 // INTERLOCK</span>
+          <h4>AND-gated hold<br>machine cycle trigger</h4>
+          <p>
+            When count differentials exceed the safety margin, a <code>HOLD</code> variable asserts in the PLC memory.
+            This variable is wired in series (AND gate) with part-presence logic on the machine cycle trigger rung.
+            The lead CNC line pauses immediately while the lagging line continues uninterrupted until output is equalized.
+          </p>
+        </div>
+      </div>
+
+      <!-- Key Engineering Principles -->
+      <div class="band-head" style="margin-top:64px">
+        <span class="plate">System invariants</span>
+        <span class="rule"></span>
+        <h2>Engineering rules</h2>
+      </div>
+
+      <div class="notes">
+        <div class="note">
+          <span class="k">Invariant 01</span>
+          <h4>Deterministic Scan Execution</h4>
+          <p>
+            All ladder logic rungs execute strictly within deterministic PLC scan cycles. Latched state machines
+            prevent asynchronous race conditions between conveyor motors, pneumatic stops, and CNC spindle commands.
+          </p>
+        </div>
+        <div class="note">
+          <span class="k">Invariant 02</span>
+          <h4>Zero Downstream Starve or Jam</h4>
+          <p>
+            Matching base and lid pairs are required in a 1:1 ratio for final assembly. Autonomous balancing ensures
+            infeed queues never buffer to overflow, eliminating conveyor logjams and avoiding expensive downstream idle time.
+          </p>
+        </div>
+        <div class="note">
+          <span class="k">Invariant 03</span>
+          <h4>Fail-Safe Permissive Handshakes</h4>
+          <p>
+            Machine cycles cannot trigger without active confirmation of door closure, part clamp engagement, and absence
+            of a hold interlock. Any sensor disconnect or emergency stop drops the run permissive immediately.
+          </p>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ============ CONTACT ============ -->
+  <section class="case" id="contact" style="border-top:1px solid var(--hair)">
+    <div class="wrap contact-in">
+      <div>
+        <span class="plate">Get in touch</span>
+        <h2 class="display" style="margin-top:14px">Let&rsquo;s talk</h2>
+      </div>
+      <div class="contact-links">
+        <a href="mailto:miguelisstem@outlook.com"><span>Email</span><span>miguelisstem@outlook.com</span></a>
+        <a href="tel:+15707909041"><span>Phone</span><span>570·790·9041</span></a>
+        <a href="https://www.linkedin.com/in/miguelangelpsuhn" target="_blank" rel="noopener"><span>LinkedIn</span><span>miguelangelpsuhn ↗</span></a>
+        <a href="MiguelRomero_Resume_AutomationManufacturing.pdf" target="_blank" rel="noopener"><span>Résumé</span><span>PDF ↗</span></a>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<footer class="foot">
+  <div class="wrap foot-in">
+    <span>Miguel Romero · University Park, PA</span>
+    <span id="year">2026</span>
+  </div>
+</footer>
+
+<script src="assets/js/site.js"></script>
+</body>
+</html>

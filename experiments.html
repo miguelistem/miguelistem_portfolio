@@ -36,8 +36,8 @@
     <nav>
       <a href="projects.html">Projects</a>
       <a href="experiments.html" aria-current="page">Experiments</a>
-      <a href="index.html#capabilities">Capabilities</a>
-      <a href="index.html#record">Record</a>
+      <a href="index.html#skills">Technical Skills</a>
+      <a href="index.html#experience">Education &amp; Experience</a>
       <a href="MiguelRomero_Resume_AutomationManufacturing.pdf" target="_blank" rel="noopener">Résumé ↗</a>
     </nav>
   </div>
@@ -50,7 +50,7 @@
     <div class="page-tabs-wrap">
       <nav class="page-tabs" aria-label="Work navigation">
         <a href="projects.html" class="page-tab">
-          Core Projects <span class="tab-badge neutral">5</span>
+          Core Projects <span class="tab-badge neutral">6</span>
         </a>
         <a href="experiments.html" class="page-tab on" aria-current="page">
           Lab &amp; Experiments <span class="tab-badge">Active</span>
@@ -96,11 +96,11 @@
       <button class="exp-filter-btn" data-filter="robotics" type="button">
         Robotics &amp; Sim (Fanuc) <span class="count">(2)</span>
       </button>
-      <button class="exp-filter-btn" data-filter="ai" type="button">
-        Enterprise AI (LiteLLM) <span class="count">(1)</span>
-      </button>
       <button class="exp-filter-btn" data-filter="automation" type="button">
         Automation &amp; Data <span class="count">(2)</span>
+      </button>
+      <button class="exp-filter-btn" data-filter="ai" type="button">
+        Enterprise AI (LiteLLM) <span class="count">(1)</span>
       </button>
     </div>
   </section>
@@ -288,11 +288,148 @@
         </div>
       </article>
 
-      <!-- EXP-03: LiteLLM Gateway & Enterprise AI Governance -->
-      <article class="exp-rig rig rise" data-category="ai" id="exp-litellm-gateway">
+      <!-- EXP-03: PLC Ladder Logic & Simulation Progression -->
+      <article class="exp-rig rig rise" data-category="automation" id="exp-plc-ladder-logic">
         <div class="exp-rig-head">
           <div class="exp-rig-id-group">
             <span class="exp-id">EXP-03</span>
+            <span class="exp-category-tag">Industrial Automation // PLC Ladder Logic</span>
+            <span class="lamp">Bench Tested</span>
+          </div>
+          <div class="chips">
+            <span class="chip hot">CODESYS V3.5</span>
+            <span class="chip hot">Factory I/O</span>
+            <span class="chip hot">Ladder Diagram (LD)</span>
+            <span class="chip">IEC 61131-3</span>
+            <span class="chip">Seal-In Latches</span>
+            <span class="chip">Analog Level Control</span>
+            <span class="chip">Line Synchronization</span>
+          </div>
+        </div>
+
+        <h2 class="exp-rig-title">PLC Control Logic: From Conveyor Transfers to Process Loops &amp; Line Balancing</h2>
+        <p class="exp-rig-desc">
+          Documenting my hands-on progression learning industrial PLC programming and ladder logic from first principles
+          using CODESYS and Factory I/O. Each benchmark pairs a live 3D industrial simulation environment directly with
+          its ladder logic execution: starting with basic material handling and push-button seal-in latches (<strong>From A to B</strong>),
+          advancing into continuous analog level thresholds and valve interlocks (<strong>Fill Tank</strong>), and culminating
+          in multi-machine synchronization with counter comparisons and AND-gated cycle holds (<strong>Product Line</strong>).
+        </p>
+
+        <div class="exp-stage-grid">
+          <!-- Main Milestone 01 Capture: From A to B -->
+          <figure class="shot rig" style="margin:0;">
+            <a href="FromAtoB.png" target="_blank" rel="noopener">
+              <div class="screen">
+                <img src="FromAtoB.png" alt="Factory I/O From A to B conveyor transport scene paired with CODESYS Ladder Logic push-button seal-in rungs"
+                     loading="lazy" width="2550" height="1266"
+                     onerror="this.src='assets/img/fromatob.png'">
+              </div>
+            </a>
+            <figcaption>
+              <span><b>Stage 01: Conveyor Transfer &amp; Push-Button Seal-In Logic (From A to B).</b> Infeed-to-outfeed transfer belt with start/stop push-buttons and retroreflective sensors. The ladder logic implements classic motor starter latching (seal-in contact over NO start button) and debounced sensor trips to ensure deterministic part transfers without race conditions.</span>
+              <span class="zoom">Open 2550px capture ↗</span>
+            </figcaption>
+          </figure>
+
+          <div class="exp-telemetry">
+            <h4>PLC Logic Progression Bench</h4>
+            <div class="exp-data-row"><span>SoftPLC Runtime</span><b>CODESYS V3.5 (IEC 61131-3)</b></div>
+            <div class="exp-data-row"><span>Simulation Plant</span><b>Factory I/O 3D Real-Time Physics</b></div>
+            <div class="exp-data-row"><span>Language Standard</span><b>Ladder Diagram (LD) Scan Cycles</b></div>
+            <div class="exp-data-row"><span>Stage 01 Architecture</span><b class="ok">Push-Button Seal-In &amp; Sensor Permissives</b></div>
+            <div class="exp-data-row"><span>Stage 02 Architecture</span><b class="ok">Analog Scaling, Valve Sequences, &amp; Hysteresis</b></div>
+            <div class="exp-data-row"><span>Stage 03 Architecture</span><b class="ok">SR Latches, CTU Counters, &amp; Cycle Hold Interlocks</b></div>
+            <div class="exp-data-row"><span>Safety Invariant</span><b>Fail-Safe De-Energized Drops &amp; E-Stop Gating</b></div>
+            <div class="exp-data-row"><span>Execution Scan</span><b class="ok">Deterministic Zero-Race Cycle</b></div>
+          </div>
+        </div>
+
+        <div class="exp-subgallery" style="grid-template-columns: repeat(auto-fit, minmax(360px, 1fr));">
+          <!-- Milestone 02 Capture: Fill Tank -->
+          <figure class="shot rig">
+            <a href="filltank.png" target="_blank" rel="noopener">
+              <div class="screen">
+                <img src="filltank.png" alt="Factory I/O automated tank filling scene paired with CODESYS Ladder Logic process control and valve threshold rungs"
+                     loading="lazy" width="2557" height="1264"
+                     onerror="this.src='assets/img/filltank.png'">
+              </div>
+            </a>
+            <figcaption>
+              <b>Stage 02: Fluid Level &amp; Threshold Valve Control (Fill Tank).</b> Liquid storage tank with analog level sensor, discharge flow meter, and proportional valves. Ladder logic normalizes raw transmitter counts, enforces high/low level deadbands to eliminate valve chattering, and gates pump motor coils with low-level interlocks to prevent cavitation.
+            </figcaption>
+          </figure>
+
+          <!-- Milestone 03 Capture: Product Line -->
+          <figure class="shot rig">
+            <a href="Product Line.png" target="_blank" rel="noopener">
+              <div class="screen">
+                <img src="Product Line.png" alt="Factory I/O dual CNC production line balancer paired with CODESYS Ladder Logic counter and comparison interlock rungs"
+                     loading="lazy" width="2555" height="1395"
+                     onerror="this.src='assets/img/product-line.png'">
+              </div>
+            </a>
+            <figcaption>
+              <b>Stage 03: Multi-Machine Pacing &amp; Line Balancing (Product Line).</b> Twin CNC manufacturing cells producing matching bases and lids. Ladder logic coordinates entrance/exit optical sensors with Set/Reset latches for part presence, CTU counters for gross totals, and comparison blocks asserting an AND-gated hold interlock to synchronize cell cycles.
+            </figcaption>
+          </figure>
+        </div>
+      </article>
+
+      <!-- EXP-04: Material Depletion Pre-Seed -->
+      <article class="exp-rig rig rise" data-category="automation" id="exp-material-forecast">
+        <div class="exp-rig-head">
+          <div class="exp-rig-id-group">
+            <span class="exp-id">EXP-04</span>
+            <span class="exp-category-tag">Data Engineering // Predictive Thresholds</span>
+            <span class="lamp">Bench Tested</span>
+          </div>
+          <div class="chips">
+            <span class="chip hot">SQLite</span>
+            <span class="chip hot">Python Data Pre-Seed</span>
+            <span class="chip">n8n Cron</span>
+            <span class="chip">Power BI Layer</span>
+          </div>
+        </div>
+
+        <h2 class="exp-rig-title">Material Depletion Pipeline &amp; Synthetic Stress-Seed</h2>
+        <p class="exp-rig-desc">
+          Building and evaluating predictive inventory depletion algorithms against synthetic high-throughput film production
+          data. Pre-seeding 1,785 ledger transactions to stress-test 72-hour resin stock-out warning triggers.
+        </p>
+
+        <div class="exp-subgallery" style="grid-template-columns: repeat(auto-fit, minmax(360px, 1fr));">
+          <figure class="shot rig">
+            <a href="materialforecastn8npreseed.png" target="_blank" rel="noopener">
+              <div class="screen">
+                <img src="materialforecastn8npreseed.png" alt="Material forecast database seeding workflow in n8n"
+                     loading="lazy" width="800" height="450">
+              </div>
+            </a>
+            <figcaption>
+              <b>Synthetic ledger generation.</b> Populating historical roll output, resin consumption coefficients, and pending sales orders to validate depletion formulas.
+            </figcaption>
+          </figure>
+
+          <figure class="shot rig">
+            <a href="materialforecast_draft.png" target="_blank" rel="noopener">
+              <div class="screen">
+                <img src="materialforecast_draft.png" alt="Draft diagram of material shortage warning logic"
+                     loading="lazy" width="800" height="450">
+              </div>
+            </a>
+            <figcaption>
+              <b>Threshold calculation logic.</b> Dynamic safety stock evaluation based on vendor lead times and extruder line velocities.
+            </figcaption>
+          </figure>
+        </div>
+      </article>
+
+      <!-- EXP-05: LiteLLM Gateway & Enterprise AI Governance -->
+      <article class="exp-rig rig rise" data-category="ai" id="exp-litellm-gateway">
+        <div class="exp-rig-head">
+          <div class="exp-rig-id-group">
+            <span class="exp-id">EXP-05</span>
             <span class="exp-category-tag">Enterprise AI // Gateways &amp; Governance</span>
             <span class="lamp">Operational · Bench Configured</span>
           </div>
@@ -413,124 +550,6 @@
               memory connection points, and structured audit logs so every tool call and agent decision is observable and reproducible.
             </p>
           </div>
-        </div>
-      </article>
-
-      <!-- EXP-04: Plant Floor Calendar Conflict Engine -->
-      <article class="exp-rig rig rise" data-category="automation" id="exp-calendar-sync">
-        <div class="exp-rig-head">
-          <div class="exp-rig-id-group">
-            <span class="exp-id">EXP-04</span>
-            <span class="exp-category-tag">Automation // Event Engine</span>
-            <span class="lamp">Bench Tested</span>
-          </div>
-          <div class="chips">
-            <span class="chip hot">n8n</span>
-            <span class="chip hot">Microsoft Graph</span>
-            <span class="chip">SQLite Ledger</span>
-            <span class="chip">ETag Diffing</span>
-          </div>
-        </div>
-
-        <h2 class="exp-rig-title">Plant Calendar Sync: Multi-Line Conflict Reconciliation</h2>
-        <p class="exp-rig-desc">
-          Bench-testing bi-directional schedule reconciliation across five manufacturing line calendars and a centralized
-          manufacturing database. Handling operator drag-and-drop conflicts and two-phase approval gates.
-        </p>
-
-        <div class="exp-stage-grid">
-          <div class="screen exp-video-wrap">
-            <span class="exp-media-badge signal">Calendar Sync Pipeline Demo</span>
-            <video controls playsinline preload="metadata" poster="assets/video/calendar-sync-exp-poster.jpg" width="1089" height="549">
-              <source src="calendarsyncdemo.mp4" type="video/mp4">
-              Your browser does not support the video tag.
-            </video>
-          </div>
-
-          <div class="exp-telemetry">
-            <h4>Reconciliation Bench</h4>
-            <div class="exp-data-row"><span>Synchronized Feeds</span><b>5 Outlook Line Calendars</b></div>
-            <div class="exp-data-row"><span>Master State</span><b>SQLite factory.db</b></div>
-            <div class="exp-data-row"><span>Polling Cadence</span><b>Webhook Event + 5-min Cron Audit</b></div>
-            <div class="exp-data-row"><span>Diff Algorithm</span><b>Hash Comparison of Order IDs &amp; Windows</b></div>
-            <div class="exp-data-row"><span>Unauthorized Moves</span><b class="warn">AI Rejection Explainer</b></div>
-            <div class="exp-data-row"><span>Two-Phase Commit</span><b class="ok">Verified Stable</b></div>
-          </div>
-        </div>
-
-        <div class="exp-subgallery">
-          <figure class="shot rig">
-            <a href="calendarsyncfullflow.png" target="_blank" rel="noopener">
-              <div class="screen">
-                <img src="calendarsyncfullflow.png" alt="Complete calendar sync workflow graph in n8n"
-                     loading="lazy" width="600" height="340">
-              </div>
-            </a>
-            <figcaption>
-              <b>Primary flow architecture.</b> Merging line calendars with SQL planned schedule, evaluating change signatures, and dispatching approvals.
-            </figcaption>
-          </figure>
-
-          <figure class="shot rig">
-            <a href="calendarsyncfullflow2.png" target="_blank" rel="noopener">
-              <div class="screen">
-                <img src="calendarsyncfullflow2.png" alt="Rejection branch and AI explanation node in n8n"
-                     loading="lazy" width="600" height="340">
-              </div>
-            </a>
-            <figcaption>
-              <b>Rejection handling branch.</b> Invalid scheduling moves bounce back with diagnostic explanation rather than silently corrupting line capacity.
-            </figcaption>
-          </figure>
-        </div>
-      </article>
-
-      <!-- EXP-05: Material Depletion Pre-Seed -->
-      <article class="exp-rig rig rise" data-category="automation" id="exp-material-forecast">
-        <div class="exp-rig-head">
-          <div class="exp-rig-id-group">
-            <span class="exp-id">EXP-05</span>
-            <span class="exp-category-tag">Data Engineering // Predictive Thresholds</span>
-            <span class="lamp">Bench Tested</span>
-          </div>
-          <div class="chips">
-            <span class="chip hot">SQLite</span>
-            <span class="chip hot">Python Data Pre-Seed</span>
-            <span class="chip">n8n Cron</span>
-            <span class="chip">Power BI Layer</span>
-          </div>
-        </div>
-
-        <h2 class="exp-rig-title">Material Depletion Pipeline &amp; Synthetic Stress-Seed</h2>
-        <p class="exp-rig-desc">
-          Building and evaluating predictive inventory depletion algorithms against synthetic high-throughput film production
-          data. Pre-seeding 1,785 ledger transactions to stress-test 72-hour resin stock-out warning triggers.
-        </p>
-
-        <div class="exp-subgallery" style="grid-template-columns: repeat(auto-fit, minmax(360px, 1fr));">
-          <figure class="shot rig">
-            <a href="materialforecastn8npreseed.png" target="_blank" rel="noopener">
-              <div class="screen">
-                <img src="materialforecastn8npreseed.png" alt="Material forecast database seeding workflow in n8n"
-                     loading="lazy" width="800" height="450">
-              </div>
-            </a>
-            <figcaption>
-              <b>Synthetic ledger generation.</b> Populating historical roll output, resin consumption coefficients, and pending sales orders to validate depletion formulas.
-            </figcaption>
-          </figure>
-
-          <figure class="shot rig">
-            <a href="materialforecast_draft.png" target="_blank" rel="noopener">
-              <div class="screen">
-                <img src="materialforecast_draft.png" alt="Draft diagram of material shortage warning logic"
-                     loading="lazy" width="800" height="450">
-              </div>
-            </a>
-            <figcaption>
-              <b>Threshold calculation logic.</b> Dynamic safety stock evaluation based on vendor lead times and extruder line velocities.
-            </figcaption>
-          </figure>
         </div>
       </article>
 
